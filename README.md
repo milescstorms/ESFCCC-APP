@@ -10,7 +10,7 @@ sign in on the same screen to open the staff portal.
 | Tab | What's there |
 |---|---|
 | Home | Their software (Brightwheel or Playground) with an **Open** button, and announcements |
-| Events | Webinars and events staff publish, with one-tap registration |
+| Resources | Guides, forms and links (software how-tos, benefit sign-up steps) that staff add from the portal |
 | Benefits | Member card (name, program, ID, software, membership year) and every ESFCCC benefit |
 | Coach | What the coach can help with, and call/email for Miles |
 | News | Newsletters staff publish |

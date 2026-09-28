@@ -298,6 +298,41 @@
         </div>
       </sc-if>
 
+      <sc-if value="{{ admin.onResources }}" hint-placeholder-val="{{ false }}">
+        <div data-scroll-pane style="animation:cc-tab .22s cubic-bezier(.2,.7,.3,1) both;flex:1;overflow-y:auto;padding:14px 16px 30px;display:flex;flex-direction:column;gap:11px;max-width:820px">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#667585">Add a resource</span>
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <input value="{{ admin.res.title }}" onChange="{{ admin.res.setTitle }}" placeholder="Title, e.g. CSEA VOICE sign-up flyer" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <input value="{{ admin.res.note }}" onChange="{{ admin.res.setNote }}" placeholder="One line on what it is (optional)" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Link (Google Drive, PDF, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ admin.res.cats }}" as="rc" hint-placeholder-count="4">
+                <button onClick="{{ rc.pick }}" style="cursor:pointer;font-family:inherit;border-radius:100px;padding:8px 14px;font-size:13px;font-weight:600;border:1px solid {{ rc.border }};background:{{ rc.bg }};color:{{ rc.color }}">{{ rc.label }}</button>
+              </sc-for>
+            </div>
+            <button onClick="{{ admin.res.save }}" style="border:none;cursor:pointer;font-family:inherit;border-radius:11px;padding:13px;background:{{ admin.res.bg }};color:#fff;font-size:14.5px;font-weight:600">{{ admin.res.label }}</button>
+          </div>
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#667585;padding-top:4px">Your resources</span>
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;overflow:hidden">
+            <sc-for list="{{ admin.res.list }}" as="rl" hint-placeholder-count="3">
+              <div style="padding:12px 14px;border-bottom:1px solid #EEF1F5;display:flex;align-items:center;gap:11px">
+                <div onClick="{{ rl.open }}" style="cursor:pointer;flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                  <span style="font-size:14.5px;font-weight:600;line-height:1.25">{{ rl.title }}</span>
+                  <span style="font-size:12px;color:#8A97A5">{{ rl.cat }}</span>
+                </div>
+                <span style="flex:none;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:{{ rl.badgeBg }};color:{{ rl.badgeColor }}">{{ rl.badge }}</span>
+                <sc-if value="{{ rl.isDraft }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ rl.publish }}" style="flex:none;border:none;cursor:pointer;font-family:inherit;border-radius:8px;padding:8px 13px;background:#1272B8;color:#fff;font-size:12.5px;font-weight:600" style-hover="background:#0E4C77">Publish</button>
+                </sc-if>
+                <sc-if value="{{ rl.canDelete }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ rl.remove }}" style="flex:none;border:1px solid #EBCACA;cursor:pointer;font-family:inherit;border-radius:8px;padding:8px 11px;background:#fff;color:#B23B3B;font-size:12.5px;font-weight:600" style-hover="background:#FBEEEE">Delete</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:12px;line-height:1.55;color:#8A97A5;text-wrap:pretty">New resources save as drafts that only staff can see. Tap Publish when it is ready for providers. Built-in links are always shown.</span>
+        </div>
+      </sc-if>
       <sc-if value="{{ admin.onNewsletters }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:13px">
           <button onClick="{{ admin.openNewIssue }}" style="border:none;cursor:pointer;font-family:inherit;border-radius:11px;padding:13px;background:#1272B8;color:#fff;font-size:14.5px;font-weight:600" style-hover="background:#0E4C77">Publish an issue</button>
@@ -959,6 +994,32 @@
     </sc-if>
 
     <sc-if value="{{ isTrainings }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:cc-tab .22s cubic-bezier(.2,.7,.3,1) both;display:flex;flex-direction:column;gap:12px;padding:14px 16px 24px">
+        <span style="font-size:13.5px;line-height:1.5;color:#5A6875;text-wrap:pretty">Guides, forms and links from your coach. Tap one to open it.</span>
+        <sc-for list="{{ resourceGroups }}" as="rg" hint-placeholder-count="2">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#667585;padding:6px 2px 0">{{ rg.cat }}</span>
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;overflow:hidden">
+            <sc-for list="{{ rg.items }}" as="ri" hint-placeholder-count="2">
+              <div onClick="{{ ri.open }}" style="cursor:pointer;padding:13px 15px;border-bottom:1px solid #EEF1F5;display:flex;align-items:center;gap:12px" style-hover="background:#F7F9FB">
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:14.5px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ ri.title }}</span>
+                  <span style="font-size:12.5px;line-height:1.45;color:#667585;text-wrap:pretty">{{ ri.note }}</span>
+                </div>
+                <span style="flex:none;font-size:12.5px;font-weight:600;color:#1272B8">Open &#8250;</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noResources }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;padding:22px 16px;display:flex;flex-direction:column;gap:6px;text-align:center">
+            <span style="font-size:15px;font-weight:600">Nothing here yet</span>
+            <span style="font-size:13px;line-height:1.5;color:#667585;text-wrap:pretty">Your coach will add guides and links here. Need something now? Call (845) 294-4012 ext. 230.</span>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showEventsPane }}" hint-placeholder-val="{{ false }}">
       <div style="animation:cc-tab .22s cubic-bezier(.2,.7,.3,1) both;display:flex;flex-direction:column;gap:12px;padding:14px 0 0">
         <div style="display:flex;flex-wrap:wrap;gap:8px;padding:2px 16px">
           <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
@@ -1623,9 +1684,9 @@
           <button onClick="{{ admin.signOut }}" style="flex:none;border:1px solid #CBD6E0;background:#F7F9FB;cursor:pointer;font-family:inherit;border-radius:9px;padding:8px 13px;font-size:12.5px;font-weight:600;color:#0E4C77" style-hover="background:#E3F0F9;border-color:#1272B8">Sign out</button>
         </sc-if>
       </div>
-      <div style="flex:none;display:flex;background:#fff;border-bottom:1px solid #E4E9EE;padding:0 10px">
+      <div style="flex:none;display:flex;background:#fff;border-bottom:1px solid #E4E9EE;padding:0 6px;overflow-x:auto;-webkit-overflow-scrolling:touch">
         <sc-for list="{{ admin.tabs }}" as="at" hint-placeholder-count="3">
-          <button onClick="{{ at.go }}" style="flex:1;border:none;background:transparent;cursor:pointer;font-family:inherit;padding:11px 4px 9px;font-size:13.5px;font-weight:600;color:{{ at.color }};border-bottom:2.5px solid {{ at.bar }};display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-width:0"><span>{{ at.short }}</span><sc-if value="{{ at.hasDot }}" hint-placeholder-val="{{ false }}"><span style="flex:none;width:7px;height:7px;border-radius:4px;background:#B23B3B"></span></sc-if></button>
+          <button onClick="{{ at.go }}" style="flex:none;border:none;background:transparent;cursor:pointer;font-family:inherit;padding:11px 11px 9px;font-size:13.5px;font-weight:600;color:{{ at.color }};border-bottom:2.5px solid {{ at.bar }};display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;min-width:0"><span>{{ at.short }}</span><sc-if value="{{ at.hasDot }}" hint-placeholder-val="{{ false }}"><span style="flex:none;width:7px;height:7px;border-radius:4px;background:#B23B3B"></span></sc-if></button>
         </sc-for>
       </div>
 
@@ -1889,6 +1950,41 @@
         </div>
       </sc-if>
 
+      <sc-if value="{{ admin.onResources }}" hint-placeholder-val="{{ false }}">
+        <div data-scroll-pane style="animation:cc-tab .22s cubic-bezier(.2,.7,.3,1) both;flex:1;overflow-y:auto;padding:14px 16px 30px;display:flex;flex-direction:column;gap:11px;max-width:820px">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#667585">Add a resource</span>
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px">
+            <input value="{{ admin.res.title }}" onChange="{{ admin.res.setTitle }}" placeholder="Title, e.g. CSEA VOICE sign-up flyer" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <input value="{{ admin.res.note }}" onChange="{{ admin.res.setNote }}" placeholder="One line on what it is (optional)" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Link (Google Drive, PDF, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ admin.res.cats }}" as="rc" hint-placeholder-count="4">
+                <button onClick="{{ rc.pick }}" style="cursor:pointer;font-family:inherit;border-radius:100px;padding:8px 14px;font-size:13px;font-weight:600;border:1px solid {{ rc.border }};background:{{ rc.bg }};color:{{ rc.color }}">{{ rc.label }}</button>
+              </sc-for>
+            </div>
+            <button onClick="{{ admin.res.save }}" style="border:none;cursor:pointer;font-family:inherit;border-radius:11px;padding:13px;background:{{ admin.res.bg }};color:#fff;font-size:14.5px;font-weight:600">{{ admin.res.label }}</button>
+          </div>
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#667585;padding-top:4px">Your resources</span>
+          <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;overflow:hidden">
+            <sc-for list="{{ admin.res.list }}" as="rl" hint-placeholder-count="3">
+              <div style="padding:12px 14px;border-bottom:1px solid #EEF1F5;display:flex;align-items:center;gap:11px">
+                <div onClick="{{ rl.open }}" style="cursor:pointer;flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                  <span style="font-size:14.5px;font-weight:600;line-height:1.25">{{ rl.title }}</span>
+                  <span style="font-size:12px;color:#8A97A5">{{ rl.cat }}</span>
+                </div>
+                <span style="flex:none;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:{{ rl.badgeBg }};color:{{ rl.badgeColor }}">{{ rl.badge }}</span>
+                <sc-if value="{{ rl.isDraft }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ rl.publish }}" style="flex:none;border:none;cursor:pointer;font-family:inherit;border-radius:8px;padding:8px 13px;background:#1272B8;color:#fff;font-size:12.5px;font-weight:600" style-hover="background:#0E4C77">Publish</button>
+                </sc-if>
+                <sc-if value="{{ rl.canDelete }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ rl.remove }}" style="flex:none;border:1px solid #EBCACA;cursor:pointer;font-family:inherit;border-radius:8px;padding:8px 11px;background:#fff;color:#B23B3B;font-size:12.5px;font-weight:600" style-hover="background:#FBEEEE">Delete</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:12px;line-height:1.55;color:#8A97A5;text-wrap:pretty">New resources save as drafts that only staff can see. Tap Publish when it is ready for providers. Built-in links are always shown.</span>
+        </div>
+      </sc-if>
       <sc-if value="{{ admin.onNewsletters }}" hint-placeholder-val="{{ false }}">
         <div data-scroll-pane style="animation:cc-tab .22s cubic-bezier(.2,.7,.3,1) both;flex:1;overflow-y:auto;padding:14px 16px 30px;display:flex;flex-direction:column;gap:13px">
           <button onClick="{{ admin.openNewIssue }}" style="border:none;cursor:pointer;font-family:inherit;border-radius:11px;padding:13px;background:#1272B8;color:#fff;font-size:14.5px;font-weight:600" style-hover="background:#0E4C77">Publish an issue</button>
@@ -2558,6 +2654,13 @@ const POSTS = [
 // Events are posted from the staff portal (Trainings tab). Nothing is listed until staff publish one.
 const TRAININGS = [];
 
+// Built-in resources, always shown. Staff add more from the portal (Resources tab).
+const RESOURCE_CATS = ['Software', 'Benefits', 'Business', 'Forms'];
+const RESOURCES = [
+  { id:'r-bw', cat:'Software', title:'Brightwheel for Empire State providers', note:'Brightwheel\'s page for ESFCCC providers.', link:'https://info.mybrightwheel.com/empire', builtIn:true },
+  { id:'r-pg', cat:'Software', title:'Playground for New York providers', note:'Playground\'s page for New York partnership providers.', link:'https://www.tryplayground.com/partnerships/newyork', builtIn:true }
+];
+
 const DEPTS = [
   { name:'Your ESFCCC coach', people:[
     { id:'s3', name:'Miles Storms', role:'ESFCCC Business Coach', phone:'(845) 294-4012 ext. 230', email:'miles@childcarecounciloc.org',
@@ -2625,6 +2728,7 @@ const ICONS = {
   cal:'M4 6.5A1.5 1.5 0 015.5 5h13A1.5 1.5 0 0120 6.5v13A1.5 1.5 0 0118.5 21h-13A1.5 1.5 0 014 19.5zM4 10h16M8.5 3v4M15.5 3v4',
   card:'M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5zM3 10.5h18M6.5 14.5h4',
   team:'M9 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M16.5 5.2a3.2 3.2 0 010 6.3M18 14.6c2.2.6 3.5 2.2 3.5 4.4',
+  book:'M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5zM13 4h5.5A1.5 1.5 0 0120 5.5v13a1.5 1.5 0 01-1.5 1.5H13z',
   news:'M4 5.5A1.5 1.5 0 015.5 4h9A1.5 1.5 0 0116 5.5V18a2 2 0 002 2H6a2 2 0 01-2-2zM16 9h2.5A1.5 1.5 0 0120 10.5V18M7.5 8h5M7.5 11.5h5M7.5 15h3'
 };
 
@@ -3178,10 +3282,10 @@ class Component extends DCLogic {
     const onlyMembers = (t) => isNon && !t.full;
     const priceFor = (t) => isNon ? (t.full || 'Members only') : t.price;
 
-    const titles = { home:'Today', trainings:'Events', membership:'My benefits', staff:'Your coach', news:'Newsletters' };
+    const titles = { home:'Today', trainings:'Resources', membership:'My benefits', staff:'Your coach', news:'Newsletters' };
 
     const tabs = [
-      ['home','Home',ICONS.home],['trainings','Events',ICONS.cal],['membership','Benefits',ICONS.card],
+      ['home','Home',ICONS.home],['trainings','Resources',ICONS.book],['membership','Benefits',ICONS.card],
       ['staff','Coach',ICONS.team],['news','News',ICONS.news]
     ].map(([k,label,icon]) => ({
       key:k, label, icon, go:this.go(k),
@@ -3206,6 +3310,12 @@ class Component extends DCLogic {
     const HID = new Set((s.live && s.live.hidden) || []);
     const ALLT = s.customTrainings.concat(keepT, TRAININGS).filter(x => !HID.has(x.id));
     const ALLN = s.customIssues.concat(keepN, ISSUES).filter(x => !HID.has(x.id));
+
+    const liveR = (s.live && s.live.resources) || [];
+    const ALLRES = (staffView ? liveR : liveR.filter(x => !x.draft)).concat(RESOURCES).filter(x => !HID.has(x.id));
+    const openLink = (u) => () => { if (u) window.open(u, '_blank', 'noopener'); };
+    const resourceGroups = RESOURCE_CATS.map(cat => ({ cat, items: ALLRES.filter(r => !r.draft && (r.cat || 'Forms') === cat)
+      .map(r => ({ title: r.title, note: r.note || '', open: openLink(r.link) })) })).filter(g => g.items.length);
 
     const doneMap = (s.live && s.live.completed) || {};
     const visible = ALLT.filter(t => !doneMap[t.id]).filter(t =>
@@ -3475,14 +3585,14 @@ class Component extends DCLogic {
         search: s.search,
         setSearch: (e) => this.setState({ search: e.target.value }),
         searching: !!s.search.trim(),
-        tabs: [['members','Members'],['trainings','Events'],['newsletters','Newsletters'],...(ASK_ENABLED ? [['questions','Questions']] : []),['usage','Usage'],['staff','Staff']].concat((s.staff && s.staff.isAdmin) || (this.props.previewDesk && !ON_NETLIFY) ? [['settings','Settings']] : []).map(([k,label]) => ({
+        tabs: [['members','Members'],['resources','Resources'],['newsletters','Newsletters'],...(ASK_ENABLED ? [['questions','Questions']] : []),['usage','Usage'],['staff','Staff']].concat((s.staff && s.staff.isAdmin) || (this.props.previewDesk && !ON_NETLIFY) ? [['settings','Settings']] : []).map(([k,label]) => ({
           label: k === 'questions' && (s.sAsk || []).some(t => t.unread) ? label + ' (' + (s.sAsk || []).filter(t => t.unread).length + ')' : label, short: label, hasDot: k === 'questions' && (s.sAsk || []).some(t => t.unread), go: () => { this.setState({ adminTab: k }); if (k === 'questions') this.loadStaffAsk(); if (k === 'staff') this.loadStaff(); if (k === 'settings') this.loadSettings(); },
           color: s.adminTab === k ? NAVY : '#8A97A5',
           bar: s.adminTab === k ? NAVY : 'transparent',
           deskBg: s.adminTab === k ? 'rgba(255,255,255,0.14)' : 'transparent',
           deskColor: s.adminTab === k ? '#fff' : '#BFDAEE'
         })),
-        deskTitle: { members: 'Members', trainings: 'Trainings', newsletters: 'Newsletters', questions: 'Anonymous questions', usage: 'Membership usage', staff: 'Staff logins', settings: 'Settings' }[s.adminTab] || 'Members',
+        deskTitle: { members: 'Members', trainings: 'Trainings', resources: 'Resources', newsletters: 'Newsletters', questions: 'Anonymous questions', usage: 'Membership usage', staff: 'Staff logins', settings: 'Settings' }[s.adminTab] || 'Members',
         onAsk: s.adminTab === 'questions',
         askEmpty: (s.sAsk || []).length === 0,
         askThreads: (s.sAsk || []).map(t => {
@@ -3583,8 +3693,35 @@ class Component extends DCLogic {
             this.push('resetStaffPw', { login: x.login, newPw: np })
               .then(() => { this.setState(p => ({ staffNewPw: { ...(p.staffNewPw || {}), [x.login]: np } })); this.flash(x.name + ' new password: ' + np); })
               .catch(() => this.flash('Could not reset. Only directors can reset staff passwords.')); } })),
-        deskSub: s.adminTab === 'questions' ? 'Private questions from members. Each conversation is one member and the Council, never a group.' : s.adminTab === 'usage' ? 'How many members are using their membership to sign up for trainings.' : s.adminTab === 'settings' ? 'Turn automatic emails on or off for everyone.' : s.adminTab === 'staff' ? 'Staff sign-ins. Directors can reset passwords here.' : s.adminTab === 'trainings' ? 'Post trainings, publish drafts and see who signed up.' : s.adminTab === 'newsletters' ? 'Publish issues to every member in the app.' : total + ' members and ' + NONS.length + ' non-members with a login.',
-        onMembers: s.adminTab === 'members', onTrainings: s.adminTab === 'trainings', onNewsletters: s.adminTab === 'newsletters',
+        deskSub: s.adminTab === 'questions' ? 'Private questions from members. Each conversation is one member and the Council, never a group.' : s.adminTab === 'usage' ? 'How many members are using their membership to sign up for trainings.' : s.adminTab === 'settings' ? 'Turn automatic emails on or off for everyone.' : s.adminTab === 'staff' ? 'Staff sign-ins. Directors can reset passwords here.' : s.adminTab === 'trainings' ? 'Post trainings, publish drafts and see who signed up.' : s.adminTab === 'newsletters' ? 'Publish issues to every member in the app.' : s.adminTab === 'resources' ? 'Guides, forms and links providers see in their Resources tab.' : total + ' members and ' + NONS.length + ' non-members with a login.',
+        res: (() => {
+          const title = String(s.rTitle || '').trim(), raw = String(s.rLink || '').trim();
+          const link = raw && !/^https?:\/\//i.test(raw) ? 'https://' + raw : raw;
+          const ok = !!title && /^https?:\/\/[^\s.]+\.[^\s]+$/i.test(link);
+          const cat = s.rCat || 'Software';
+          return {
+            title: s.rTitle || '', note: s.rNote || '', link: s.rLink || '',
+            setTitle: (e) => this.setState({ rTitle: e.target.value }), setNote: (e) => this.setState({ rNote: e.target.value }), setLink: (e) => this.setState({ rLink: e.target.value }),
+            cats: RESOURCE_CATS.map(label => ({ label, pick: () => this.setState({ rCat: label }),
+              bg: cat === label ? '#E3F0F9' : '#fff', border: cat === label ? '#1272B8' : '#CBD6E0', color: cat === label ? '#0E4C77' : '#3C4855' })),
+            bg: ok ? BLUE : '#B9C4CE',
+            label: ok ? 'Save as draft' : !title ? 'Add a title' : 'Add a working link',
+            save: () => { if (!ok) return;
+              const item = { id: 'r' + Date.now(), cat, title, note: String(s.rNote || '').trim(), link, draft: true };
+              this.push('addResource', { item })
+                .then(() => { this.setState({ rTitle: '', rNote: '', rLink: '' }); this.flash('Saved as a draft. Tap Publish when it is ready.'); })
+                .catch(() => this.flash('Could not save. Sign in with your staff login first.')); },
+            list: ALLRES.map(r => ({
+              title: r.title, cat: r.cat + (r.builtIn ? ' · built in' : ''), open: openLink(r.link),
+              isDraft: !!r.draft, canDelete: !r.builtIn,
+              badge: r.draft ? 'Draft' : 'Live', badgeBg: r.draft ? '#FDF3E3' : '#E4F4EF', badgeColor: r.draft ? '#B26A00' : '#17795E',
+              publish: () => this.push('publish', { id: r.id }).then(() => this.flash('Live. Providers can see it now.')).catch(() => this.flash('Could not publish. Sign in with your staff login first.')),
+              remove: () => { if (!window.confirm('Delete "' + r.title + '"? Providers will no longer see it.')) return;
+                this.push('remove', { id: r.id }).then(() => this.flash('Resource deleted.')).catch(() => this.flash('Could not delete. Sign in with your staff login first.')); }
+            }))
+          };
+        })(),
+        onMembers: s.adminTab === 'members', onTrainings: s.adminTab === 'trainings', onResources: s.adminTab === 'resources', onNewsletters: s.adminTab === 'newsletters',
         syncedAt: total + ' members in the app right now',
         syncNote: 'Members added here are saved straight away. The spreadsheet is only the starting point.',
         openAddMember: () => this.setState({ aSheet: 'member', oneKind: 'Member', oneNum: nextNum, copied: false, prospectExtra: null, oneName:'', oneEmail:'', oneProgram:'', onePhone:'', oneCity:'', oneExp:'' }),
@@ -4198,7 +4335,7 @@ class Component extends DCLogic {
       homePrimary: isNon ? () => window.open(APPLY_LINK, '_blank', 'noopener') : () => { const sw = SOFTWARE[me.level]; if (sw) window.open(sw.login, '_blank', 'noopener'); else window.location.href = COACH_TEL; },
       homePrimaryLabel: isNon ? 'Apply to join' : SOFTWARE[me.level] ? 'Open ' + me.level : 'Call your coach',
       homeSecondary: isNon ? this.go('trainings') : this.go('membership'),
-      homeSecondaryLabel: isNon ? 'Events' : 'My benefits',
+      homeSecondaryLabel: isNon ? 'Resources' : 'My benefits',
       dismissBar: () => this.setState({ bannerOpen: false }),
       frameScale: s.frameScale ?? 1, frameOffset: LIVE_SITE ? '0px' : (s.frameOffset ?? '0px'),
       frameTransform: LIVE_SITE ? 'none' : 'scale(' + (s.frameScale ?? 1) + ')',
@@ -4212,7 +4349,7 @@ class Component extends DCLogic {
       isHome: s.tab === 'home', isTrainings: s.tab === 'trainings',
       isMembership: s.tab === 'membership', isStaff: s.tab === 'staff', isNews: s.tab === 'news',
       tabs, filters, trainings, posts, departments, issues, services, noIssues: issues.length === 0,
-      noTrainings: trainings.length === 0,
+      noTrainings: trainings.length === 0, resourceGroups, noResources: resourceGroups.length === 0, showEventsPane: false,
       goMembership: this.go('membership'), goTrainings: this.go('trainings'), goStaff: this.go('staff'),
       memberHeadline: isNon ? 'Join the Collaborative' : expired ? 'Your membership year has ended'
         : SOFTWARE[me.level] ? 'Your software: ' + me.level : 'Welcome to the Collaborative',

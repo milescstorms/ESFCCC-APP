@@ -5,7 +5,7 @@ import { PROSPECTS } from '../prospects.js';
 import { runReminders } from '../reminders.js';
 
 const KEY = 'live-content';
-const EMPTY = { trainings: [], issues: [], members: [], overrides: {}, hidden: [], updated: null };
+const EMPTY = { trainings: [], issues: [], resources: [], members: [], overrides: {}, hidden: [], updated: null };
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status,
   headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }
@@ -25,9 +25,9 @@ export default async (req) => {
   const store = getStore({ name: 'council-app', consistency: 'strong' });
 
   if (req.method === 'GET') {
-    const { trainings, issues, updated, registrations, hidden, overbook, closed, completed } = await load(store);
+    const { trainings, issues, resources, updated, registrations, hidden, overbook, closed, completed } = await load(store);
     const signups = Object.fromEntries(Object.entries(registrations || {}).map(([k, v]) => [k, (v || []).reduce((n, x) => n + (x.seats || 1), 0)]));
-    return json({ trainings, issues, updated, signups, hidden: hidden || [], overbook: overbook || {}, closed: closed || {}, completed: completed || {} });
+    return json({ trainings, issues, resources: resources || [], updated, signups, hidden: hidden || [], overbook: overbook || {}, closed: closed || {}, completed: completed || {} });
   }
 
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
@@ -83,6 +83,7 @@ export default async (req) => {
 
   if (action === 'addTraining') data.trainings.unshift({ ...item, ...stamp });
   else if (action === 'addIssue') data.issues.unshift({ ...item, ...stamp });
+  else if (action === 'addResource') { data.resources = data.resources || []; data.resources.unshift({ ...item, ...stamp }); }
   else if (action === 'addMember') data.members.unshift({ ...item, ...stamp });
   else if (action === 'editMember') {
     if (patch && 'pw' in patch && !STAFF_ADMINS.includes(staff.login)) return json({ error: 'Only admins can reset passwords' }, 403);
@@ -92,13 +93,14 @@ export default async (req) => {
       ...(data.overrides[String(id)] || {}), ...patch, editedBy: staff.name, editedAt: stamp.at
     };
   } else if (action === 'publish') {
-    for (const list of [data.trainings, data.issues]) {
+    for (const list of [data.trainings, data.issues, data.resources || []]) {
       const hit = list.find(x => x.id === id);
       if (hit) { hit.draft = false; hit.publishedBy = staff.name; hit.publishedAt = stamp.at; }
     }
   } else if (action === 'remove') {
     data.trainings = data.trainings.filter(x => x.id !== id);
     data.issues = data.issues.filter(x => x.id !== id);
+    data.resources = (data.resources || []).filter(x => x.id !== id);
     data.members = data.members.filter(x => x.id !== id);
     data.hidden = Array.from(new Set((data.hidden || []).concat(id)));
     if (data.registrations) delete data.registrations[id];
