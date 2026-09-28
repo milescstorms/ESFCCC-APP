@@ -32,10 +32,28 @@ window.ESFCCC_CONTENT = {
     messageFormEndpoint: "",
   },
 
+  // Each member's child care software (CCMS).
+  // Send each group their own link so the app shows the right software:
+  //   Brightwheel members:  <app link>?ccms=brightwheel
+  //   Playground members:   <app link>?ccms=playground
+  // Members who open the plain link are asked once which one they use.
+  ccms: {
+    brightwheel: {
+      name: "Brightwheel", icon: "💻",
+      loginLink: "https://schools.mybrightwheel.com/sign-in",
+      helpLink: "https://help.mybrightwheel.com",
+    },
+    playground: {
+      name: "Playground", icon: "🛝",
+      loginLink: "https://app.tryplayground.com",
+      helpLink: "",
+    },
+  },
+
   // What members can pick when they message you.
   messageTopics: [
     "Question about my benefits",
-    "Brightwheel / Playground help",
+    "Help with my software (Brightwheel / Playground)",
     "Schedule a coaching session",
     "Rates, budget or business question",
     "Something else",
@@ -57,53 +75,50 @@ window.ESFCCC_CONTENT = {
       id: "welcome-app",
       date: "2026-09-28",
       title: "Welcome to the ESFCCC member app! 🎉",
-      body: "This is your home for benefits, events, newsletters and updates from your coach. Choose “Add to Home Screen” from your phone's share menu so it's always one tap away. Have a question? Use the Coach tab to send me a message anytime.",
-      link: "", linkText: "",
-    },
-    {
-      id: "choose-ccms",
-      date: "2026-09-28",
-      title: "Choosing Brightwheel or Playground?",
-      body: "Once your software is turned on, you'll keep it for the whole year, so watch both demos before you decide. Reach out if you'd like help comparing them.",
+      body: "Thank you for being part of the Collaborative! This is your home for your benefits, your software, events, newsletters and updates from me. Choose “Add to Home Screen” from your phone's share menu so it's always one tap away. Have a question? Use the Coach tab to send me a message anytime.",
       link: "", linkText: "",
     },
   ],
 
-  // Steps a new member works through. Members tick these off on their own phone.
+  // "Make the most of your membership" checklist. Members tick these off on their own phone.
+  // Add ccms: "brightwheel" or ccms: "playground" to show a step only to those members.
   gettingStarted: [
-    { id: "mou",      title: "Sign your MOU",                        detail: "Your Memorandum of Understanding is signed first, before any software is set up. Each licensed site signs its own." },
-    { id: "demo",     title: "Watch the Brightwheel and Playground demos", detail: "You'll use one system for the whole year and can't switch mid-year, so compare both before you choose." },
-    { id: "ccms",     title: "Finish setting up your software",      detail: "Once you're approved, Brightwheel or Playground will contact you to get your account set up." },
-    { id: "coach",    title: "Meet with your business coach",        detail: "Your first one-on-one is where we talk about your goals and make a plan for your program." },
+    { id: "ccms-families", title: "Invite your families to your software", detail: "Parents can get check-in, daily updates, messages and invoices right on their phones." },
+    { id: "ccms-billing",  title: "Bill and collect tuition in your software", detail: "Send invoices and take payments online so you spend less time chasing tuition." },
+    { id: "bw-kindconnect", ccms: "brightwheel", title: "Link KindConnect to Brightwheel (if you take subsidy)", detail: "Call KindConnect and ask them to link your account to Brightwheel." },
+    { id: "coach",    title: "Meet with your business coach",        detail: "We'll talk about your goals and make a plan for your program." },
     { id: "csea",     title: "Activate CSEA VOICE",                  detail: "Free vision, dental and telehealth for owner/operators. Ask your coach for the CSEA sign-up flyer." },
-    { id: "optima",   title: "Set up your $25/month Optima stipend", detail: "For you and each of your staff members, to use toward wellness benefits." },
+    { id: "optima",   title: "Use your $25/month Optima stipend",    detail: "For you and each of your staff members, to use toward wellness benefits." },
     { id: "staff",    title: "Enroll your staff in telehealth",      detail: "Tell your coach who your employees are. Allyhealth will reach out to help them sign up." },
+    { id: "webinar",  title: "Join a member webinar",                detail: "Retirement planning, tax prep and more. See the News tab for dates." },
   ],
 
   benefits: [
     {
+      ccms: "brightwheel",
       icon: "💻", color: "sky",
       title: "Brightwheel",
-      tag: "Child care software",
-      who: "Owner/operators who choose Brightwheel",
+      tag: "Your child care software",
+      who: "Your program (paid for by ESFCCC)",
       what: "A free Premium subscription: check-in/out, parent messaging, daily reports, billing and payments.",
       tips: [
-        "Your software choice is locked in for the year once it's turned on.",
         "Taking subsidy? Call KindConnect and ask them to link your account to Brightwheel.",
+        "Stuck on something? Message your coach from the Coach tab.",
       ],
-      link: "https://info.mybrightwheel.com/empire", linkText: "Learn about Brightwheel",
+      link: "https://schools.mybrightwheel.com/sign-in", linkText: "Log in to Brightwheel",
     },
     {
+      ccms: "playground",
       icon: "🛝", color: "mint",
       title: "Playground",
-      tag: "Child care software",
-      who: "Owner/operators who choose Playground",
+      tag: "Your child care software",
+      who: "Your program (paid for by ESFCCC)",
       what: "The base Playground subscription ($50/month value) is covered: attendance, billing, parent communication and more.",
       tips: [
         "The payroll add-on ($40/month + $5 per employee) is NOT covered by ESFCCC.",
-        "Your software choice is locked in for the year once it's turned on.",
+        "Stuck on something? Message your coach from the Coach tab.",
       ],
-      link: "https://www.tryplayground.com/partnerships/newyork", linkText: "Learn about Playground",
+      link: "https://app.tryplayground.com", linkText: "Log in to Playground",
     },
     {
       icon: "🦷", color: "coral",
@@ -184,7 +199,7 @@ window.ESFCCC_CONTENT = {
     { icon: "📣", title: "Marketing & filling spots" },
     { icon: "📝", title: "Parent handbook & policies" },
     { icon: "🧾", title: "Taxes & records" },
-    { icon: "💻", title: "Using Brightwheel / Playground" },
+    { icon: "💻", title: "Getting more from your software" },
   ],
 
   // Upcoming events. Add a new { ... }, block for each one.
@@ -205,23 +220,12 @@ window.ESFCCC_CONTENT = {
       detail: "Get organized for tax season with help from Civitas.",
       link: "",
     },
-    {
-      title: "Brightwheel & Playground Demos",
-      date: "", time: "",
-      where: "Online",
-      detail: "See both systems in action before you choose. Ask your coach for the next demo.",
-      link: "",
-    },
   ],
 
   faq: [
     {
-      q: "Does it cost anything to be a member?",
-      a: "No. Membership in the Empire State Family Child Care Collaborative is free.",
-    },
-    {
-      q: "Can I switch from Brightwheel to Playground (or the other way) later?",
-      a: "Not during the year. Once your software is turned on, that license is paid for and can't be moved. That's why we recommend watching both demos before you choose.",
+      q: "Can I switch from Brightwheel to Playground (or the other way)?",
+      a: "Not during the year. Your software license is paid for the year and can't be moved. If you're having trouble with your software, message your coach and we'll help you get the most out of it.",
     },
     {
       q: "Who gets the $25 Optima stipend?",

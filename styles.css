@@ -265,3 +265,13 @@ main { max-width: 720px; margin: 0 auto; padding: 20px 16px 32px; outline: none;
 .msg-form input:focus, .msg-form select:focus, .msg-form textarea:focus { outline: none; border-color: var(--sky); }
 .msg-form .btn { margin-top: 0; width: 100%; }
 .msg-form .btn:disabled { opacity: .6; }
+
+/* ── My software ── */
+.software { margin-top: 16px; }
+.software .btn-row .btn { margin-top: 12px; }
+.sw-head { display: flex; align-items: center; gap: 12px; }
+.sw-name { font-size: 1.15rem; }
+.sw-change {
+  margin-left: auto; background: none; border: none; font: inherit; font-size: .85rem;
+  font-weight: 700; color: var(--muted); text-decoration: underline; cursor: pointer;
+}

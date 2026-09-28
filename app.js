@@ -15,6 +15,18 @@
   state.goals = state.goals || [];
   state.seen = state.seen || [];
   state.profile = state.profile || {};
+
+  // Personal link: ?ccms=brightwheel or ?ccms=playground assigns the member's software.
+  var linkCcms = new URLSearchParams(location.search).get('ccms');
+  if (linkCcms && C.ccms[linkCcms.toLowerCase()]) {
+    state.ccms = linkCcms.toLowerCase(); save();
+    history.replaceState(null, '', location.pathname + (location.hash || '#home'));
+  }
+
+  function myCcms() { return C.ccms[state.ccms] || null; }
+  // Hide items tagged for the other software once the member's software is known.
+  function forMe(item) { return !item.ccms || !state.ccms || item.ccms === state.ccms; }
+  function mySteps() { return C.gettingStarted.filter(function (s) { return !s.ccms || s.ccms === state.ccms; }); }
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
   }
@@ -30,8 +42,9 @@
 
   // ── Pages ──
   function home() {
-    var total = C.gettingStarted.length;
-    var done = C.gettingStarted.filter(function (s) { return state.done[s.id]; }).length;
+    var steps = mySteps();
+    var total = steps.length;
+    var done = steps.filter(function (s) { return state.done[s.id]; }).length;
     var pct = Math.round((done / total) * 100);
 
     var coachAction = C.coach.bookingLink
@@ -40,13 +53,14 @@
 
     return '' +
       '<section class="hero">' +
-        '<h1>Welcome, member! 👋</h1>' +
-        '<p>Everything you get from the Collaborative, all in one place.</p>' +
+        '<h1>Welcome back! 👋</h1>' +
+        '<p>Everything your ESFCCC membership gives you, all in one place.</p>' +
         '<div class="progress">' +
           '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
-          '<div class="progress-label">' + done + ' of ' + total + ' getting-started steps done</div>' +
+          '<div class="progress-label">' + done + ' of ' + total + ' membership steps done</div>' +
         '</div>' +
       '</section>' +
+      softwareCard() +
       installBanner() +
       '<div class="quick">' +
         '<a href="' + esc(C.council.phoneLink) + '"><span class="qi">📞</span>Call the Council<small>' + esc(C.council.phone) + '</small></a>' +
@@ -55,9 +69,9 @@
         '<a href="#news"><span class="qi">📰</span>News &amp; events<small>Updates, newsletters</small></a>' +
       '</div>' +
       latestUpdate() +
-      '<h2 class="section-h">Getting started checklist</h2>' +
+      '<h2 class="section-h">Make the most of your membership</h2>' +
       '<div class="card">' +
-        C.gettingStarted.map(function (s) {
+        steps.map(function (s) {
           return '<label class="check">' +
             '<input type="checkbox" data-step="' + esc(s.id) + '"' + (state.done[s.id] ? ' checked' : '') + ' />' +
             '<span class="box" aria-hidden="true"></span>' +
@@ -66,6 +80,26 @@
         }).join('') +
         '<p class="note">Your checkmarks are saved on this device only.</p>' +
       '</div>';
+  }
+
+  function softwareCard() {
+    var mine = myCcms();
+    if (!mine) {
+      return '<div class="card software">' +
+        '<strong>Which child care software do you use?</strong>' +
+        '<p class="meta">We\'ll show you the right tools and tips.</p>' +
+        '<div class="btn-row">' + Object.keys(C.ccms).map(function (k) {
+          return '<button class="btn sky" data-set-ccms="' + esc(k) + '">' + C.ccms[k].icon + ' ' + esc(C.ccms[k].name) + '</button>';
+        }).join('') + '</div></div>';
+    }
+    return '<div class="card software">' +
+      '<div class="sw-head"><span class="b-icon" aria-hidden="true">' + mine.icon + '</span>' +
+        '<div><span class="meta">Your software</span><br/><strong class="sw-name">' + esc(mine.name) + '</strong></div>' +
+        '<button class="sw-change" data-action="change-ccms">Change</button></div>' +
+      '<div class="btn-row">' +
+        (mine.loginLink ? ext(mine.loginLink, 'Log in →', 'sky') : '') +
+        (mine.helpLink ? ext(mine.helpLink, 'Help center', 'ghost') : '') +
+      '</div></div>';
   }
 
   function latestUpdate() {
@@ -96,7 +130,7 @@
     return '' +
       '<h1 class="page-title">Your Benefits</h1>' +
       '<p class="page-lead">All free with your membership. Tap a benefit to see who it\'s for and how to use it.</p>' +
-      C.benefits.map(function (b) {
+      C.benefits.filter(forMe).map(function (b) {
         return '<details class="card benefit ' + esc(b.color) + '">' +
           '<summary><span class="b-icon" aria-hidden="true">' + b.icon + '</span>' +
             '<span><span class="b-title">' + esc(b.title) + '</span><span class="b-tag">' + esc(b.tag) + '</span></span></summary>' +
@@ -300,6 +334,17 @@
     if (del) {
       e.preventDefault();
       state.goals.splice(+del.dataset.del, 1); save(); render(false);
+      return;
+    }
+    var setBtn = e.target.closest('[data-set-ccms]');
+    if (setBtn) {
+      state.ccms = setBtn.dataset.setCcms; save(); render(false);
+      return;
+    }
+    if (e.target.closest('[data-action="change-ccms"]')) {
+      if (confirm('Change which software the app shows? (This doesn\'t change your actual account.)')) {
+        delete state.ccms; save(); render(false);
+      }
       return;
     }
     if (e.target.closest('[data-action="install"]') && installPrompt) {

@@ -1,6 +1,6 @@
 # ESFCCC Members App
 
-A phone-friendly member app for the **Empire State Family Child Care Collaborative**
+A phone-friendly app for **current members** of the **Empire State Family Child Care Collaborative**
 at the Child Care Council of Orange County. Members can add it to their home screen
 like a regular app — no app store needed.
 
@@ -8,13 +8,23 @@ like a regular app — no app store needed.
 
 | Tab | What members see |
 |---|---|
-| 🏠 Home | Welcome, quick buttons, the latest update from the coach, and a getting-started checklist with a progress bar |
+| 🏠 Home | Their software (Brightwheel or Playground) with a log-in button, quick buttons, the latest update, and a "make the most of your membership" checklist |
 | ⭐ Benefits | Brightwheel, Playground, CSEA VOICE, Optima stipend, staff telehealth, retirement, tax prep, My Food Program, coaching |
 | 💬 Coach | "Message my coach" form, a personal business-goals list, and coaching topics |
 | 📰 News | Updates from the coach (with a NEW badge), newsletter issues, and upcoming events (past dates hide automatically) |
 | ❓ Help | Searchable FAQ, Council contact info, and a link to share the application |
 
 Checklist and goals are saved on the member's own device only — nothing is sent anywhere.
+
+## Giving each member their software (CCMS)
+
+Send each group its own link. The app remembers the software on the member's phone:
+
+- Brightwheel members: `<app link>?ccms=brightwheel`
+- Playground members: `<app link>?ccms=playground`
+
+Members who open the plain link are asked once which software they use (they can tap **Change** later).
+No provider names or lists are stored in the app — it's public, so keep member lists in Monday.com.
 
 ## Updating the app
 
