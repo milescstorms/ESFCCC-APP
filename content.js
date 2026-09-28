@@ -23,10 +23,51 @@ window.ESFCCC_CONTENT = {
   coach: {
     name: "Miles",
     title: "ESFCCC Business Coach",
-    // Add a work email or booking link here to turn on the "Email" / "Book" buttons.
-    email: "",
+    // Messages from the "Message my coach" form go to this email.
+    email: "miles@childcarecounciloc.org",
+    // Optional: a booking link (e.g. Outlook Bookings) turns on a "Book a session" button.
     bookingLink: "",
+    // Optional: a form service address (e.g. https://formspree.io/f/xxxxxx).
+    // When filled in, messages send straight from the app instead of opening the member's email.
+    messageFormEndpoint: "",
   },
+
+  // What members can pick when they message you.
+  messageTopics: [
+    "Question about my benefits",
+    "Brightwheel / Playground help",
+    "Schedule a coaching session",
+    "Rates, budget or business question",
+    "Something else",
+  ],
+
+  // Newsletters. Add the newest issue at the TOP of the list.
+  // link can be a PDF, Canva, Google Drive or email-newsletter link.
+  newsletter: {
+    signupLink: "",   // optional: link where members join your email list
+    issues: [
+      // { title: "October 2026 Newsletter", date: "2026-10-01", link: "https://..." },
+    ],
+  },
+
+  // Updates & announcements. Add the newest at the TOP of the list.
+  // Give each one a new, unique id — that's how the app knows it's "new" for members.
+  updates: [
+    {
+      id: "welcome-app",
+      date: "2026-09-28",
+      title: "Welcome to the ESFCCC member app! 🎉",
+      body: "This is your home for benefits, events, newsletters and updates from your coach. Choose "Add to Home Screen" from your phone's share menu so it's always one tap away. Have a question? Use the Coach tab to send me a message anytime.",
+      link: "", linkText: "",
+    },
+    {
+      id: "choose-ccms",
+      date: "2026-09-28",
+      title: "Choosing Brightwheel or Playground?",
+      body: "Once your software is turned on, you'll keep it for the whole year, so watch both demos before you decide. Reach out if you'd like help comparing them.",
+      link: "", linkText: "",
+    },
+  ],
 
   // Steps a new member works through. Members tick these off on their own phone.
   gettingStarted: [

@@ -1,6 +1,6 @@
 // Network-first: members always get the latest content when online,
 // and the last-seen version when they're offline.
-var CACHE = 'esfccc-v1';
+var CACHE = 'esfccc-v2';
 var FILES = ['./', 'index.html', 'styles.css', 'app.js', 'content.js', 'manifest.webmanifest',
   'assets/esfccc-logo.png', 'assets/cccoc-logo.png'];
 

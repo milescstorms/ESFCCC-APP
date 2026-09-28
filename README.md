@@ -8,11 +8,11 @@ like a regular app — no app store needed.
 
 | Tab | What members see |
 |---|---|
-| 🏠 Home | Welcome, quick buttons (call, benefits, events) and a getting-started checklist with a progress bar |
+| 🏠 Home | Welcome, quick buttons, the latest update from the coach, and a getting-started checklist with a progress bar |
 | ⭐ Benefits | Brightwheel, Playground, CSEA VOICE, Optima stipend, staff telehealth, retirement, tax prep, My Food Program, coaching |
-| 🎯 Coaching | Coach contact, a personal business-goals list, and coaching topics |
-| 📅 Events | Upcoming webinars and workshops (past dates hide automatically) |
-| 💬 Help | Searchable FAQ, Council contact info, and a link to share the application |
+| 💬 Coach | "Message my coach" form, a personal business-goals list, and coaching topics |
+| 📰 News | Updates from the coach (with a NEW badge), newsletter issues, and upcoming events (past dates hide automatically) |
+| ❓ Help | Searchable FAQ, Council contact info, and a link to share the application |
 
 Checklist and goals are saved on the member's own device only — nothing is sent anywhere.
 
@@ -22,7 +22,12 @@ All wording, benefits, events and FAQ answers live in **`content.js`**.
 Edit that file on GitHub (pencil icon), commit, and the app updates.
 
 - **Add an event:** copy one `{ ... },` block in `events` and change the title, date (`"2026-10-15"`), time and link.
-- **Turn on "Book a session" / "Email":** fill in `coach.bookingLink` and/or `coach.email`.
+- **Post an update:** copy one block at the top of `updates`, give it a new `id`, and change the date, title and text. Members see a red badge on the News tab until they read it.
+- **Add a newsletter:** add `{ title: "...", date: "2026-10-01", link: "https://..." },` to the top of `newsletter.issues`.
+- **Messages:** the "Message my coach" form opens the member's email app addressed to `coach.email`.
+  To have messages send straight from the app instead, create a free form at formspree.io and paste its
+  address into `coach.messageFormEndpoint`.
+- **Turn on "Book a session":** fill in `coach.bookingLink`.
 
 ## Publishing
 
