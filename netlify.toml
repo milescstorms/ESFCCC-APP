@@ -1,0 +1,135 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Never serve login lists, roster data or server code to the public.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/uploads/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/member-logins.csv"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/staff-logins.csv"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/member-roster-template.csv"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Member%20Logins.xlsx"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Member Logins.xlsx"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Roster Converter.dc.html"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/roster-data.txt"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/DEPLOY.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Roster%20Converter.dc.html"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Council%20Logins.xlsx"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Council Logins.xlsx"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/prospect-list.csv"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Gmail Sender Script.txt"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Gmail%20Sender%20Script.txt"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Staff Dashboard Preview.dc.html"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/Staff%20Dashboard%20Preview.dc.html"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/"
+  to = "/ESFCCC Member App.dc.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"

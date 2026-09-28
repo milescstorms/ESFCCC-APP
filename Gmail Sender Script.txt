@@ -1,0 +1,18 @@
+const SECRET = 'PASTE-YOUR-SECRET-WORD-HERE';
+
+function doPost(e) {
+  const out = (o) => ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+  let d;
+  try { d = JSON.parse(e.postData.contents); } catch (err) { return out({ ok: false }); }
+  if (!d || d.key !== SECRET || !d.to) return out({ ok: false });
+  const to = d.to === 'SELF' ? Session.getEffectiveUser().getEmail() : d.to;
+  const opts = { name: d.name || 'Child Care Council' };
+  if (d.replyTo) opts.replyTo = d.replyTo;
+  if (d.attachments && d.attachments.length) opts.attachments = d.attachments.map(function (f) { return Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, f.name); });
+  MailApp.sendEmail(to, d.subject || 'Child Care Council', d.text || '', opts);
+  return out({ ok: true });
+}
+
+function testSend() {
+  MailApp.sendEmail(Session.getActiveUser().getEmail(), 'Council app test', 'If you got this, the script can send email.', { name: 'Child Care Council' });
+}

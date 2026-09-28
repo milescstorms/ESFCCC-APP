@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>body{margin:0;font-family:Archivo,system-ui,sans-serif;color:#1B2530}a{color:#1272B8}a:hover{color:#0E4C77}*{box-sizing:border-box}</style></helmet>
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" hint-size="100%,1056px">
+
+<section class="page" data-screen-label="01 Admin" style="font-family:Archivo,system-ui,sans-serif;color:#1B2530;padding:0.6in 0.65in;display:flex;flex-direction:column;gap:26px">
+  <header style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:3px solid #1272B8">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#667585"><span>Empire State Family Child Care Collaborative</span><span>Member App Guide, 1 of 3</span></div>
+    <h1 style="margin:0;font-size:40px;line-height:1.05;font-weight:800;color:#0E4C77;letter-spacing:-0.01em">Admins</h1>
+    <p style="margin:0;font-size:17px;line-height:1.45;color:#3C4855;text-wrap:pretty">Miles (ESFCCC Business Coach). Admins can do everything on the Staff sheet, plus the items below.</p>
+  </header>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px 34px;align-content:start">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Settings tab</h2>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+        <li>Only admins can see and change Settings.</li>
+        <li>Turn automatic renewal emails on or off.</li>
+        <li>Run Check who is due today to see which memberships (MOUs) are coming up for renewal before emails go out.</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Approvals</h2>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+        <li>Approve or decline attendee changes members ask for after a training has happened.</li>
+        <li>Approved changes update that facility's training hours.</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Logins</h2>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+        <li>Member and staff logins are private. Never post them or share one member's login with another.</li>
+        <li>Hand out staff logins, one per person.</li>
+        <li>Members can change their own password or reset it from the sign-in screen.</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Records and backups</h2>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+        <li>Every uploaded certificate is emailed, with the file attached, to the app's Gmail. Subjects start with Certificate backup.</li>
+        <li>Deleting a certificate in the app does not delete the email copy.</li>
+        <li>Export the member list to Excel once a month to keep a copy.</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:auto;background:#EEF5FB;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:6px">
+    <span style="font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0E4C77">Good to know</span>
+    <p style="margin:0;font-size:16px;line-height:1.45;text-wrap:pretty">The app's Gmail sends about 100 emails a day. Sign-up emails, renewal reminders and certificate backups all share that limit.</p>
+  </div>
+</section>
+
+<section class="page" data-screen-label="02 Staff" style="font-family:Archivo,system-ui,sans-serif;color:#1B2530;padding:0.6in 0.65in;display:flex;flex-direction:column;gap:26px">
+  <header style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:3px solid #1272B8">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#667585"><span>Empire State Family Child Care Collaborative</span><span>Member App Guide, 2 of 3</span></div>
+    <h1 style="margin:0;font-size:40px;line-height:1.05;font-weight:800;color:#0E4C77;letter-spacing:-0.01em">Staff</h1>
+    <p style="margin:0;font-size:17px;line-height:1.45;color:#3C4855;text-wrap:pretty">Every staff member has their own login. The app works on a phone, with a full dashboard on a computer.</p>
+  </header>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px 34px;align-content:start">
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Members</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Search every member and non-member facility.</li>
+          <li>Open a record to see contact info, membership status, trainings, hours and certificates.</li>
+          <li>Add a new member and pick their software (Brightwheel or Playground). They can sign in right away.</li>
+          <li>Turn a facility on the Not members yet list into a member.</li>
+          <li>View or delete certificates on a record. Deleting is permanent.</li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Newsletters and questions</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Publish newsletters for members to read in the app.</li>
+                  </ul>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Trainings</h2>
+      <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+        <li>Publish webinars and events. Members can register right in the app.</li>
+        <li>Open or close registration, and allow sign-ups past the seat limit.</li>
+        <li>See who signed up, and copy the list or email addresses.</li>
+        <li>Remove individual attendees.</li>
+        <li>Add a guest who has no app account. Facilities with a login sign up their own staff.</li>
+        <li>Check off who attended. Only checked people get training hours.</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:auto;background:#EEF5FB;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:6px">
+    <span style="font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0E4C77">Privacy</span>
+    <p style="margin:0;font-size:16px;line-height:1.45;text-wrap:pretty">Member contact info is for ESFCCC staff only. Never share one member's details with another.</p>
+  </div>
+</section>
+
+<section class="page" data-screen-label="03 Members" style="font-family:Archivo,system-ui,sans-serif;color:#1B2530;padding:0.6in 0.65in;display:flex;flex-direction:column;gap:26px">
+  <header style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:3px solid #1272B8">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#667585"><span>Empire State Family Child Care Collaborative</span><span>Member App Guide, 3 of 3</span></div>
+    <h1 style="margin:0;font-size:40px;line-height:1.05;font-weight:800;color:#0E4C77;letter-spacing:-0.01em">Members</h1>
+    <p style="margin:0;font-size:17px;line-height:1.45;color:#3C4855;text-wrap:pretty">Sign in with your ESFCCC member ID and password. Tap the refresh button at the top of any page to load the latest info.</p>
+  </header>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px 34px;align-content:start">
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Trainings</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Browse upcoming ESFCCC webinars and events.</li>
+          <li>Register for webinars and events in one tap.</li>
+          <li>Sign up several people from your program at once, by name.</li>
+          <li>See everything you signed up for under My trainings.</li>
+          <li>Change attendee names before a training. After it, changes go to your coach for approval.</li>
+          <li>Add any training to your calendar.</li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Your account</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Change your password anytime, or reset it if you forget.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Membership</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Your member card shows your software (Brightwheel or Playground), your status and your membership year. Tap it to open your software.</li>
+          <li>See every benefit your membership includes. Your coach helps you renew your MOU each year.</li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Hours and certificates</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>See training hours for each person who attended.</li>
+          <li>Upload certificates as a PDF or photo, with the type and expiration date.</li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1272B8">Your coach and news</h2>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.4">
+          <li>Call or email your coach from the Coach tab.</li>
+          <li>Read ESFCCC newsletters and updates.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
+    <div style="background:#EEF5FB;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0E4C77">Need help signing in?</span>
+      <p style="margin:0;font-size:16px;line-height:1.45;text-wrap:pretty">Call your coach at (845) 294-4012 ext. 230 and we will get you signed in or reset your password.</p>
+    </div>
+    <div style="background:#EEF5FB;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0E4C77">Your privacy</span>
+      <p style="margin:0;font-size:16px;line-height:1.45;text-wrap:pretty">Only ESFCCC staff can see your contact info. It is never shared with other members.</p>
+    </div>
+  </div>
+</section>
+
+</x-import>
+</x-dc>
+</body>
+</html>

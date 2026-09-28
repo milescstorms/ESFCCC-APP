@@ -1,53 +1,39 @@
-# ESFCCC Members App
+# ESFCCC Member App
 
-A phone-friendly app for **current members** of the **Empire State Family Child Care Collaborative**
-at the Child Care Council of Orange County. Members can add it to their home screen
-like a regular app — no app store needed.
+The member app for current members of the **Empire State Family Child Care Collaborative**
+at the Child Care Council of Orange County. Built from the Council Member App template, so it
+works the same way: every provider signs in with their own member ID and password, and staff
+sign in on the same screen to open the staff portal.
 
-## What's in it
+## What members see (after signing in)
 
-| Tab | What members see |
+| Tab | What's there |
 |---|---|
-| 🏠 Home | Their software (Brightwheel or Playground) with a log-in button, quick buttons, the latest update, and a "make the most of your membership" checklist |
-| ⭐ Benefits | Brightwheel, Playground, CSEA VOICE, Optima stipend, staff telehealth, retirement, tax prep, My Food Program, coaching |
-| 💬 Coach | "Message my coach" form, a personal business-goals list, and coaching topics |
-| 📰 News | Updates from the coach (with a NEW badge), newsletter issues, and upcoming events (past dates hide automatically) |
-| ❓ Help | Searchable FAQ, Council contact info, and a link to share the application |
+| Home | Their software (Brightwheel or Playground) with an **Open** button, and announcements |
+| Events | Webinars and events staff publish, with one-tap registration |
+| Benefits | Member card (name, program, ID, software, membership year) and every ESFCCC benefit |
+| Coach | What the coach can help with, and call/email for Miles |
+| News | Newsletters staff publish |
 
-Checklist and goals are saved on the member's own device only — nothing is sent anywhere.
+## Each member's software (CCMS)
 
-## Giving each member their software (CCMS)
+When staff add a member in the portal, they pick **Brightwheel** or **Playground**.
+The member's card, Home screen and Benefits list then show only that software, with a
+log-in button. To switch someone later: open their record → **Software**.
 
-Send each group its own link. The app remembers the software on the member's phone:
+## Adding members
 
-- Brightwheel members: `<app link>?ccms=brightwheel`
-- Playground members: `<app link>?ccms=playground`
+- **One at a time:** staff portal → Members → Add. The app makes an ID and password to hand out.
+- **Many at once:** fill in `member-roster-template.csv` (one row per provider, with a Software
+  column) and it can be turned into `netlify/roster.js`. Only do this in a **private** repository.
 
-Members who open the plain link are asked once which software they use (they can tap **Change** later).
-No provider names or lists are stored in the app — it's public, so keep member lists in Monday.com.
+## Before going live
 
-## Updating the app
+1. Make this GitHub repository **private**. `netlify/staff.js` and `netlify/roster.js` hold logins.
+2. Publish on Netlify (see `DEPLOY.md`).
+3. Sign in as staff (`miles` / `change-me-101`) and change the password right away.
+4. Optional: set up email (`DEPLOY.md`) for event sign-up confirmations.
 
-All wording, benefits, events and FAQ answers live in **`content.js`**.
-Edit that file on GitHub (pencil icon), commit, and the app updates.
+Renewal reminder emails start **off**. Turn them on in the staff portal's Settings when ready.
 
-- **Add an event:** copy one `{ ... },` block in `events` and change the title, date (`"2026-10-15"`), time and link.
-- **Post an update:** copy one block at the top of `updates`, give it a new `id`, and change the date, title and text. Members see a red badge on the News tab until they read it.
-- **Add a newsletter:** add `{ title: "...", date: "2026-10-01", link: "https://..." },` to the top of `newsletter.issues`.
-- **Messages:** the "Message my coach" form opens the member's email app addressed to `coach.email`.
-  To have messages send straight from the app instead, create a free form at formspree.io and paste its
-  address into `coach.messageFormEndpoint`.
-- **Turn on "Book a session":** fill in `coach.bookingLink`.
-
-## Publishing
-
-The workflow in `.github/workflows/pages.yml` publishes the app with GitHub Pages
-whenever `main` changes. In the repo on GitHub go to **Settings → Pages** and set
-**Source** to **GitHub Actions** (one time).
-
-## Try it locally
-
-```
-python3 -m http.server 8000
-```
-Then open http://localhost:8000.
+`App Guide.dc.html` is a printable 3-page guide for admins, staff and members.
