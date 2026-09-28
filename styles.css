@@ -42,7 +42,7 @@ a { color: var(--sky-dark); }
 .topbar-logo { width: 42px; height: 42px; border-radius: 50%; flex: none; }
 .topbar-text { display: flex; flex-direction: column; line-height: 1.2; }
 .topbar-title { font-size: 1.25rem; }
-.topbar-sub { font-size: .78rem; opacity: .9; font-weight: 600; }
+.topbar-sub { font-size: .7rem; white-space: nowrap; opacity: .9; font-weight: 600; }
 
 /* ── Page ── */
 main { max-width: 720px; margin: 0 auto; padding: 20px 16px 32px; outline: none; }
@@ -194,8 +194,8 @@ main { max-width: 720px; margin: 0 auto; padding: 20px 16px 32px; outline: none;
 .ci.loc { background: #e2f6fc; }
 .ci.coach { background: #e6f7ef; }
 
-.logos { display: flex; justify-content: center; gap: 18px; margin: 28px 0 8px; }
-.logos img { width: 72px; height: 72px; border-radius: 50%; }
+.logos-together { display: block; width: 180px; max-width: 60%; margin: 28px auto 10px; border-radius: 22%; }
+.topbar-logo-right { margin-left: auto; }
 .footer-note { text-align: center; font-size: .8rem; color: var(--muted); }
 
 /* ── Tab bar ── */

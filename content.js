@@ -57,7 +57,7 @@ window.ESFCCC_CONTENT = {
       id: "welcome-app",
       date: "2026-09-28",
       title: "Welcome to the ESFCCC member app! 🎉",
-      body: "This is your home for benefits, events, newsletters and updates from your coach. Choose "Add to Home Screen" from your phone's share menu so it's always one tap away. Have a question? Use the Coach tab to send me a message anytime.",
+      body: "This is your home for benefits, events, newsletters and updates from your coach. Choose “Add to Home Screen” from your phone's share menu so it's always one tap away. Have a question? Use the Coach tab to send me a message anytime.",
       link: "", linkText: "",
     },
     {

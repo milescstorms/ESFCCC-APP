@@ -256,7 +256,7 @@
         '<strong>Know a provider who should join?</strong><p class="meta">Membership is free for family and group family child care providers.</p>' +
         ext(C.council.applyLink, 'Share the application →') +
       '</div>' +
-      '<div class="logos"><img src="assets/esfccc-logo.png" alt="Empire State Family Child Care Collaborative" /><img src="assets/cccoc-logo.png" alt="Child Care Council of Orange County" /></div>' +
+      '<img class="logos-together" src="assets/logos-together.jpg" alt="Empire State Family Child Care Collaborative and Child Care Council of Orange County logos" />' +
       '<p class="footer-note">Empire State Family Child Care Collaborative<br/>' + esc(C.council.name) + ' · In partnership with the Early Care &amp; Learning Council</p>';
   }
 
