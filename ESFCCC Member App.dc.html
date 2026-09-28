@@ -304,7 +304,14 @@
           <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px">
             <input value="{{ admin.res.title }}" onChange="{{ admin.res.setTitle }}" placeholder="Title, e.g. CSEA VOICE sign-up flyer" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
             <input value="{{ admin.res.note }}" onChange="{{ admin.res.setNote }}" placeholder="One line on what it is (optional)" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
-            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Link (Google Drive, PDF, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <label style="border:1.5px dashed {{ admin.res.fileBorder }};border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:{{ admin.res.fileBg }};text-align:center">
+              <span style="font-size:14px;font-weight:600;color:#1272B8">{{ admin.res.fileLabel }}</span>
+              <span style="font-size:12px;color:#8A97A5">{{ admin.res.fileNote }}</span>
+              <input type="file" accept="application/pdf,image/*" onChange="{{ admin.res.pickFile }}" style="display:none">
+            </label>
+            <sc-if value="{{ admin.res.showLink }}" hint-placeholder-val="{{ true }}">
+            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Or paste a link (Google Drive, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            </sc-if>
             <div style="display:flex;flex-wrap:wrap;gap:7px">
               <sc-for list="{{ admin.res.cats }}" as="rc" hint-placeholder-count="4">
                 <button onClick="{{ rc.pick }}" style="cursor:pointer;font-family:inherit;border-radius:100px;padding:8px 14px;font-size:13px;font-weight:600;border:1px solid {{ rc.border }};background:{{ rc.bg }};color:{{ rc.color }}">{{ rc.label }}</button>
@@ -1956,7 +1963,14 @@
           <div style="background:#fff;border:1px solid #E4E9EE;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px">
             <input value="{{ admin.res.title }}" onChange="{{ admin.res.setTitle }}" placeholder="Title, e.g. CSEA VOICE sign-up flyer" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
             <input value="{{ admin.res.note }}" onChange="{{ admin.res.setNote }}" placeholder="One line on what it is (optional)" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
-            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Link (Google Drive, PDF, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            <label style="border:1.5px dashed {{ admin.res.fileBorder }};border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:{{ admin.res.fileBg }};text-align:center">
+              <span style="font-size:14px;font-weight:600;color:#1272B8">{{ admin.res.fileLabel }}</span>
+              <span style="font-size:12px;color:#8A97A5">{{ admin.res.fileNote }}</span>
+              <input type="file" accept="application/pdf,image/*" onChange="{{ admin.res.pickFile }}" style="display:none">
+            </label>
+            <sc-if value="{{ admin.res.showLink }}" hint-placeholder-val="{{ true }}">
+            <input value="{{ admin.res.link }}" onChange="{{ admin.res.setLink }}" placeholder="Or paste a link (Google Drive, website...)" inputMode="url" style="font-family:inherit;border:1px solid #CBD6E0;border-radius:10px;padding:12px;font-size:15px;outline:none" style-focus="border-color:#1272B8">
+            </sc-if>
             <div style="display:flex;flex-wrap:wrap;gap:7px">
               <sc-for list="{{ admin.res.cats }}" as="rc" hint-placeholder-count="4">
                 <button onClick="{{ rc.pick }}" style="cursor:pointer;font-family:inherit;border-radius:100px;padding:8px 14px;font-size:13px;font-weight:600;border:1px solid {{ rc.border }};background:{{ rc.bg }};color:{{ rc.color }}">{{ rc.label }}</button>
@@ -3315,7 +3329,7 @@ class Component extends DCLogic {
     const ALLRES = (staffView ? liveR : liveR.filter(x => !x.draft)).concat(RESOURCES).filter(x => !HID.has(x.id));
     const openLink = (u) => () => { if (u) window.open(u, '_blank', 'noopener'); };
     const resourceGroups = RESOURCE_CATS.map(cat => ({ cat, items: ALLRES.filter(r => !r.draft && (r.cat || 'Forms') === cat)
-      .map(r => ({ title: r.title, note: r.note || '', open: openLink(r.link) })) })).filter(g => g.items.length);
+      .map(r => ({ title: r.title, note: r.note || (r.file ? (/\.pdf$/i.test(r.file) ? 'PDF' : 'Photo') : ''), open: openLink(r.link) })) })).filter(g => g.items.length);
 
     const doneMap = (s.live && s.live.completed) || {};
     const visible = ALLT.filter(t => !doneMap[t.id]).filter(t =>
@@ -3696,23 +3710,40 @@ class Component extends DCLogic {
         deskSub: s.adminTab === 'questions' ? 'Private questions from members. Each conversation is one member and the Council, never a group.' : s.adminTab === 'usage' ? 'How many members are using their membership to sign up for trainings.' : s.adminTab === 'settings' ? 'Turn automatic emails on or off for everyone.' : s.adminTab === 'staff' ? 'Staff sign-ins. Directors can reset passwords here.' : s.adminTab === 'trainings' ? 'Post trainings, publish drafts and see who signed up.' : s.adminTab === 'newsletters' ? 'Publish issues to every member in the app.' : s.adminTab === 'resources' ? 'Guides, forms and links providers see in their Resources tab.' : total + ' members and ' + NONS.length + ' non-members with a login.',
         res: (() => {
           const title = String(s.rTitle || '').trim(), raw = String(s.rLink || '').trim();
-          const link = raw && !/^https?:\/\//i.test(raw) ? 'https://' + raw : raw;
-          const ok = !!title && /^https?:\/\/[^\s.]+\.[^\s]+$/i.test(link);
+          const typed = raw && !/^https?:\/\//i.test(raw) ? 'https://' + raw : raw;
+          const link = s.rFile ? s.rFile.url : typed;
+          const ok = !s.rUploading && !!title && (!!s.rFile || /^https?:\/\/[^\s.]+\.[^\s]+$/i.test(typed));
           const cat = s.rCat || 'Software';
           return {
             title: s.rTitle || '', note: s.rNote || '', link: s.rLink || '',
             setTitle: (e) => this.setState({ rTitle: e.target.value }), setNote: (e) => this.setState({ rNote: e.target.value }), setLink: (e) => this.setState({ rLink: e.target.value }),
             cats: RESOURCE_CATS.map(label => ({ label, pick: () => this.setState({ rCat: label }),
               bg: cat === label ? '#E3F0F9' : '#fff', border: cat === label ? '#1272B8' : '#CBD6E0', color: cat === label ? '#0E4C77' : '#3C4855' })),
+            fileLabel: s.rUploading ? 'Uploading ' + s.rUploading + '…' : s.rFile ? '✓ ' + s.rFile.name + ' (tap to replace)' : 'Upload a PDF or photo',
+            fileNote: s.rFile ? 'Uploaded. Add a title and save.' : 'PDF up to 4 MB, or a photo. Photos are shrunk to save space.',
+            fileBorder: s.rFile ? '#17795E' : '#CBD6E0', fileBg: s.rFile ? '#EEF8F4' : '#F7F9FB',
+            showLink: !s.rFile,
+            pickFile: (e) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (!f) return;
+              const isPdf = f.type === 'application/pdf', isImg = /^image\//.test(f.type);
+              if (!isPdf && !isImg) { this.flash('Choose a PDF or a photo.'); return; }
+              if (isPdf && f.size > 4 * 1024 * 1024) { this.flash('That PDF is over 4 MB. Try a smaller copy, or share it from Google Drive and paste the link.'); return; }
+              const st = s.staff || {};
+              this.setState({ rUploading: f.name });
+              (isImg ? this.shrinkImage(f) : this.readB64(f).then(data => ({ mime: 'application/pdf', data })))
+                .then(p => fetch('/.netlify/functions/files', { method: 'POST', headers: { 'content-type': 'application/json' },
+                  body: JSON.stringify({ staffLogin: st.login, staffPw: st.pw, mime: p.mime, data: p.data, name: f.name }) }))
+                .then(r => r.json().then(d => r.ok ? d : Promise.reject(d)))
+                .then(d => this.setState(p => ({ rUploading: null, rFile: { url: d.url, name: f.name }, rTitle: p.rTitle || f.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ') })))
+                .catch(d => { this.setState({ rUploading: null }); this.flash(d && d.error === 'File too large' ? 'That file is too large. Keep it under 4 MB.' : d && d.error ? d.error : 'Could not upload. Check your connection and try again.'); }); },
             bg: ok ? BLUE : '#B9C4CE',
-            label: ok ? 'Save as draft' : !title ? 'Add a title' : 'Add a working link',
+            label: s.rUploading ? 'Uploading…' : ok ? 'Save as draft' : !title ? 'Add a title' : 'Upload a file or add a link',
             save: () => { if (!ok) return;
-              const item = { id: 'r' + Date.now(), cat, title, note: String(s.rNote || '').trim(), link, draft: true };
+              const item = { id: 'r' + Date.now(), cat, title, note: String(s.rNote || '').trim(), link, draft: true, ...(s.rFile ? { file: s.rFile.name } : {}) };
               this.push('addResource', { item })
-                .then(() => { this.setState({ rTitle: '', rNote: '', rLink: '' }); this.flash('Saved as a draft. Tap Publish when it is ready.'); })
+                .then(() => { this.setState({ rTitle: '', rNote: '', rLink: '', rFile: null }); this.flash('Saved as a draft. Tap Publish when it is ready.'); })
                 .catch(() => this.flash('Could not save. Sign in with your staff login first.')); },
             list: ALLRES.map(r => ({
-              title: r.title, cat: r.cat + (r.builtIn ? ' · built in' : ''), open: openLink(r.link),
+              title: r.title, cat: r.cat + (r.builtIn ? ' · built in' : r.file ? ' · ' + r.file : ''), open: openLink(r.link),
               isDraft: !!r.draft, canDelete: !r.builtIn,
               badge: r.draft ? 'Draft' : 'Live', badgeBg: r.draft ? '#FDF3E3' : '#E4F4EF', badgeColor: r.draft ? '#B26A00' : '#17795E',
               publish: () => this.push('publish', { id: r.id }).then(() => this.flash('Live. Providers can see it now.')).catch(() => this.flash('Could not publish. Sign in with your staff login first.')),

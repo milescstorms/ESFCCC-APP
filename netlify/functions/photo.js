@@ -20,7 +20,9 @@ export default async (req) => {
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
   const body = await req.json().catch(() => null);
   if (!body) return json({ error: 'Bad request' }, 400);
-  const staff = STAFF_LOGINS.find(s => s.login.toLowerCase() === String(body.staffLogin || '').trim().toLowerCase() && s.pw === String(body.staffPw || '').trim().toLowerCase());
+  // Accept a staff password changed in the app, not only the one in staff.js.
+  const over = ((await getStore({ name: 'council-app', consistency: 'strong' }).get('live-content', { type: 'json' })) || {}).staffPw || {};
+  const staff = STAFF_LOGINS.find(s => s.login.toLowerCase() === String(body.staffLogin || '').trim().toLowerCase() && (over[s.login] || s.pw) === String(body.staffPw || '').trim().toLowerCase());
   if (!staff) return json({ error: 'Sign in with your staff login first' }, 401);
   const m = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/.exec(String(body.data || ''));
   if (!m) return json({ error: 'Send a JPEG photo' }, 400);
