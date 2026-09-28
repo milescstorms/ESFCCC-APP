@@ -1,0 +1,12 @@
+{
+  "name": "ESFCCC Members — Child Care Council of Orange County",
+  "short_name": "ESFCCC",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FDF6EC",
+  "theme_color": "#3BBDE4",
+  "icons": [
+    { "src": "assets/esfccc-logo.png", "sizes": "500x500", "type": "image/png", "purpose": "any" }
+  ]
+}
