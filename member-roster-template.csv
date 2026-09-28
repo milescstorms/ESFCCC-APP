@@ -1,3 +1,3 @@
 Member ID,First Name,Last Name,Program Name,Program Type,Software,Email,Phone,City,Member Through,Notes
-ES101,Dana,Marsh,Little Sprouts Family Child Care,Family,Brightwheel,dana.marsh@example.com,(845) 555-0101,Middletown,2027-06-30,
-ES102,Rosa,Aguilar,Aguilar Family Day Care,Group Family,Playground,rosa.aguilar@example.com,(845) 555-0102,Newburgh,2027-06-30,
+ES101,Sample,Provider One,Example Family Child Care,Family,Brightwheel,example1@example.com,(845) 555-0101,Goshen,2027-06-30,EXAMPLE ROW - delete before use
+ES102,Sample,Provider Two,Example Group Family Day Care,Group Family,Playground,example2@example.com,(845) 555-0102,Goshen,2027-06-30,EXAMPLE ROW - delete before use
