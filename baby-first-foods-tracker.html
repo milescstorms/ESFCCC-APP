@@ -110,9 +110,11 @@ section.cat { --c: var(--brand); display: flex; flex-direction: column; gap: 10p
 .rx { color: var(--warn); font-weight: 700; }
 .try-btn { border: 0; border-left: 1px solid var(--line); background: none; color: var(--c); font-weight: 700; font-size: 14px; padding: 0 14px; white-space: nowrap; }
 .try-btn:hover { background: color-mix(in srgb, var(--c) 12%, var(--surface)); }
-.add-food { display: flex; gap: 8px; flex-wrap: wrap; }
-.add-food input { flex: 1 1 200px; min-width: 0; border: 1px dashed var(--line); background: transparent; border-radius: 8px; padding: 8px 10px; }
-.add-food button { border: 1.5px solid var(--c); color: var(--c); background: none; border-radius: 8px; padding: 6px 12px; font-weight: 700; }
+.add-food { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: color-mix(in srgb, var(--c) 6%, var(--surface)); border: 1.5px dashed color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 10px; padding: 8px; }
+.add-food input { flex: 1 1 200px; min-width: 0; border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 10px; }
+.add-food button { border: 0; color: var(--on-brand); background: var(--c); border-radius: 8px; padding: 9px 16px; font-weight: 700; }
+.add-head { border: 1.5px solid var(--c); color: var(--c); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 14px; }
+.cat-head .end { display: flex; gap: 10px; align-items: center; }
 .empty { color: var(--muted); font-size: 14px; margin: 0; }
 
 /* Tips */
@@ -395,16 +397,16 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 
   // Food groups. Each food: [name, hint?, flag?]
   var CATS = [
-    { id: "veg", name: "Vegetables", color: "var(--veg)", blurb: "Soft-cooked, mashed or in soft strips.", foods: [
+    { id: "veg", name: "Vegetables", noun: "vegetable", color: "var(--veg)", blurb: "Soft-cooked, mashed or in soft strips.", foods: [
       ["Sweet potato"], ["Carrot"], ["Butternut squash"], ["Peas"], ["Green beans"], ["Broccoli"], ["Zucchini"],
       ["Spinach"], ["Cauliflower"], ["Beets"], ["Pumpkin"], ["Parsnip"], ["Asparagus"], ["Bell pepper"]] },
-    { id: "fruit", name: "Fruits", color: "var(--fruit)", blurb: "Ripe and soft. Quarter or smash round fruits.", foods: [
+    { id: "fruit", name: "Fruits", noun: "fruit", color: "var(--fruit)", blurb: "Ripe and soft. Quarter or smash round fruits.", foods: [
       ["Avocado"], ["Banana"], ["Apple", "Cooked or grated until soft."], ["Pear"], ["Peach"], ["Mango"],
       ["Blueberries", "Smash or cut into quarters."], ["Strawberries"], ["Prunes", "Helpful for constipation."], ["Plum"],
       ["Raspberries"], ["Watermelon"], ["Kiwi"], ["Cantaloupe"]] },
-    { id: "meat", name: "Meat & poultry", color: "var(--meat)", blurb: "Iron-rich. Shredded, ground, or very finely minced and moist.", foods: [
+    { id: "meat", name: "Meat & poultry", noun: "meat or poultry", color: "var(--meat)", blurb: "Iron-rich. Shredded, ground, or very finely minced and moist.", foods: [
       ["Chicken"], ["Turkey"], ["Beef"], ["Pork"], ["Lamb"]] },
-    { id: "allergen", name: "Common allergens", color: "var(--allergen)", allergen: true,
+    { id: "allergen", name: "Common allergens", noun: "allergen food", color: "var(--allergen)", allergen: true,
       blurb: "One at a time, early in the day. Aim for 3 exposures, then keep it in the diet.", foods: [
       ["Peanut", "Thin peanut butter with water, breast milk or formula, or stir into oatmeal. Never whole peanuts."],
       ["Egg", "Fully cooked: scrambled, or hard-boiled and mashed."],
@@ -417,13 +419,13 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       ["Almond", "Tree nut. Thinned almond butter."],
       ["Cashew", "Tree nut. Thinned cashew butter."],
       ["Walnut", "Tree nut. Finely ground into oatmeal or yogurt."]] },
-    { id: "dairy", name: "Dairy", color: "var(--dairy)", blurb: "Plain, whole-milk, unsweetened versions.", foods: [
+    { id: "dairy", name: "Dairy", noun: "dairy food", color: "var(--dairy)", blurb: "Plain, whole-milk, unsweetened versions.", foods: [
       ["Plain yogurt"], ["Cottage cheese"], ["Mild cheddar", "Shredded or thin slices."], ["Ricotta"], ["Mozzarella"],
       ["Cream cheese"], ["Butter"], ["Kefir"], ["Whole milk (as a drink)", "Starts at 12 months.", "12 mo+"]] },
-    { id: "beans", name: "Beans & legumes", color: "var(--beans)", blurb: "Mashed, or smashed whole beans for finger food.", foods: [
+    { id: "beans", name: "Beans & legumes", noun: "bean or legume", color: "var(--beans)", blurb: "Mashed, or smashed whole beans for finger food.", foods: [
       ["Black beans"], ["Chickpeas"], ["Lentils"], ["Kidney beans"], ["Pinto beans"], ["White beans"], ["Split peas"],
       ["Edamame", "Contains soy. Mash or split well."], ["Hummus", "Contains sesame."]] },
-    { id: "grains", name: "Grains", color: "var(--grains)", blurb: "Choose iron-fortified cereals and mix up the grains.", foods: [
+    { id: "grains", name: "Grains", noun: "grain", color: "var(--grains)", blurb: "Choose iron-fortified cereals and mix up the grains.", foods: [
       ["Oatmeal"], ["Multigrain infant cereal"], ["Barley"], ["Quinoa"], ["Millet"], ["Buckwheat"],
       ["Rice", "Rotate with other grains. Rice is higher in arsenic."], ["Corn / polenta"],
       ["Whole-wheat pasta", "Contains wheat."], ["Toast or bread", "Contains wheat. Lightly toasted strips."]] }
@@ -512,7 +514,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   function foodsIn(c, cat) {
     var list = cat.foods.map(function (f) { return { id: cat.id + "-" + slug(f[0]), name: f[0], hint: f[1] || "", flag: f[2] || "", cat: cat.id }; });
     c.custom.filter(function (f) { return f.cat === cat.id; }).forEach(function (f) {
-      list.push({ id: f.id, name: f.name, hint: "", flag: "", cat: cat.id, custom: true });
+      list.push({ id: f.id, name: f.name, hint: "", flag: "Added", cat: cat.id, custom: true });
     });
     return list;
   }
@@ -613,21 +615,28 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
         if (!passes(entry(c, f.id))) return;
         list.appendChild(foodItem(c, cat, f)); shown++;
       });
-      var input = el("input", { type: "text", id: "add-" + cat.id, placeholder: "Add a " + (cat.id === "allergen" ? "food" : cat.name.toLowerCase().replace(/s$/, "")) + " not listed", "aria-label": "Add a food to " + cat.name });
+      var input = el("input", { type: "text", id: "add-" + cat.id, maxlength: "60", autocomplete: "off",
+        placeholder: "Type a " + cat.noun + " to add", "aria-label": "New " + cat.noun + " for " + cat.name });
       var form = el("form", { class: "add-food", onsubmit: function (ev) {
         ev.preventDefault();
-        var name = input.value.trim(); if (!name) return;
+        var name = input.value.trim().replace(/\s+/g, " "); if (!name) return;
+        var dup = foodsIn(c, cat).filter(function (f) { return f.name.toLowerCase() === name.toLowerCase(); })[0];
+        if (dup) { input.value = ""; showToast(dup.name + " is already in " + cat.name, null); openFood(dup.id); return; }
         c.custom.push({ id: cat.id + "-c-" + uid(), cat: cat.id, name: name });
         save(); render();
-        showToast("Added " + name + " to " + cat.name, null);
-      } }, [input, el("button", { type: "submit", text: "Add" })]);
+        var again = $("add-" + cat.id); if (again) again.focus({ preventScroll: true });
+        showToast("Added " + name + " to " + cat.name + (passes(entry(c, "")) ? "" : ". Tap All foods to see it."), null);
+      } }, [input, el("button", { type: "submit", text: "+ Add" })]);
       box.appendChild(el("section", { class: "cat", id: "sec-" + cat.id, style: "--c:" + cat.color, "aria-labelledby": "h-" + cat.id }, [
         el("div", { class: "cat-head" }, [
           el("h2", { id: "h-" + cat.id, text: cat.name }),
           el("p", { text: cat.blurb }),
-          el("span", { class: "ct", text: n.tried + " / " + n.total })]),
+          el("div", { class: "end" }, [
+            el("span", { class: "ct", text: n.tried + " / " + n.total }),
+            el("button", { type: "button", class: "add-head", "aria-label": "Add a food to " + cat.name, text: "+ Add food",
+              onclick: function () { input.scrollIntoView({ behavior: "smooth", block: "center" }); input.focus({ preventScroll: true }); } })])]),
         shown ? list : el("p", { class: "empty", text: "Nothing here for this filter." }),
-        state.filter === "all" ? form : null
+        form
       ]));
     });
   }
