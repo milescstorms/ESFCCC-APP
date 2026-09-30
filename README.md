@@ -45,3 +45,8 @@ first foods (vegetables, fruits, meat, common allergens, dairy, beans, grains): 
 it went, and reactions. It works for several children and saves on the device it's used on.
 Once the site is live, post `https://<your-site>/baby-first-foods-tracker.html` as a link in the
 Resources tab.
+
+On iPhone, open the link in Safari and tap Share → **Add to Home Screen**. It then opens like an
+app, keeps its log, and works offline (`first-foods.webmanifest`, `first-foods-sw.js`). A file
+emailed or AirDropped to an iPhone will not save, so always share the link. **Save backup file**
+puts a copy of the log in the Files app, and **Open a backup file** brings it back.
