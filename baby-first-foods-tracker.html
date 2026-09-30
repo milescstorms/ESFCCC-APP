@@ -161,6 +161,14 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 
 #print-sheet { display: none; }
 
+/* Password screen */
+.gate { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding-block: 24px; padding-inline: 16px; }
+.gate form { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--brand); border-radius: var(--radius); padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; }
+.gate h1 { font-size: 30px; }
+.gate p { margin: 0; color: var(--muted); }
+.gate input { border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--bg); width: 100%; font-size: 17px; }
+.gate .err { color: var(--warn); font-weight: 600; }
+
 @media (max-width: 560px) {
   .summary { grid-template-columns: 1fr 1fr; }
   .summary .stat:first-child { grid-column: 1 / -1; }
@@ -185,7 +193,19 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 </head>
 <body>
 
-<div class="wrap">
+<div class="gate" id="gate" hidden>
+  <form id="gate-form" autocomplete="on">
+    <div class="eyebrow">Empire State Family Child Care Collaborative</div>
+    <h1>First Foods Tracker</h1>
+    <p>Enter the password to open the tracker. Capitals and punctuation don't matter.</p>
+    <input type="text" name="username" autocomplete="username" value="First Foods Tracker" hidden>
+    <input type="password" id="gate-pass" autocomplete="current-password" aria-label="Password" required>
+    <p class="err" id="gate-err" role="alert" hidden>That password doesn't match. Check the spelling and try again.</p>
+    <button class="btn primary" type="submit">Open tracker</button>
+  </form>
+</div>
+
+<div class="wrap" id="app">
   <header class="top">
     <div class="eyebrow">Empire State Family Child Care Collaborative</div>
     <div class="title-row">
@@ -412,6 +432,10 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   CATS.forEach(function (c) { CAT_BY_ID[c.id] = c; });
   var LIKES = { love: "Loved it", ok: "Okay", no: "Not yet" };
   var KEY = "esfccc-first-foods-v1";
+  // Password screen: leave PASS_HASH empty for no password. Otherwise it is the SHA-256 (hex) of the
+  // password lower-cased with everything but letters and numbers removed. Asked once per device.
+  var PASS_HASH = "";
+  var GATE_KEY = "esfccc-first-foods-unlocked";
 
   function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
   function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -842,7 +866,30 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     });
   }
 
-  render();
+  // ---------- Password screen ----------
+  function normalize(s) { return String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9]/g, ""); }
+  function sha256hex(s) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return (b < 16 ? "0" : "") + b.toString(16); }).join("");
+    });
+  }
+  var isUnlocked = !PASS_HASH;
+  try { if (PASS_HASH && localStorage.getItem(GATE_KEY) === PASS_HASH) isUnlocked = true; } catch (e) {}
+  if (isUnlocked) {
+    render();
+  } else {
+    $("app").hidden = true; $("gate").hidden = false;
+    $("gate-pass").focus();
+    $("gate-form").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      sha256hex(normalize($("gate-pass").value)).then(function (h) {
+        if (h !== PASS_HASH) { $("gate-err").hidden = false; $("gate-pass").select(); return; }
+        try { localStorage.setItem(GATE_KEY, PASS_HASH); } catch (e) {}
+        $("gate").hidden = true; $("app").hidden = false;
+        render();
+      }, function () { $("gate-err").textContent = "This browser can't check the password. Open the link in Safari or Chrome."; $("gate-err").hidden = false; });
+    });
+  }
 })();
 </script>
 </body>
