@@ -494,6 +494,11 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   function load() {
     try {
       var raw = localStorage.getItem(KEY);
+      // Pick up a log saved by an earlier copy of this tracker.
+      if (!raw) for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k !== KEY && /first-foods-v1$/.test(k)) { raw = localStorage.getItem(k); break; }
+      }
       if (raw) { var s = JSON.parse(raw); if (s && Array.isArray(s.children) && s.children.length) return s; }
     } catch (e) {}
     var ex = exampleChild();
