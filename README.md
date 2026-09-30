@@ -37,3 +37,11 @@ log-in button. To switch someone later: open their record → **Software**.
 Renewal reminder emails start **off**. Turn them on in the staff portal's Settings when ready.
 
 `App Guide.dc.html` is a printable 3-page guide for admins, staff and members.
+
+## First Foods Tracker
+
+`baby-first-foods-tracker.html` is a stand-alone tool for providers and families to log a baby's
+first foods (vegetables, fruits, meat, common allergens, dairy, beans, grains): dates tried, how
+it went, and reactions. It works for several children and saves on the device it's used on.
+Once the site is live, post `https://<your-site>/baby-first-foods-tracker.html` as a link in the
+Resources tab.

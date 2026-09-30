@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1272B8">
+<link rel="icon" href="./assets/favicon.png">
+<title>First Foods Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column tracker. Child switcher, summary, category progress grid, then food lists by category. ESFCCC brand blue + Archivo. */
+:root {
+  --bg: #F4F7FA; --surface: #FFFFFF; --ink: #1B2530; --muted: #5B6877; --line: #DCE3EA;
+  --brand: #1272B8; --brand-deep: #0E4C77; --brand-soft: #E4EEF7; --on-brand: #FFFFFF;
+  --veg: #2E7D45; --fruit: #C4462C; --meat: #8C3E32; --allergen: #A86300;
+  --dairy: #2C78AE; --beans: #6C5230; --grains: #8C700E;
+  --warn: #B42318; --warn-soft: #FCEBE9;
+  --font: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E151C; --surface: #16202A; --ink: #E5ECF2; --muted: #9AA8B6; --line: #2A3643;
+    --brand: #5AA9E6; --brand-deep: #A5D0F2; --brand-soft: #15314A; --on-brand: #0B1824;
+    --veg: #6BC283; --fruit: #F08B71; --meat: #DE9A8B; --allergen: #F2B447;
+    --dairy: #7DBAE4; --beans: #CBA87C; --grains: #E1C55E;
+    --warn: #FF8C82; --warn-soft: #3A1D1C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E151C; --surface: #16202A; --ink: #E5ECF2; --muted: #9AA8B6; --line: #2A3643;
+  --brand: #5AA9E6; --brand-deep: #A5D0F2; --brand-soft: #15314A; --on-brand: #0B1824;
+  --veg: #6BC283; --fruit: #F08B71; --meat: #DE9A8B; --allergen: #F2B447;
+  --dairy: #7DBAE4; --beans: #CBA87C; --grains: #E1C55E;
+  --warn: #FF8C82; --warn-soft: #3A1D1C;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; margin: 0; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 22px; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+header.top { display: flex; flex-direction: column; gap: 14px; padding-bottom: 18px; border-bottom: 3px solid var(--brand); }
+.title-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; }
+h1 { font-size: clamp(30px, 6vw, 42px); font-weight: 800; line-height: 1.05; letter-spacing: -0.015em; color: var(--brand-deep); }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+.kids { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.kid { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-weight: 600; display: inline-flex; gap: 8px; align-items: baseline; }
+.kid small { font-weight: 500; color: var(--muted); font-size: 13px; }
+.kid[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.kid[aria-pressed="true"] small { color: inherit; opacity: 0.85; }
+.kid.add { border-style: dashed; color: var(--brand); }
+.kid-edit { font-size: 14px; color: var(--brand); background: none; border: 0; padding: 6px 4px; text-decoration: underline; text-underline-offset: 3px; }
+
+.banner { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; background: var(--brand-soft); border-radius: var(--radius); padding: 12px 16px; }
+.banner p { margin: 0; min-width: 0; flex: 1 1 280px; }
+
+/* Summary */
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.stat b { font-size: 30px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat b span { font-size: 17px; font-weight: 600; color: var(--muted); }
+.stat.alert b { color: var(--warn); }
+.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 8px; }
+.cat-link { --c: var(--brand); text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.cat-link:hover { border-color: var(--c); }
+.cat-link .nm { font-weight: 700; font-size: 14px; color: var(--c); }
+.cat-link .ct { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--c) 16%, var(--surface)); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--c); border-radius: 3px; }
+
+/* Toolbar */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-weight: 600; font-size: 14px; }
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+
+/* Sections */
+section.cat { --c: var(--brand); display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 16px; }
+.cat-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; padding-bottom: 6px; border-bottom: 2px solid var(--c); }
+.cat-head h2 { font-size: 22px; font-weight: 800; color: var(--c); }
+.cat-head p { margin: 0; color: var(--muted); font-size: 14px; flex: 1 1 260px; min-width: 0; }
+.cat-head .ct { font-weight: 700; font-variant-numeric: tabular-nums; }
+.foods { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.food { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
+.food.tried { background: color-mix(in srgb, var(--c) 7%, var(--surface)); border-color: color-mix(in srgb, var(--c) 30%, var(--line)); }
+.food.react { border-color: var(--warn); box-shadow: inset 4px 0 0 var(--warn); }
+.food-main { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.food-main .nm { font-weight: 600; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+.flag { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+.meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+.dots { display: inline-flex; gap: 3px; }
+.dots i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--c); }
+.dots i.on { background: var(--c); }
+.like { font-weight: 600; color: var(--ink); }
+.rx { color: var(--warn); font-weight: 700; }
+.try-btn { border: 0; border-left: 1px solid var(--line); background: none; color: var(--c); font-weight: 700; font-size: 14px; padding: 0 14px; white-space: nowrap; }
+.try-btn:hover { background: color-mix(in srgb, var(--c) 12%, var(--surface)); }
+.add-food { display: flex; gap: 8px; flex-wrap: wrap; }
+.add-food input { flex: 1 1 200px; min-width: 0; border: 1px dashed var(--line); background: transparent; border-radius: 8px; padding: 8px 10px; }
+.add-food button { border: 1.5px solid var(--c); color: var(--c); background: none; border-radius: 8px; padding: 6px 12px; font-weight: 700; }
+.empty { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* Tips */
+.tips { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+.tips h2 { font-size: 20px; color: var(--brand-deep); }
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 24px; }
+.tips h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand); margin-bottom: 4px; }
+.tips ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.tips .urgent { background: var(--warn-soft); border-radius: 8px; padding: 10px 12px; }
+.tips .urgent h3 { color: var(--warn); }
+.fine { font-size: 13px; color: var(--muted); margin: 0; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 14px; font-weight: 600; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn.danger { color: var(--warn); border-color: var(--warn); }
+
+/* Dialog */
+dialog { border: 0; border-radius: 16px; padding: 0; width: min(520px, calc(100vw - 24px)); max-height: calc(100vh - 32px); background: var(--surface); color: var(--ink); box-shadow: 0 18px 50px rgba(0,0,0,0.3); }
+dialog::backdrop { background: rgba(10, 20, 30, 0.45); }
+.dlg { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.dlg h2 { font-size: 24px; font-weight: 800; }
+.dlg .hint { margin: 0; color: var(--muted); font-size: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label, .field > .lbl { font-weight: 700; font-size: 14px; }
+.field input[type="text"], .field input[type="date"], .field textarea { border: 1.5px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--bg); width: 100%; }
+.field textarea { min-height: 70px; resize: vertical; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.row input[type="date"] { flex: 1 1 160px; width: auto; }
+.tries { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tries li { display: inline-flex; align-items: center; gap: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tries li button { border: 0; background: none; color: var(--muted); width: 24px; height: 24px; border-radius: 50%; line-height: 1; }
+.tries li button:hover { background: var(--line); }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.seg button { border: 1.5px solid var(--line); background: var(--bg); border-radius: 8px; padding: 8px 6px; font-weight: 600; }
+.seg button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-deep); }
+.check { display: flex; gap: 10px; align-items: center; font-weight: 700; }
+.check input { width: 20px; height: 20px; accent-color: var(--warn); }
+.warnbox { background: var(--warn-soft); color: var(--ink); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.warnbox b { color: var(--warn); }
+.dlg-foot { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; padding-top: 4px; }
+textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; min-height: 120px; }
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); border-radius: 10px; padding: 10px 12px 10px 16px; display: flex; gap: 14px; align-items: center; max-width: calc(100vw - 32px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 10; }
+.toast button { background: none; border: 0; color: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+
+#print-sheet { display: none; }
+
+@media (max-width: 560px) {
+  .summary { grid-template-columns: 1fr 1fr; }
+  .summary .stat:first-child { grid-column: 1 / -1; }
+  .foods { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .food, .cat-link, .chip, .kid { transition: background-color .15s, border-color .15s; }
+}
+@media print {
+  body { background: #fff; color: #000; font-size: 11px; }
+  .wrap { display: none; }
+  #print-sheet { display: block; padding: 0; }
+  #print-sheet h1 { font-size: 22px; color: #0E4C77; }
+  #print-sheet h2 { font-size: 13px; margin: 12px 0 4px; }
+  #print-sheet table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
+  #print-sheet th, #print-sheet td { border: 1px solid #999; padding: 3px 5px; text-align: left; vertical-align: top; }
+  #print-sheet th { background: #eee; }
+  #print-sheet tr { page-break-inside: avoid; }
+  .toast, dialog { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Empire State Family Child Care Collaborative</div>
+    <div class="title-row">
+      <h1>First Foods Tracker</h1>
+    </div>
+    <p class="lede">Log each new food a baby tries, how it went, and any reaction. Tap <b>+ Try</b> to log today, or tap a food for dates and notes.</p>
+    <div class="kids" id="kids" aria-label="Children"></div>
+  </header>
+
+  <div class="banner" id="example-banner" hidden>
+    <p><b>This is an example baby</b> so you can see how the tracker works. Start your own and the example goes away.</p>
+    <button class="btn primary" id="start-own" type="button">Start a tracker</button>
+  </div>
+
+  <div class="summary" id="summary"></div>
+  <nav class="cats" id="cat-nav" aria-label="Jump to a food group"></nav>
+
+  <div class="toolbar" role="group" aria-label="Show">
+    <button class="chip" data-filter="all" type="button">All foods</button>
+    <button class="chip" data-filter="todo" type="button">Not tried yet</button>
+    <button class="chip" data-filter="tried" type="button">Tried</button>
+    <button class="chip" data-filter="love" type="button">Loved</button>
+    <button class="chip" data-filter="react" type="button">Reactions</button>
+  </div>
+
+  <div id="sections" style="display:flex;flex-direction:column;gap:28px"></div>
+
+  <aside class="tips" aria-labelledby="tips-h">
+    <h2 id="tips-h">Feeding tips for providers and families</h2>
+    <div class="tips-grid">
+      <div>
+        <h3>Starting out</h3>
+        <ul>
+          <li>Most babies are ready for solids around 6 months: sitting up with support, good head control, and interest in food.</li>
+          <li>Follow each family's written feeding plan and the child's doctor. New foods, especially allergens, are usually offered at home first.</li>
+          <li>It can take 8 to 15 tries before a baby accepts a new taste. "Not yet" is normal.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Allergens</h3>
+        <ul>
+          <li>Offer one new allergen at a time, early in the day, and watch for about 2 hours.</li>
+          <li>Wait 2 to 3 days before the next new allergen so a reaction is easy to trace.</li>
+          <li>Once tolerated, keep it in the diet a few times a week. The tracker's 3 dots mark those first exposures.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Choking safety</h3>
+        <ul>
+          <li>Cut round foods like grapes and blueberries into quarters or smash them.</li>
+          <li>No whole nuts, popcorn, hard raw vegetables, or chunks of hot dog.</li>
+          <li>Serve nut butters thinned, never by the spoonful. Always seat babies upright and stay with them.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Wait until 12 months</h3>
+        <ul>
+          <li>Honey, in any form, including baked goods.</li>
+          <li>Cow's milk as a drink. Yogurt and cheese are fine earlier.</li>
+          <li>Juice. Offer breast milk, formula, and small sips of water instead.</li>
+        </ul>
+      </div>
+      <div class="urgent">
+        <h3>Call 911 right away for</h3>
+        <ul>
+          <li>Trouble breathing, wheezing, or repeated coughing</li>
+          <li>Swelling of the lips, tongue, or face</li>
+          <li>Repeated vomiting, or a baby who turns pale or floppy</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Mild signs to note and share</h3>
+        <ul>
+          <li>Hives or a rash around the mouth</li>
+          <li>One episode of vomiting or loose stool</li>
+          <li>Tell the family the same day and write it here.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="fine">General guidance only, not medical advice. Always check with the child's doctor and the family, especially if a baby has eczema or a known allergy.</p>
+  </aside>
+
+  <div class="tools">
+    <button class="btn" id="print-btn" type="button" hidden>Print log sheet</button>
+    <button class="btn" id="backup-btn" type="button">Back up or move data</button>
+  </div>
+  <p class="fine">Everything you enter stays on this device and browser only. Use <b>Back up or move data</b> to copy it to another device.</p>
+</div>
+
+<div id="print-sheet"></div>
+
+<dialog id="food-dlg" aria-labelledby="food-name">
+  <form class="dlg" method="dialog" id="food-form">
+    <div>
+      <div class="eyebrow" id="food-cat"></div>
+      <h2 id="food-name"></h2>
+    </div>
+    <p class="hint" id="food-hint" hidden></p>
+    <div class="field">
+      <span class="lbl">Tries</span>
+      <ul class="tries" id="food-tries"></ul>
+      <p class="empty" id="food-no-tries">Not tried yet.</p>
+      <div class="row">
+        <input type="date" id="food-date" aria-label="Date tried">
+        <button class="btn primary" type="button" id="food-log">Log a try</button>
+      </div>
+    </div>
+    <div class="field">
+      <span class="lbl" id="like-lbl">How did it go?</span>
+      <div class="seg" role="group" aria-labelledby="like-lbl" id="food-like">
+        <button type="button" data-like="love">Loved it</button>
+        <button type="button" data-like="ok">Okay</button>
+        <button type="button" data-like="no">Not yet</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="check"><input type="checkbox" id="food-react"> Had a reaction</label>
+      <div class="warnbox" id="food-react-note" hidden><b>Tell the family today.</b> Call 911 for trouble breathing, swelling of the lips or tongue, or repeated vomiting.</div>
+    </div>
+    <div class="field">
+      <label for="food-note">Notes</label>
+      <textarea id="food-note" placeholder="How it was served, texture, what happened"></textarea>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn danger" type="button" id="food-remove" hidden>Remove this food</button>
+      <button class="btn primary" type="submit" style="margin-left:auto">Done</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="kid-dlg" aria-labelledby="kid-title">
+  <form class="dlg" id="kid-form">
+    <h2 id="kid-title">Add a child</h2>
+    <div class="field">
+      <label for="kid-name">Child's first name</label>
+      <input type="text" id="kid-name" required autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="kid-birth">Birth date (optional)</label>
+      <input type="date" id="kid-birth">
+    </div>
+    <div class="dlg-foot">
+      <button class="btn danger" type="button" id="kid-delete" hidden>Delete this child</button>
+      <div class="row" style="margin-left:auto">
+        <button class="btn" type="button" id="kid-cancel">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="backup-dlg" aria-labelledby="backup-title">
+  <div class="dlg">
+    <h2 id="backup-title">Back up or move data</h2>
+    <div class="field">
+      <label for="backup-out">1. Copy this text and save it (email it to yourself or paste it in a note)</label>
+      <textarea class="code" id="backup-out" readonly></textarea>
+      <div class="row"><button class="btn" type="button" id="backup-copy">Copy</button><span class="fine" id="backup-copied" hidden>Copied</span></div>
+    </div>
+    <div class="field">
+      <label for="backup-in">2. On the other device, paste the text here</label>
+      <textarea class="code" id="backup-in" placeholder="Paste backup text"></textarea>
+      <div class="row">
+        <button class="btn danger" type="button" id="backup-restore">Replace data on this device</button>
+      </div>
+      <p class="fine" id="backup-msg" role="status"></p>
+    </div>
+    <div class="dlg-foot"><button class="btn primary" type="button" id="backup-close" style="margin-left:auto">Close</button></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden><span id="toast-msg"></span><button type="button" id="toast-undo">Undo</button></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Food groups. Each food: [name, hint?, flag?]
+  var CATS = [
+    { id: "veg", name: "Vegetables", color: "var(--veg)", blurb: "Soft-cooked, mashed or in soft strips.", foods: [
+      ["Sweet potato"], ["Carrot"], ["Butternut squash"], ["Peas"], ["Green beans"], ["Broccoli"], ["Zucchini"],
+      ["Spinach"], ["Cauliflower"], ["Beets"], ["Pumpkin"], ["Parsnip"], ["Asparagus"], ["Bell pepper"]] },
+    { id: "fruit", name: "Fruits", color: "var(--fruit)", blurb: "Ripe and soft. Quarter or smash round fruits.", foods: [
+      ["Avocado"], ["Banana"], ["Apple", "Cooked or grated until soft."], ["Pear"], ["Peach"], ["Mango"],
+      ["Blueberries", "Smash or cut into quarters."], ["Strawberries"], ["Prunes", "Helpful for constipation."], ["Plum"],
+      ["Raspberries"], ["Watermelon"], ["Kiwi"], ["Cantaloupe"]] },
+    { id: "meat", name: "Meat & poultry", color: "var(--meat)", blurb: "Iron-rich. Shredded, ground, or very finely minced and moist.", foods: [
+      ["Chicken"], ["Turkey"], ["Beef"], ["Pork"], ["Lamb"]] },
+    { id: "allergen", name: "Common allergens", color: "var(--allergen)", allergen: true,
+      blurb: "One at a time, early in the day. Aim for 3 exposures, then keep it in the diet.", foods: [
+      ["Peanut", "Thin peanut butter with water, breast milk or formula, or stir into oatmeal. Never whole peanuts."],
+      ["Egg", "Fully cooked: scrambled, or hard-boiled and mashed."],
+      ["Cow's milk", "Plain whole-milk yogurt or soft cheese. Milk as a drink waits until 12 months."],
+      ["Wheat", "Infant wheat cereal, soft pasta, or toast strips."],
+      ["Soy", "Soft tofu or soy yogurt."],
+      ["Sesame", "Tahini stirred into food, or hummus."],
+      ["Fish", "Flaked, boneless salmon or cod."],
+      ["Shellfish", "Finely minced, well-cooked shrimp."],
+      ["Almond", "Tree nut. Thinned almond butter."],
+      ["Cashew", "Tree nut. Thinned cashew butter."],
+      ["Walnut", "Tree nut. Finely ground into oatmeal or yogurt."]] },
+    { id: "dairy", name: "Dairy", color: "var(--dairy)", blurb: "Plain, whole-milk, unsweetened versions.", foods: [
+      ["Plain yogurt"], ["Cottage cheese"], ["Mild cheddar", "Shredded or thin slices."], ["Ricotta"], ["Mozzarella"],
+      ["Cream cheese"], ["Butter"], ["Kefir"], ["Whole milk (as a drink)", "Starts at 12 months.", "12 mo+"]] },
+    { id: "beans", name: "Beans & legumes", color: "var(--beans)", blurb: "Mashed, or smashed whole beans for finger food.", foods: [
+      ["Black beans"], ["Chickpeas"], ["Lentils"], ["Kidney beans"], ["Pinto beans"], ["White beans"], ["Split peas"],
+      ["Edamame", "Contains soy. Mash or split well."], ["Hummus", "Contains sesame."]] },
+    { id: "grains", name: "Grains", color: "var(--grains)", blurb: "Choose iron-fortified cereals and mix up the grains.", foods: [
+      ["Oatmeal"], ["Multigrain infant cereal"], ["Barley"], ["Quinoa"], ["Millet"], ["Buckwheat"],
+      ["Rice", "Rotate with other grains. Rice is higher in arsenic."], ["Corn / polenta"],
+      ["Whole-wheat pasta", "Contains wheat."], ["Toast or bread", "Contains wheat. Lightly toasted strips."]] }
+  ];
+  var CAT_BY_ID = {};
+  CATS.forEach(function (c) { CAT_BY_ID[c.id] = c; });
+  var LIKES = { love: "Loved it", ok: "Okay", no: "Not yet" };
+  var KEY = "esfccc-first-foods-v1";
+
+  function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+  function uid() { return Math.random().toString(36).slice(2, 10); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function iso(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function today() { return iso(new Date()); }
+  function daysAgo(n) { var d = new Date(); d.setDate(d.getDate() - n); return iso(d); }
+  function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function fmt(s) { return parse(s).toLocaleDateString(undefined, { month: "short", day: "numeric" }); }
+  function fmtLong(s) { return parse(s).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function ageText(birth) {
+    if (!birth) return "";
+    var b = parse(birth), t = new Date();
+    var m = (t.getFullYear() - b.getFullYear()) * 12 + (t.getMonth() - b.getMonth()) - (t.getDate() < b.getDate() ? 1 : 0);
+    if (m < 0) return "";
+    if (m < 24) return m + " mo";
+    return Math.floor(m / 12) + " yr " + (m % 12) + " mo";
+  }
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "text") n.textContent = attrs[k];
+      else if (k === "style") n.setAttribute("style", attrs[k]);
+      else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    }
+    (kids || []).forEach(function (c) { if (c != null) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return n;
+  }
+
+  // ---------- State ----------
+  function blankChild(name, birth) { return { id: uid(), name: name, birth: birth || "", log: {}, custom: [] }; }
+  function exampleChild() {
+    var b = new Date(); b.setMonth(b.getMonth() - 8);
+    var c = blankChild("Example baby", iso(b));
+    c.example = true;
+    function put(id, dates, like, reaction, note) { c.log[id] = { dates: dates, like: like || null, reaction: !!reaction, note: note || "" }; }
+    put("veg-sweet-potato", [daysAgo(40), daysAgo(38), daysAgo(30), daysAgo(12)], "love");
+    put("veg-carrot", [daysAgo(35), daysAgo(20)], "ok");
+    put("veg-peas", [daysAgo(26)], "no", false, "Made a face. Try again mixed with sweet potato.");
+    put("veg-butternut-squash", [daysAgo(9)], "love");
+    put("fruit-avocado", [daysAgo(39), daysAgo(33)], "ok");
+    put("fruit-banana", [daysAgo(36), daysAgo(28), daysAgo(15), daysAgo(4)], "love");
+    put("fruit-pear", [daysAgo(18)], "love");
+    put("fruit-strawberries", [daysAgo(7)], "ok", true, "Red blotches around mouth about 10 min after, gone in 20 min. Told mom at pickup.");
+    put("meat-chicken", [daysAgo(14), daysAgo(6)], "ok", false, "Shredded, mixed with sweet potato.");
+    put("allergen-peanut", [daysAgo(24), daysAgo(21), daysAgo(17)], "love", false, "Thinned PB in oatmeal. No reaction.");
+    put("allergen-egg", [daysAgo(11), daysAgo(8)], "ok");
+    put("allergen-cow-s-milk", [daysAgo(5)], "love", false, "Plain whole-milk yogurt.");
+    put("dairy-plain-yogurt", [daysAgo(5), daysAgo(2)], "love");
+    put("beans-lentils", [daysAgo(3)], "ok");
+    put("grains-oatmeal", [daysAgo(42), daysAgo(37), daysAgo(24)], "love");
+    return c;
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) { var s = JSON.parse(raw); if (s && Array.isArray(s.children) && s.children.length) return s; }
+    } catch (e) {}
+    var ex = exampleChild();
+    return { children: [ex], active: ex.id, filter: "all" };
+  }
+  var state = load();
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function child() {
+    var c = state.children.filter(function (k) { return k.id === state.active; })[0];
+    if (!c) { c = state.children[0]; state.active = c.id; }
+    return c;
+  }
+  function entry(c, id) { return c.log[id] || { dates: [], like: null, reaction: false, note: "" }; }
+  function setEntry(c, id, e) {
+    if (!e.dates.length && !e.like && !e.reaction && !e.note) delete c.log[id]; else c.log[id] = e;
+  }
+  function foodsIn(c, cat) {
+    var list = cat.foods.map(function (f) { return { id: cat.id + "-" + slug(f[0]), name: f[0], hint: f[1] || "", flag: f[2] || "", cat: cat.id }; });
+    c.custom.filter(function (f) { return f.cat === cat.id; }).forEach(function (f) {
+      list.push({ id: f.id, name: f.name, hint: "", flag: "", cat: cat.id, custom: true });
+    });
+    return list;
+  }
+  function findFood(c, id) {
+    for (var i = 0; i < CATS.length; i++) {
+      var f = foodsIn(c, CATS[i]).filter(function (x) { return x.id === id; })[0];
+      if (f) return f;
+    }
+    return null;
+  }
+
+  // ---------- Render ----------
+  var $ = function (id) { return document.getElementById(id); };
+
+  function renderKids() {
+    var box = $("kids"); box.textContent = "";
+    state.children.forEach(function (k) {
+      var age = ageText(k.birth);
+      box.appendChild(el("button", { type: "button", class: "kid", "aria-pressed": String(k.id === state.active),
+        onclick: function () { state.active = k.id; save(); render(); } },
+        [k.name, age ? el("small", { text: age }) : null]));
+    });
+    box.appendChild(el("button", { type: "button", class: "kid add", text: "+ Add child", onclick: function () { openKid(null); } }));
+    box.appendChild(el("button", { type: "button", class: "kid-edit", text: "Edit " + child().name, onclick: function () { openKid(child()); } }));
+    $("example-banner").hidden = !state.children.some(function (k) { return k.example; });
+  }
+
+  function counts(c, cat) {
+    var list = foodsIn(c, cat), tried = 0;
+    list.forEach(function (f) { if (entry(c, f.id).dates.length) tried++; });
+    return { total: list.length, tried: tried };
+  }
+
+  function renderSummary() {
+    var c = child(), total = 0, tried = 0, reacts = 0, al = counts(c, CAT_BY_ID.allergen);
+    CATS.forEach(function (cat) { var n = counts(c, cat); total += n.total; tried += n.tried; });
+    Object.keys(c.log).forEach(function (id) { if (c.log[id].reaction) reacts++; });
+    var s = $("summary"); s.textContent = "";
+    function stat(label, big, of, cls) {
+      return el("div", { class: "stat" + (cls ? " " + cls : "") }, [
+        el("span", { class: "eyebrow", text: label }),
+        el("b", null, [String(big), of != null ? el("span", { text: " of " + of }) : null])]);
+    }
+    s.appendChild(stat("Foods tried", tried, total));
+    s.appendChild(stat("Allergens introduced", al.tried, al.total));
+    s.appendChild(stat("Reactions noted", reacts, null, reacts ? "alert" : ""));
+
+    var nav = $("cat-nav"); nav.textContent = "";
+    CATS.forEach(function (cat) {
+      var n = counts(c, cat), pct = n.total ? Math.round(n.tried / n.total * 100) : 0;
+      nav.appendChild(el("button", { type: "button", class: "cat-link", style: "--c:" + cat.color,
+        onclick: function () { $("sec-" + cat.id).scrollIntoView({ behavior: "smooth", block: "start" }); } }, [
+        el("span", { class: "nm", text: cat.name }),
+        el("span", { class: "ct", text: n.tried + " of " + n.total + " tried" }),
+        el("span", { class: "bar", "aria-hidden": "true" }, [el("i", { style: "width:" + pct + "%" })])]));
+    });
+  }
+
+  function passes(e) {
+    switch (state.filter) {
+      case "todo": return !e.dates.length;
+      case "tried": return e.dates.length > 0;
+      case "love": return e.like === "love";
+      case "react": return e.reaction;
+      default: return true;
+    }
+  }
+
+  function foodItem(c, cat, f) {
+    var e = entry(c, f.id), n = e.dates.length;
+    var dots = el("span", { class: "dots", "aria-hidden": "true" });
+    for (var i = 0; i < 3; i++) dots.appendChild(el("i", { class: i < n ? "on" : "" }));
+    var bits = [dots];
+    if (!n) bits.push(el("span", { text: cat.allergen ? "Not introduced" : "Not tried" }));
+    else {
+      bits.push(el("span", { text: n + (n === 1 ? " try" : " tries") + ", last " + fmt(e.dates[e.dates.length - 1]) }));
+      if (cat.allergen && n >= 3) bits.push(el("span", { class: "like", text: "Introduced" }));
+    }
+    if (e.like) bits.push(el("span", { class: "like", text: LIKES[e.like] }));
+    if (e.reaction) bits.push(el("span", { class: "rx", text: "Reaction" }));
+    var cls = "food" + (n ? " tried" : "") + (e.reaction ? " react" : "");
+    return el("li", { class: cls }, [
+      el("button", { type: "button", class: "food-main", "aria-label": f.name + ", details", onclick: function () { openFood(f.id); } }, [
+        el("span", { class: "nm" }, [f.name, f.flag ? el("span", { class: "flag", text: f.flag }) : null]),
+        el("span", { class: "meta" }, bits)]),
+      el("button", { type: "button", class: "try-btn", "aria-label": "Log a try of " + f.name + " today", text: "+ Try",
+        onclick: function () { quickTry(f); } })
+    ]);
+  }
+
+  function renderSections() {
+    var c = child(), box = $("sections"); box.textContent = "";
+    CATS.forEach(function (cat) {
+      var n = counts(c, cat);
+      var list = el("ul", { class: "foods" });
+      var shown = 0;
+      foodsIn(c, cat).forEach(function (f) {
+        if (!passes(entry(c, f.id))) return;
+        list.appendChild(foodItem(c, cat, f)); shown++;
+      });
+      var input = el("input", { type: "text", id: "add-" + cat.id, placeholder: "Add a " + (cat.id === "allergen" ? "food" : cat.name.toLowerCase().replace(/s$/, "")) + " not listed", "aria-label": "Add a food to " + cat.name });
+      var form = el("form", { class: "add-food", onsubmit: function (ev) {
+        ev.preventDefault();
+        var name = input.value.trim(); if (!name) return;
+        c.custom.push({ id: cat.id + "-c-" + uid(), cat: cat.id, name: name });
+        save(); render();
+        showToast("Added " + name + " to " + cat.name, null);
+      } }, [input, el("button", { type: "submit", text: "Add" })]);
+      box.appendChild(el("section", { class: "cat", id: "sec-" + cat.id, style: "--c:" + cat.color, "aria-labelledby": "h-" + cat.id }, [
+        el("div", { class: "cat-head" }, [
+          el("h2", { id: "h-" + cat.id, text: cat.name }),
+          el("p", { text: cat.blurb }),
+          el("span", { class: "ct", text: n.tried + " / " + n.total })]),
+        shown ? list : el("p", { class: "empty", text: "Nothing here for this filter." }),
+        state.filter === "all" ? form : null
+      ]));
+    });
+  }
+
+  function renderFilters() {
+    document.querySelectorAll("[data-filter]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-filter") === state.filter));
+    });
+  }
+
+  function render() { renderKids(); renderSummary(); renderFilters(); renderSections(); }
+
+  document.querySelectorAll("[data-filter]").forEach(function (b) {
+    b.addEventListener("click", function () { state.filter = b.getAttribute("data-filter"); save(); renderFilters(); renderSections(); });
+  });
+
+  // ---------- Toast ----------
+  var toastTimer = null, undoFn = null;
+  function showToast(msg, undo) {
+    $("toast-msg").textContent = msg;
+    undoFn = undo; $("toast-undo").hidden = !undo;
+    $("toast").hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { $("toast").hidden = true; undoFn = null; }, 5000);
+  }
+  $("toast-undo").addEventListener("click", function () { if (undoFn) undoFn(); $("toast").hidden = true; undoFn = null; });
+
+  function quickTry(f) {
+    var c = child(), before = JSON.parse(JSON.stringify(entry(c, f.id)));
+    var e = entry(c, f.id), d = today();
+    e.dates = e.dates.concat([d]).sort();
+    setEntry(c, f.id, e); save(); render();
+    var n = e.dates.length;
+    showToast(f.name + ": try " + n + " logged for " + fmt(d), function () { setEntry(c, f.id, before); save(); render(); });
+  }
+
+  // ---------- Food dialog ----------
+  var cur = null; // food being edited
+  function openFood(id) {
+    var c = child(), f = findFood(c, id); if (!f) return;
+    cur = f;
+    var cat = CAT_BY_ID[f.cat];
+    $("food-dlg").style.setProperty("--c", cat.color);
+    $("food-cat").textContent = cat.name;
+    $("food-cat").style.color = cat.color;
+    $("food-name").textContent = f.name;
+    $("food-hint").textContent = f.hint; $("food-hint").hidden = !f.hint;
+    $("food-date").value = today(); $("food-date").max = today();
+    $("food-remove").hidden = !f.custom;
+    $("food-remove").textContent = "Remove this food";
+    fillFood();
+    $("food-dlg").showModal();
+  }
+  function fillFood() {
+    var c = child(), e = entry(c, cur.id), ul = $("food-tries");
+    ul.textContent = "";
+    e.dates.forEach(function (d, i) {
+      ul.appendChild(el("li", null, [fmtLong(d), el("button", { type: "button", "aria-label": "Remove try on " + fmtLong(d), text: "×",
+        onclick: function () { var x = entry(c, cur.id); x.dates.splice(i, 1); setEntry(c, cur.id, x); save(); fillFood(); render(); } })]));
+    });
+    $("food-no-tries").hidden = e.dates.length > 0;
+    document.querySelectorAll("#food-like button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-like") === e.like));
+    });
+    $("food-react").checked = !!e.reaction;
+    $("food-react-note").hidden = !e.reaction;
+    $("food-note").value = e.note || "";
+  }
+  function editCur(fn) { var c = child(), e = entry(c, cur.id); fn(e); setEntry(c, cur.id, e); save(); fillFood(); render(); }
+  $("food-log").addEventListener("click", function () {
+    var d = $("food-date").value || today();
+    editCur(function (e) { e.dates = e.dates.concat([d]).sort(); });
+  });
+  document.querySelectorAll("#food-like button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = b.getAttribute("data-like");
+      editCur(function (e) { e.like = e.like === v ? null : v; });
+    });
+  });
+  $("food-react").addEventListener("change", function () { var on = $("food-react").checked; editCur(function (e) { e.reaction = on; }); });
+  $("food-note").addEventListener("input", function () {
+    var c = child(), e = entry(c, cur.id); e.note = $("food-note").value; setEntry(c, cur.id, e); save();
+  });
+  $("food-dlg").addEventListener("close", function () { render(); });
+  var removeArmed = null;
+  $("food-remove").addEventListener("click", function () {
+    var btn = $("food-remove");
+    if (removeArmed !== cur.id) { removeArmed = cur.id; btn.textContent = "Tap again to remove"; setTimeout(function () { removeArmed = null; btn.textContent = "Remove this food"; }, 3000); return; }
+    var c = child(); removeArmed = null;
+    c.custom = c.custom.filter(function (x) { return x.id !== cur.id; });
+    delete c.log[cur.id]; save(); $("food-dlg").close(); render();
+  });
+
+  // ---------- Child dialog ----------
+  var editingKid = null, deleteArmed = false;
+  function openKid(k) {
+    editingKid = k; deleteArmed = false;
+    $("kid-title").textContent = k ? "Edit " + k.name : "Add a child";
+    $("kid-name").value = k && !k.example ? k.name : "";
+    $("kid-birth").value = k ? k.birth : "";
+    $("kid-birth").max = today();
+    $("kid-delete").hidden = !k;
+    $("kid-delete").textContent = "Delete this child";
+    $("kid-dlg").showModal();
+    $("kid-name").focus();
+  }
+  $("kid-cancel").addEventListener("click", function () { $("kid-dlg").close(); });
+  $("kid-form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var name = $("kid-name").value.trim(); if (!name) return;
+    if (editingKid) {
+      editingKid.name = name; editingKid.birth = $("kid-birth").value;
+      if (editingKid.example) { delete editingKid.example; editingKid.log = {}; editingKid.custom = []; }
+    } else {
+      var k = blankChild(name, $("kid-birth").value);
+      state.children = state.children.filter(function (x) { return !x.example; });
+      state.children.push(k); state.active = k.id;
+    }
+    save(); $("kid-dlg").close(); render();
+  });
+  $("kid-delete").addEventListener("click", function () {
+    if (!deleteArmed) { deleteArmed = true; $("kid-delete").textContent = "Tap again to delete " + editingKid.name + " and all their foods"; return; }
+    state.children = state.children.filter(function (x) { return x.id !== editingKid.id; });
+    if (!state.children.length) { var ex = exampleChild(); state.children = [ex]; }
+    state.active = state.children[0].id;
+    save(); $("kid-dlg").close(); render();
+  });
+  $("start-own").addEventListener("click", function () { openKid(null); });
+
+  // ---------- Backup ----------
+  var restoreArmed = false;
+  $("backup-btn").addEventListener("click", function () {
+    $("backup-out").value = JSON.stringify({ app: "esfccc-first-foods", v: 1, children: state.children });
+    $("backup-in").value = ""; $("backup-msg").textContent = ""; $("backup-copied").hidden = true;
+    restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
+    $("backup-dlg").showModal();
+  });
+  $("backup-close").addEventListener("click", function () { $("backup-dlg").close(); });
+  $("backup-copy").addEventListener("click", function () {
+    var t = $("backup-out");
+    function done() { $("backup-copied").hidden = false; }
+    function fallback() { t.focus(); t.select(); $("backup-copied").textContent = "Selected. Press Ctrl+C or Copy."; done(); }
+    try { navigator.clipboard.writeText(t.value).then(done, fallback); } catch (e) { fallback(); }
+  });
+  $("backup-restore").addEventListener("click", function () {
+    var data;
+    try { data = JSON.parse($("backup-in").value); } catch (e) { data = null; }
+    if (!data || !Array.isArray(data.children) || !data.children.length) {
+      $("backup-msg").textContent = "That text isn't a tracker backup. Copy the whole backup, from the first { to the last }, and paste again.";
+      return;
+    }
+    if (!restoreArmed) { restoreArmed = true; $("backup-restore").textContent = "Tap again to replace everything on this device"; return; }
+    state.children = data.children.map(function (k) { return { id: k.id || uid(), name: String(k.name || "Child"), birth: k.birth || "", log: k.log || {}, custom: k.custom || [] }; });
+    state.active = state.children[0].id;
+    save(); render();
+    $("backup-msg").textContent = "Restored " + state.children.length + (state.children.length === 1 ? " child." : " children.");
+    restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
+  });
+
+  // ---------- Print (only when opened as its own page) ----------
+  var topLevel = false;
+  try { topLevel = window.self === window.top; } catch (e) {}
+  function buildPrint() {
+    var c = child(), box = $("print-sheet"); box.textContent = "";
+    var age = ageText(c.birth);
+    box.appendChild(el("h1", { text: "First Foods Log: " + c.name }));
+    box.appendChild(el("p", { text: (c.birth ? "Born " + fmtLong(c.birth) + (age ? " (" + age + ")" : "") + ". " : "") + "Printed " + fmtLong(today()) + ". Empire State Family Child Care Collaborative." }));
+    CATS.forEach(function (cat) {
+      box.appendChild(el("h2", { text: cat.name }));
+      var tb = el("tbody");
+      foodsIn(c, cat).forEach(function (f) {
+        var e = entry(c, f.id);
+        tb.appendChild(el("tr", null, [
+          el("td", { text: f.name }),
+          el("td", { text: e.dates.map(fmt).join(", ") }),
+          el("td", { text: e.like ? LIKES[e.like] : "" }),
+          el("td", { text: (e.reaction ? "REACTION. " : "") + (e.note || "") })]));
+      });
+      box.appendChild(el("table", null, [
+        el("thead", null, [el("tr", null, [el("th", { text: "Food", style: "width:22%" }), el("th", { text: "Dates tried", style: "width:28%" }), el("th", { text: "How it went", style: "width:12%" }), el("th", { text: "Reaction / notes" })])]),
+        tb]));
+    });
+  }
+  if (topLevel) {
+    $("print-btn").hidden = false;
+    $("print-btn").addEventListener("click", function () { buildPrint(); window.print(); });
+    window.addEventListener("beforeprint", buildPrint);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
