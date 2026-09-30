@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Fun and Function Daycare: home child care at 6 Thayer Rd, Highland Mills, NY.">
+<link rel="icon" href="logo.webp">
+<title>Fun and Function Daycare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: a crayon box on drawing paper. Logo-led hero, bead-dot dividers from the logo's border,
+   one split section for the name (Fun | Function), an ordered day, then practical parent info.
+   Single light theme on purpose: the brand is paper and primary crayons. */
+:root {
+  color-scheme: light;
+  --paper: #FBF8F0;
+  --paper-2: #F2EDDF;
+  --ink: #1C2A4A;
+  --ink-soft: #4B5572;
+  --blue: #2A74C6;
+  --green: #2E9A34;
+  --yellow: #F2BE1A;
+  --red: #DC4436;
+  --line: #D9D1BC;
+  --font-display: "Fredoka", "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --step--1: 0.9rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2.1rem, 5.5vw, 3.4rem);
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--font-body);
+}
+a { color: var(--blue); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
+
+/* Bead row, lifted from the logo's dotted border */
+.beads {
+  height: 12px;
+  background:
+    radial-gradient(circle, var(--red) 4px, transparent 4.6px) 0 50% / 64px 12px repeat-x,
+    radial-gradient(circle, var(--yellow) 4px, transparent 4.6px) 16px 50% / 64px 12px repeat-x,
+    radial-gradient(circle, var(--green) 4px, transparent 4.6px) 32px 50% / 64px 12px repeat-x,
+    radial-gradient(circle, var(--blue) 4px, transparent 4.6px) 48px 50% / 64px 12px repeat-x;
+}
+
+/* Top bar */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+.brand img { width: 40px; height: 40px; }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { color: var(--ink); text-decoration: none; font-weight: 700; font-size: var(--step--1); }
+.top nav a:hover { color: var(--blue); }
+.top .cta { background: var(--blue); color: #fff; padding: 8px 14px; border-radius: 999px; }
+.top .cta:hover { color: #fff; background: var(--ink); }
+@media (max-width: 640px) { .top nav a:not(.cta) { display: none; } }
+
+/* Hero */
+.hero .wrap {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center; gap: 40px; padding-block: 56px 48px;
+}
+.hero h1 { font-size: var(--step-3); font-weight: 700; }
+.hero h1 .fun { color: var(--blue); }
+.hero h1 .and { color: var(--yellow); -webkit-text-stroke: 1.5px #B08400; }
+.hero h1 .function { color: var(--green); }
+.hero h1 .dc { display: block; color: var(--ink); font-size: 0.55em; font-weight: 600; margin-top: 6px; }
+.hero .lead { font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); margin-top: 20px; max-width: 34ch; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn {
+  display: inline-block; font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+  padding: 12px 22px; border-radius: 999px; text-decoration: none; border: 2px solid var(--ink);
+}
+.btn.primary { background: var(--red); border-color: var(--red); color: #fff; }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); }
+.btn.ghost { color: var(--ink); background: transparent; }
+.btn.ghost:hover { background: var(--ink); color: var(--paper); }
+.hero .where { margin-top: 24px; font-size: var(--step--1); color: var(--ink-soft); }
+.logo-big { width: 100%; max-width: 440px; justify-self: center; transition: transform .5s cubic-bezier(.3,1.6,.5,1); }
+.logo-big:hover { transform: rotate(-4deg) scale(1.02); }
+@media (max-width: 800px) {
+  .hero .wrap { grid-template-columns: 1fr; padding-block: 32px 40px; gap: 24px; }
+  .logo-big { order: -1; max-width: 300px; }
+}
+
+/* Section scaffolding */
+section { padding-block: 64px; }
+.kicker { font-weight: 700; font-size: var(--step--1); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.sec-head { display: grid; gap: 10px; max-width: 60ch; margin-bottom: 36px; }
+.sec-head h2 { font-size: var(--step-2); }
+.sec-head p { color: var(--ink-soft); }
+
+/* The name, explained */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; background: #fff; }
+.split > div { padding: 32px; min-width: 0; }
+.split > div + div { border-left: 2px dashed var(--ink); }
+.split h3 { font-size: 2.4rem; font-weight: 700; }
+.split .f1 h3 { color: var(--blue); }
+.split .f2 h3 { color: var(--green); }
+.split .sub { margin-top: 4px; color: var(--ink-soft); }
+.split ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+.split li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: baseline; }
+.split li::before { content: ""; width: 12px; height: 12px; border-radius: 50%; transform: translateY(1px); }
+.split .f1 li:nth-child(4n+1)::before { background: var(--red); }
+.split .f1 li:nth-child(4n+2)::before { background: var(--yellow); }
+.split .f1 li:nth-child(4n+3)::before { background: var(--blue); }
+.split .f1 li:nth-child(4n+4)::before { background: var(--green); }
+.split .f2 li::before { background: var(--green); }
+@media (max-width: 720px) {
+  .split { grid-template-columns: 1fr; }
+  .split > div + div { border-left: 0; border-top: 2px dashed var(--ink); }
+  .split > div { padding: 24px; }
+}
+
+/* A day here */
+.day { background: var(--paper-2); border-block: 1px solid var(--line); }
+.day ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px 16px; counter-reset: step; }
+.day li { counter-increment: step; display: grid; gap: 6px; align-content: start; position: relative; }
+.day li::before {
+  content: counter(step);
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 700; color: #fff; background: var(--blue);
+}
+.day li:nth-child(4n+1)::before { background: var(--red); }
+.day li:nth-child(4n+2)::before { background: var(--yellow); color: var(--ink); }
+.day li:nth-child(4n+3)::before { background: var(--green); }
+.day li:nth-child(4n+4)::before { background: var(--blue); }
+.day h3 { font-size: 1.15rem; }
+.day p { font-size: var(--step--1); color: var(--ink-soft); }
+.day .note { margin-top: 32px; font-size: var(--step--1); color: var(--ink-soft); }
+@media (max-width: 900px) { .day ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .day ol { grid-template-columns: 1fr; } }
+
+/* Parents */
+.parents .grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 20px; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 14px; }
+.steps li::before {
+  content: counter(s); font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center;
+}
+.steps h3 { font-size: 1.15rem; margin-bottom: 2px; }
+.steps p { color: var(--ink-soft); }
+.facts { display: grid; gap: 0; margin: 0; }
+.facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 12px; padding-block: 12px; border-bottom: 1px dashed var(--line); }
+.facts div:first-child { border-top: 1px dashed var(--line); }
+.facts dt { font-weight: 700; }
+.facts dd { margin: 0; min-width: 0; }
+.fill { background: #FFF3C2; border-bottom: 2px dashed var(--yellow); padding: 0 4px; border-radius: 3px; }
+.aside-box { margin-top: 28px; display: grid; gap: 16px; }
+.aside-box p { font-size: var(--step--1); color: var(--ink-soft); }
+.aside-box strong { color: var(--ink); }
+@media (max-width: 820px) { .parents .grid { grid-template-columns: 1fr; gap: 40px; } }
+
+/* Visit */
+.visit .card {
+  background: var(--blue); color: #fff; border-radius: 24px; padding: 40px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center;
+}
+.visit h2 { font-size: var(--step-2); }
+.visit p { margin-top: 10px; max-width: 48ch; color: #E6EFFA; }
+.visit address { font-style: normal; font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; margin-top: 18px; }
+.visit .btn { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+.visit .btn:hover { background: #fff; border-color: #fff; }
+@media (max-width: 700px) { .visit .card { grid-template-columns: 1fr; padding: 28px 22px; } }
+
+footer { padding-block: 32px 40px; font-size: var(--step--1); color: var(--ink-soft); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-big { transition: none; }
+  .logo-big:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="logo.webp" alt="" width="40" height="40">Fun and Function</a>
+    <nav aria-label="Main">
+      <a href="#name">Our approach</a>
+      <a href="#day">A day here</a>
+      <a href="#parents">For parents</a>
+      <a class="cta" href="#visit">Book a tour</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1><span class="fun">Fun</span> <span class="and">and</span> <span class="function">Function</span><span class="dc">Daycare in Highland Mills</span></h1>
+        <p class="lead">Home child care on Thayer Road. A small group, the same caring faces every day, and a routine that leaves lots of room to play.</p>
+        <div class="actions">
+          <a class="btn primary" href="#visit">Book a tour</a>
+          <a class="btn ghost" href="#day">See a typical day</a>
+        </div>
+        <p class="where">6 Thayer Rd, Highland Mills, NY 10930 · Serving Woodbury, Central Valley, Monroe and nearby</p>
+      </div>
+      <img class="logo-big" src="logo.webp" alt="Fun and Function Daycare logo: three smiling crayons above the name, with a sun and a cloud" width="440" height="440">
+    </div>
+  </div>
+
+  <div class="beads" aria-hidden="true"></div>
+
+  <section id="name">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Our approach</span>
+        <h2>The name says what we do</h2>
+        <p>Children learn best when they are having a good time. They also need practice with the small, everyday skills that make kindergarten go smoothly. We plan for both.</p>
+      </div>
+      <div class="split">
+        <div class="f1">
+          <h3>Fun</h3>
+          <p class="sub">Play is the main event.</p>
+          <ul>
+            <li>Free play with blocks, dress-up, puzzles and pretend kitchen</li>
+            <li>Art with real crayons, paint, glue and paper, messy on purpose</li>
+            <li>Outside time every day the weather allows</li>
+            <li>Songs, stories and dancing at circle time</li>
+          </ul>
+        </div>
+        <div class="f2">
+          <h3>Function</h3>
+          <p class="sub">Skills for everyday life.</p>
+          <ul>
+            <li>Washing hands, putting on shoes and coats, cleaning up toys</li>
+            <li>Taking turns, sharing, and using words for big feelings</li>
+            <li>Letters, numbers, colors and shapes built into play</li>
+            <li>Helping set the table and serving themselves at meals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="day" class="day">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">A day here</span>
+        <h2>The same rhythm every day</h2>
+        <p>Young children feel safe when they know what comes next. Our day follows this order, with extra time wherever the kids need it.</p>
+      </div>
+      <ol>
+        <li><h3>Arrival</h3><p>Hellos, cubbies, and free play while friends arrive.</p></li>
+        <li><h3>Breakfast</h3><p>A family-style meal at the table together.</p></li>
+        <li><h3>Circle time</h3><p>Calendar, weather, a song and a story.</p></li>
+        <li><h3>Projects</h3><p>Art, sensory bins, building and small-group activities.</p></li>
+        <li><h3>Outside</h3><p>Running, climbing, chalk and bubbles in the yard.</p></li>
+        <li><h3>Lunch</h3><p>Everyone sits, eats and talks about their morning.</p></li>
+        <li><h3>Rest</h3><p>Nap for little ones, quiet books for bigger kids.</p></li>
+        <li><h3>Snack</h3><p>A light snack to refuel after rest.</p></li>
+        <li><h3>Afternoon play</h3><p>Games, puzzles, and outside again when we can.</p></li>
+        <li><h3>Pick-up</h3><p>A quick note to you about how the day went.</p></li>
+      </ol>
+      <p class="note">Ask for our posted daily schedule with times when you visit.</p>
+    </div>
+  </section>
+
+  <section id="parents" class="parents">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">For parents</span>
+        <h2>Getting started</h2>
+      </div>
+      <div class="grid">
+        <ol class="steps">
+          <li><div><h3>Ask about openings</h3><p>Call or email to check space for your child's age and the days you need.</p></div></li>
+          <li><div><h3>Come for a tour</h3><p>Meet us, see the play space and the yard, and bring your child along.</p></div></li>
+          <li><div><h3>Complete enrollment forms</h3><p>New York requires a medical statement and immunization record from your child's doctor before the first day.</p></div></li>
+          <li><div><h3>Start slowly</h3><p>A few shorter days at the start help your child settle in.</p></div></li>
+        </ol>
+        <div>
+          <dl class="facts">
+            <div><dt>Hours</dt><dd><span class="fill">Mon–Fri, add hours</span></dd></div>
+            <div><dt>Ages</dt><dd><span class="fill">add age range</span></dd></div>
+            <div><dt>Meals</dt><dd><span class="fill">what's provided</span></dd></div>
+            <div><dt>Phone</dt><dd><span class="fill">(845) 000-0000</span></dd></div>
+            <div><dt>Email</dt><dd><span class="fill">add email</span></dd></div>
+          </dl>
+          <div class="aside-box">
+            <p><strong>Look us up.</strong> Every regulated child care program in New York is listed in the <a href="https://ocfs.ny.gov/programs/childcare/looking/ccfs-search.php" target="_blank" rel="noopener">OCFS Child Care Facility Search</a>, along with its inspection history. Search for Fun and Function Daycare.</p>
+            <p><strong>Help paying for care.</strong> Your family may qualify for the Child Care Assistance Program. The <a href="https://www.childcarecounciloc.org" target="_blank" rel="noopener">Child Care Council of Orange County</a> can help you find out and apply.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="visit">
+    <div class="wrap">
+      <div class="card">
+        <div>
+          <h2>Come see us</h2>
+          <p>Tours are the best way to know if we're the right fit. Call or email to set a time, and bring your child along.</p>
+          <address>6 Thayer Rd<br>Highland Mills, NY 10930</address>
+        </div>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=6+Thayer+Rd+Highland+Mills+NY+10930" target="_blank" rel="noopener">Get directions</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="beads" aria-hidden="true"></div>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Fun and Function Daycare · Highland Mills, NY</span>
+    <span>Home-based child care in Orange County, New York</span>
+  </div>
+</footer>
+</body>
+</html>
