@@ -113,6 +113,13 @@ section.cat { --c: var(--brand); display: flex; flex-direction: column; gap: 10p
 .add-food { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: color-mix(in srgb, var(--c) 6%, var(--surface)); border: 1.5px dashed color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 10px; padding: 8px; }
 .add-food input { flex: 1 1 200px; min-width: 0; border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 10px; }
 .add-food button { border: 0; color: var(--on-brand); background: var(--c); border-radius: 8px; padding: 9px 16px; font-weight: 700; }
+.try-btn.rm { color: var(--warn); }
+.try-btn.rm:hover { background: var(--warn-soft); }
+.edit-toggle { border: 1.5px solid var(--warn); color: var(--warn); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-weight: 700; font-size: 14px; margin-left: auto; }
+.edit-toggle[aria-pressed="true"] { background: var(--warn); color: var(--surface); }
+.edit-note { margin: 0; background: var(--warn-soft); border-radius: 10px; padding: 10px 14px; font-size: 14px; }
+.removed { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+.removed button { border: 1px dashed var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 13px; font-weight: 600; color: var(--ink); }
 .add-head { border: 1.5px solid var(--c); color: var(--c); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 14px; }
 .cat-head .end { display: flex; gap: 10px; align-items: center; }
 .empty { color: var(--muted); font-size: 14px; margin: 0; }
@@ -239,7 +246,10 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     <button class="chip" data-filter="tried" type="button">Tried</button>
     <button class="chip" data-filter="love" type="button">Loved</button>
     <button class="chip" data-filter="react" type="button">Reactions</button>
+    <button class="edit-toggle" id="edit-toggle" type="button" aria-pressed="false">Remove foods</button>
   </div>
+
+  <p class="edit-note" id="edit-note" hidden>Tap <b>Remove</b> on any food you don't want on the list. Removed foods are listed at the end of each group so you can bring them back. Tap <b>Done removing</b> when you're finished.</p>
 
   <div id="sections" style="display:flex;flex-direction:column;gap:28px"></div>
 
@@ -505,6 +515,8 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     return { children: [ex], active: ex.id, filter: "all" };
   }
   var state = load();
+  if (!Array.isArray(state.hidden)) state.hidden = [];
+  var editing = false;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
   function child() {
     var c = state.children.filter(function (k) { return k.id === state.active; })[0];
@@ -516,7 +528,8 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     if (!e.dates.length && !e.like && !e.reaction && !e.note) delete c.log[id]; else c.log[id] = e;
   }
   function foodsIn(c, cat) {
-    var list = cat.foods.map(function (f) { return { id: cat.id + "-" + slug(f[0]), name: f[0], hint: f[1] || "", flag: f[2] || "", cat: cat.id }; });
+    var list = cat.foods.map(function (f) { return { id: cat.id + "-" + slug(f[0]), name: f[0], hint: f[1] || "", flag: f[2] || "", cat: cat.id }; })
+      .filter(function (f) { return state.hidden.indexOf(f.id) < 0; });
     c.custom.filter(function (f) { return f.cat === cat.id; }).forEach(function (f) {
       list.push({ id: f.id, name: f.name, hint: "", flag: "Added", cat: cat.id, custom: true });
     });
@@ -604,9 +617,36 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       el("button", { type: "button", class: "food-main", "aria-label": f.name + ", details", onclick: function () { openFood(f.id); } }, [
         el("span", { class: "nm" }, [f.name, f.flag ? el("span", { class: "flag", text: f.flag }) : null]),
         el("span", { class: "meta" }, bits)]),
-      el("button", { type: "button", class: "try-btn", "aria-label": "Log a try of " + f.name + " today", text: "+ Try",
-        onclick: function () { quickTry(f); } })
+      editing
+        ? el("button", { type: "button", class: "try-btn rm", "aria-label": "Remove " + f.name + " from the list", text: "Remove",
+            onclick: function () { removeFood(f); } })
+        : el("button", { type: "button", class: "try-btn", "aria-label": "Log a try of " + f.name + " today", text: "+ Try",
+            onclick: function () { quickTry(f); } })
     ]);
+  }
+
+  // Built-in foods are hidden (and can come back); foods someone added are deleted. Both can be undone.
+  function removeFood(f) {
+    var c = child(), undo;
+    if (f.custom) {
+      var item = c.custom.filter(function (x) { return x.id === f.id; })[0], log = c.log[f.id];
+      c.custom = c.custom.filter(function (x) { return x.id !== f.id; });
+      delete c.log[f.id];
+      undo = function () { c.custom.push(item); if (log) c.log[f.id] = log; save(); render(); };
+    } else {
+      state.hidden.push(f.id);
+      undo = function () { restoreFood(f.id); };
+    }
+    save(); render();
+    showToast("Removed " + f.name, undo);
+  }
+  function restoreFood(id) {
+    state.hidden = state.hidden.filter(function (x) { return x !== id; });
+    save(); render();
+  }
+  function hiddenIn(cat) {
+    return cat.foods.map(function (f) { return { id: cat.id + "-" + slug(f[0]), name: f[0] }; })
+      .filter(function (f) { return state.hidden.indexOf(f.id) >= 0; });
   }
 
   function renderSections() {
@@ -640,7 +680,12 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
             el("button", { type: "button", class: "add-head", "aria-label": "Add a food to " + cat.name, text: "+ Add food",
               onclick: function () { input.scrollIntoView({ behavior: "smooth", block: "center" }); input.focus({ preventScroll: true }); } })])]),
         shown ? list : el("p", { class: "empty", text: "Nothing here for this filter." }),
-        form
+        editing && hiddenIn(cat).length ? el("div", { class: "removed" }, [el("span", { text: "Removed:" })].concat(
+          hiddenIn(cat).map(function (h) {
+            return el("button", { type: "button", "aria-label": "Bring back " + h.name, text: "\u21ba " + h.name,
+              onclick: function () { restoreFood(h.id); showToast("Brought back " + h.name, null); } });
+          }))) : null,
+        editing ? null : form
       ]));
     });
   }
@@ -651,7 +696,13 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     });
   }
 
-  function render() { renderKids(); renderSummary(); renderFilters(); renderSections(); }
+  function render() { renderKids(); renderSummary(); renderFilters(); renderEdit(); renderSections(); }
+  function renderEdit() {
+    $("edit-toggle").setAttribute("aria-pressed", String(editing));
+    $("edit-toggle").textContent = editing ? "Done removing" : "Remove foods";
+    $("edit-note").hidden = !editing;
+  }
+  $("edit-toggle").addEventListener("click", function () { editing = !editing; render(); });
 
   document.querySelectorAll("[data-filter]").forEach(function (b) {
     b.addEventListener("click", function () { state.filter = b.getAttribute("data-filter"); save(); renderFilters(); renderSections(); });
@@ -689,8 +740,8 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     $("food-name").textContent = f.name;
     $("food-hint").textContent = f.hint; $("food-hint").hidden = !f.hint;
     $("food-date").value = today(); $("food-date").max = today();
-    $("food-remove").hidden = !f.custom;
-    $("food-remove").textContent = "Remove this food";
+    $("food-remove").hidden = false;
+    $("food-remove").textContent = "Remove from list";
     fillFood();
     $("food-dlg").showModal();
   }
@@ -728,10 +779,9 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   var removeArmed = null;
   $("food-remove").addEventListener("click", function () {
     var btn = $("food-remove");
-    if (removeArmed !== cur.id) { removeArmed = cur.id; btn.textContent = "Tap again to remove"; setTimeout(function () { removeArmed = null; btn.textContent = "Remove this food"; }, 3000); return; }
-    var c = child(); removeArmed = null;
-    c.custom = c.custom.filter(function (x) { return x.id !== cur.id; });
-    delete c.log[cur.id]; save(); $("food-dlg").close(); render();
+    if (removeArmed !== cur.id) { removeArmed = cur.id; btn.textContent = "Tap again to remove"; setTimeout(function () { removeArmed = null; btn.textContent = "Remove from list"; }, 3000); return; }
+    removeArmed = null;
+    var f = cur; $("food-dlg").close(); removeFood(f);
   });
 
   // ---------- Child dialog ----------
@@ -778,7 +828,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
     $("backup-dlg").showModal();
   });
-  function backupText() { return JSON.stringify({ app: "esfccc-first-foods", v: 1, saved: today(), children: state.children }); }
+  function backupText() { return JSON.stringify({ app: "esfccc-first-foods", v: 1, saved: today(), children: state.children, hidden: state.hidden }); }
   $("backup-file").addEventListener("click", function () {
     var blob = new Blob([backupText()], { type: "application/json" });
     var a = document.createElement("a");
@@ -811,6 +861,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     if (!restoreArmed) { restoreArmed = true; $("backup-restore").textContent = "Tap again to replace everything on this device"; return; }
     state.children = data.children.map(function (k) { return { id: k.id || uid(), name: String(k.name || "Child"), birth: k.birth || "", log: k.log || {}, custom: k.custom || [] }; });
     state.active = state.children[0].id;
+    state.hidden = Array.isArray(data.hidden) ? data.hidden : [];
     save(); render();
     $("backup-msg").textContent = "Restored " + state.children.length + (state.children.length === 1 ? " child." : " children.");
     restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
