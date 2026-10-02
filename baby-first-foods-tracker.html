@@ -14,189 +14,243 @@
 <title>First Foods Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Layout: one column tracker. Child switcher, summary, category progress grid, then food lists by category. ESFCCC brand blue + Archivo. */
+/* Layout: playful one-column tracker. Hero with a rainbow "100 foods" ring, badges, food-group shortcuts, then big friendly food tiles by group. */
 :root {
-  --bg: #F4F7FA; --surface: #FFFFFF; --ink: #1B2530; --muted: #5B6877; --line: #DCE3EA;
-  --brand: #1272B8; --brand-deep: #0E4C77; --brand-soft: #E4EEF7; --on-brand: #FFFFFF;
-  --veg: #2E7D45; --fruit: #C4462C; --meat: #8C3E32; --allergen: #A86300;
-  --dairy: #2C78AE; --beans: #6C5230; --grains: #8C700E;
-  --warn: #B42318; --warn-soft: #FCEBE9;
-  --font: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --radius: 12px;
+  --bg: #F3F6FF; --dot: #DCE3FF; --surface: #FFFFFF; --ink: #24264D; --muted: #676B95; --line: #E1E5F6;
+  --brand: #6A4DF4; --brand-deep: #3D2AA6; --brand-soft: #EEEAFF; --on-brand: #FFFFFF;
+  --pop: #FF5C8A; --pop-soft: #FFE8EF; --sun: #FFC53D;
+  --veg: #22A55E; --fruit: #FF6150; --meat: #CF5E52; --allergen: #EE9A00;
+  --dairy: #3592F5; --beans: #A26C38; --grains: #CC9A00;
+  --warn: #E0393F; --warn-soft: #FFEDEE;
+  --shadow: 0 2px 0 rgba(36, 38, 77, 0.06), 0 8px 24px rgba(36, 38, 77, 0.06);
+  --font: "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Baloo 2", "Nunito", ui-rounded, system-ui, sans-serif;
+  --radius: 22px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0E151C; --surface: #16202A; --ink: #E5ECF2; --muted: #9AA8B6; --line: #2A3643;
-    --brand: #5AA9E6; --brand-deep: #A5D0F2; --brand-soft: #15314A; --on-brand: #0B1824;
-    --veg: #6BC283; --fruit: #F08B71; --meat: #DE9A8B; --allergen: #F2B447;
-    --dairy: #7DBAE4; --beans: #CBA87C; --grains: #E1C55E;
-    --warn: #FF8C82; --warn-soft: #3A1D1C;
+    --bg: #14152B; --dot: #23264A; --surface: #1F2142; --ink: #EEF0FF; --muted: #A6AAD6; --line: #33365F;
+    --brand: #A493FF; --brand-deep: #D2C9FF; --brand-soft: #2D2866; --on-brand: #15162B;
+    --pop: #FF7FA4; --pop-soft: #3E2238; --sun: #FFD66B;
+    --veg: #58D38E; --fruit: #FF8C7C; --meat: #F0958A; --allergen: #FFBE4D;
+    --dairy: #7AB8FF; --beans: #D9A675; --grains: #F2CC4A;
+    --warn: #FF7A80; --warn-soft: #3F1F2A;
+    --shadow: 0 2px 0 rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.25);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0E151C; --surface: #16202A; --ink: #E5ECF2; --muted: #9AA8B6; --line: #2A3643;
-  --brand: #5AA9E6; --brand-deep: #A5D0F2; --brand-soft: #15314A; --on-brand: #0B1824;
-  --veg: #6BC283; --fruit: #F08B71; --meat: #DE9A8B; --allergen: #F2B447;
-  --dairy: #7DBAE4; --beans: #CBA87C; --grains: #E1C55E;
-  --warn: #FF8C82; --warn-soft: #3A1D1C;
+  --bg: #14152B; --dot: #23264A; --surface: #1F2142; --ink: #EEF0FF; --muted: #A6AAD6; --line: #33365F;
+  --brand: #A493FF; --brand-deep: #D2C9FF; --brand-soft: #2D2866; --on-brand: #15162B;
+  --pop: #FF7FA4; --pop-soft: #3E2238; --sun: #FFD66B;
+  --veg: #58D38E; --fruit: #FF8C7C; --meat: #F0958A; --allergen: #FFBE4D;
+  --dairy: #7AB8FF; --beans: #D9A675; --grains: #F2CC4A;
+  --warn: #FF7A80; --warn-soft: #3F1F2A;
+  --shadow: 0 2px 0 rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.25);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; margin: 0; }
-.wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 22px; }
+body { background-color: var(--bg); background-image: radial-gradient(var(--dot) 1.6px, transparent 1.7px); background-size: 26px 26px; color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.45; margin: 0; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 22px 16px 72px; display: flex; flex-direction: column; gap: 22px; }
 button, input, textarea { font: inherit; color: inherit; }
-button { cursor: pointer; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
-h1, h2, h3 { text-wrap: balance; margin: 0; }
-.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+h1, h2, h3 { text-wrap: balance; margin: 0; font-family: var(--display); }
+.eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
 /* Header */
-header.top { display: flex; flex-direction: column; gap: 14px; padding-bottom: 18px; border-bottom: 3px solid var(--brand); }
-.title-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; }
-h1 { font-size: clamp(30px, 6vw, 42px); font-weight: 800; line-height: 1.05; letter-spacing: -0.015em; color: var(--brand-deep); }
-.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+header.top { display: flex; flex-direction: column; gap: 12px; }
+.title-row { display: flex; align-items: center; gap: 14px; }
+.logo-bowl { flex: none; width: 58px; height: 58px; border-radius: 18px; background: var(--brand); display: grid; place-items: center; font-size: 32px; box-shadow: 0 4px 0 var(--brand-deep); transform: rotate(-6deg); }
+h1 { font-size: clamp(32px, 7vw, 48px); font-weight: 800; line-height: 1; letter-spacing: -0.01em; color: var(--ink); }
+h1 .who { color: var(--brand); }
+.lede { margin: 0; color: var(--muted); max-width: 60ch; font-weight: 600; }
 .kids { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.kid { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-weight: 600; display: inline-flex; gap: 8px; align-items: baseline; }
-.kid small { font-weight: 500; color: var(--muted); font-size: 13px; }
-.kid[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.kid { border: 2px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px 6px 6px; font-weight: 800; display: inline-flex; gap: 8px; align-items: center; }
+.kid .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand-deep); font-family: var(--display); font-size: 16px; }
+.kid small { font-weight: 700; color: var(--muted); font-size: 13px; }
+.kid[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); box-shadow: 0 3px 0 var(--brand-deep); }
+.kid[aria-pressed="true"] .av { background: var(--on-brand); color: var(--brand); }
 .kid[aria-pressed="true"] small { color: inherit; opacity: 0.85; }
-.kid.add { border-style: dashed; color: var(--brand); }
-.kid-edit { font-size: 14px; color: var(--brand); background: none; border: 0; padding: 6px 4px; text-decoration: underline; text-underline-offset: 3px; }
+.kid.add { border-style: dashed; color: var(--brand); padding: 8px 14px; }
+.kid-edit { font-size: 14px; font-weight: 700; color: var(--brand); background: none; border: 0; padding: 6px 4px; text-decoration: underline; text-underline-offset: 3px; }
 
-.banner { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; background: var(--brand-soft); border-radius: var(--radius); padding: 12px 16px; }
+.banner { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; background: var(--brand-soft); border: 2px solid color-mix(in srgb, var(--brand) 25%, transparent); border-radius: var(--radius); padding: 14px 18px; }
 .banner p { margin: 0; min-width: 0; flex: 1 1 280px; }
 
-/* Summary */
-.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
-.stat b { font-size: 30px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.stat b span { font-size: 17px; font-weight: 600; color: var(--muted); }
-.stat.alert b { color: var(--warn); }
-.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 8px; }
-.cat-link { --c: var(--brand); text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
-.cat-link:hover { border-color: var(--c); }
-.cat-link .nm { font-weight: 700; font-size: 14px; color: var(--c); }
-.cat-link .ct { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.bar { height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--c) 16%, var(--surface)); overflow: hidden; }
-.bar i { display: block; height: 100%; background: var(--c); border-radius: 3px; }
+/* Hero */
+.hero { background: var(--surface); border-radius: 28px; box-shadow: var(--shadow); padding: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px 24px; align-items: center; }
+.ring { position: relative; width: 168px; height: 168px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .mid { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.ring .big { font-family: var(--display); font-weight: 800; font-size: 46px; line-height: 0.9; font-variant-numeric: tabular-nums; }
+.ring .of { font-size: 13px; font-weight: 800; color: var(--muted); }
+.hero-text { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.hero-text h2 { font-size: 26px; line-height: 1.1; }
+.hero-text .next { margin: 0; color: var(--muted); font-weight: 600; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; background: var(--bg); border-radius: 999px; padding: 6px 12px; font-weight: 800; font-size: 14px; font-variant-numeric: tabular-nums; }
+.pill.alert { background: var(--warn-soft); color: var(--warn); }
+
+/* Badges */
+.badges-wrap { display: flex; flex-direction: column; gap: 10px; }
+.badges-wrap h2 { font-size: 22px; }
+.badges { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.badge { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 12px 8px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.badge .em { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; background: color-mix(in srgb, var(--sun) 30%, var(--surface)); box-shadow: inset 0 0 0 3px var(--sun); }
+.badge b { font-size: 13px; line-height: 1.15; }
+.badge small { font-size: 12px; color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+.badge.locked .em { background: var(--bg); box-shadow: inset 0 0 0 2px var(--line); filter: grayscale(1); opacity: 0.45; }
+.badge.locked b { color: var(--muted); }
+
+/* Group shortcuts */
+.cats { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+.cat-link { --c: var(--brand); text-align: left; background: var(--surface); border: 0; border-radius: 18px; box-shadow: var(--shadow); padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.cat-link:hover { box-shadow: var(--shadow), inset 0 0 0 2px var(--c); }
+.cat-link .em { font-size: 26px; line-height: 1; }
+.cat-link .nm { font-weight: 800; font-size: 14px; line-height: 1.2; }
+.cat-link .ct { font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--c) 16%, var(--surface)); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--c); border-radius: 4px; }
 
 /* Toolbar */
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-weight: 600; font-size: 14px; }
+.chip { border: 2px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-weight: 800; font-size: 14px; }
 .chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.edit-toggle { border: 2px solid var(--warn); color: var(--warn); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-weight: 800; font-size: 14px; margin-left: auto; }
+.edit-toggle[aria-pressed="true"] { background: var(--warn); color: var(--surface); }
+.edit-note { margin: 0; background: var(--warn-soft); border-radius: 16px; padding: 12px 16px; font-size: 15px; }
 
 /* Sections */
-section.cat { --c: var(--brand); display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 16px; }
-.cat-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; padding-bottom: 6px; border-bottom: 2px solid var(--c); }
-.cat-head h2 { font-size: 22px; font-weight: 800; color: var(--c); }
-.cat-head p { margin: 0; color: var(--muted); font-size: 14px; flex: 1 1 260px; min-width: 0; }
-.cat-head .ct { font-weight: 700; font-variant-numeric: tabular-nums; }
-.foods { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
-.food { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
-.food.tried { background: color-mix(in srgb, var(--c) 7%, var(--surface)); border-color: color-mix(in srgb, var(--c) 30%, var(--line)); }
-.food.react { border-color: var(--warn); box-shadow: inset 4px 0 0 var(--warn); }
-.food-main { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
-.food-main .nm { font-weight: 600; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
-.flag { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
-.meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+section.cat { --c: var(--brand); display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
+.cat-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+.cat-head .em { grid-row: span 2; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 28px; background: color-mix(in srgb, var(--c) 18%, var(--surface)); transform: rotate(-4deg); }
+.cat-head h2 { font-size: 26px; line-height: 1; color: var(--c); }
+.cat-head p { margin: 0; color: var(--muted); font-size: 14px; font-weight: 600; grid-column: 2 / -1; }
+.cat-head .end { display: flex; gap: 8px; align-items: center; grid-column: 3; grid-row: 1; }
+.cat-head .ct { font-weight: 800; font-variant-numeric: tabular-nums; background: color-mix(in srgb, var(--c) 15%, var(--surface)); color: var(--ink); border-radius: 999px; padding: 3px 10px; font-size: 14px; }
+.add-head { border: 2px solid var(--c); color: var(--c); background: var(--surface); border-radius: 999px; padding: 3px 12px; font-weight: 800; font-size: 14px; }
+.foods { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.food { display: flex; align-items: center; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); min-width: 0; padding: 4px 6px 4px 4px; }
+.food.tried { background: color-mix(in srgb, var(--c) 9%, var(--surface)); }
+.food.react { box-shadow: var(--shadow), inset 0 0 0 2px var(--warn); }
+.food-main { flex: 1; min-width: 0; text-align: left; background: none; border: 0; padding: 8px; display: flex; gap: 12px; align-items: center; }
+.ava { flex: none; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; font-size: 27px; background: color-mix(in srgb, var(--c) 14%, var(--surface)); position: relative; }
+.ava .pic { width: 64%; height: 64%; display: block; }
+.food.tried .ava { box-shadow: 0 0 0 3px var(--c); }
+.ava .face { position: absolute; right: -6px; bottom: -6px; font-size: 18px; line-height: 1; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2)); }
+.txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.food-main .nm { font-weight: 800; font-size: 16px; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; line-height: 1.2; }
+.flag { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--brand-deep); background: var(--brand-soft); border-radius: 6px; padding: 0 6px; }
+.meta { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); flex-wrap: wrap; }
 .dots { display: inline-flex; gap: 3px; }
-.dots i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--c); }
+.dots i { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--c); }
 .dots i.on { background: var(--c); }
-.like { font-weight: 600; color: var(--ink); }
-.rx { color: var(--warn); font-weight: 700; }
-.try-btn { border: 0; border-left: 1px solid var(--line); background: none; color: var(--c); font-weight: 700; font-size: 14px; padding: 0 14px; white-space: nowrap; }
-.try-btn:hover { background: color-mix(in srgb, var(--c) 12%, var(--surface)); }
-.add-food { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: color-mix(in srgb, var(--c) 6%, var(--surface)); border: 1.5px dashed color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 10px; padding: 8px; }
-.add-food input { flex: 1 1 200px; min-width: 0; border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 10px; }
-.add-food button { border: 0; color: var(--on-brand); background: var(--c); border-radius: 8px; padding: 9px 16px; font-weight: 700; }
-.try-btn.rm { color: var(--warn); }
-.try-btn.rm:hover { background: var(--warn-soft); }
-.edit-toggle { border: 1.5px solid var(--warn); color: var(--warn); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-weight: 700; font-size: 14px; margin-left: auto; }
-.edit-toggle[aria-pressed="true"] { background: var(--warn); color: var(--surface); }
-.edit-note { margin: 0; background: var(--warn-soft); border-radius: 10px; padding: 10px 14px; font-size: 14px; }
-.removed { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
-.removed button { border: 1px dashed var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 13px; font-weight: 600; color: var(--ink); }
-.add-head { border: 1.5px solid var(--c); color: var(--c); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: 14px; }
-.cat-head .end { display: flex; gap: 10px; align-items: center; }
-.empty { color: var(--muted); font-size: 14px; margin: 0; }
+.like { font-weight: 800; color: var(--ink); }
+.rx { color: var(--warn); font-weight: 800; }
+.try-btn { flex: none; border: 0; background: var(--c); color: var(--on-brand); font-weight: 800; font-size: 15px; padding: 10px 14px; border-radius: 999px; white-space: nowrap; box-shadow: 0 3px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.try-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.try-btn.rm { background: var(--warn-soft); color: var(--warn); box-shadow: none; }
+.add-food { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: color-mix(in srgb, var(--c) 7%, var(--surface)); border: 2px dashed color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 20px; padding: 8px; }
+.add-food input { flex: 1 1 200px; min-width: 0; border: 2px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 14px; }
+.add-food button { border: 0; color: var(--on-brand); background: var(--c); border-radius: 999px; padding: 10px 18px; font-weight: 800; box-shadow: 0 3px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.removed { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14px; font-weight: 700; color: var(--muted); }
+.removed button { border: 2px dashed var(--line); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 800; color: var(--ink); }
+.empty { color: var(--muted); font-size: 14px; font-weight: 600; margin: 0; }
 
 /* Tips */
-.tips { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
-.tips h2 { font-size: 20px; color: var(--brand-deep); }
-.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 24px; }
-.tips h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand); margin-bottom: 4px; }
-.tips ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
-.tips .urgent { background: var(--warn-soft); border-radius: 8px; padding: 10px 12px; }
+.tips { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.tips h2 { font-size: 24px; }
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.tips-grid > div { background: var(--bg); border-radius: 16px; padding: 12px 14px; }
+.tips h3 { font-size: 17px; color: var(--brand); margin-bottom: 4px; }
+.tips ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.tips .urgent { background: var(--warn-soft); }
 .tips .urgent h3 { color: var(--warn); }
-.fine { font-size: 13px; color: var(--muted); margin: 0; }
+.fine { font-size: 13px; color: var(--muted); margin: 0; font-weight: 600; }
 
 .tools { display: flex; flex-wrap: wrap; gap: 8px; }
-.btn { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 14px; font-weight: 600; }
-.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn { border: 2px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 16px; font-weight: 800; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); box-shadow: 0 3px 0 var(--brand-deep); }
+.btn.primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--brand-deep); }
 .btn.danger { color: var(--warn); border-color: var(--warn); }
 
 /* Dialog */
-dialog { border: 0; border-radius: 16px; padding: 0; width: min(520px, calc(100vw - 24px)); max-height: calc(100vh - 32px); background: var(--surface); color: var(--ink); box-shadow: 0 18px 50px rgba(0,0,0,0.3); }
-dialog::backdrop { background: rgba(10, 20, 30, 0.45); }
-.dlg { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-.dlg h2 { font-size: 24px; font-weight: 800; }
-.dlg .hint { margin: 0; color: var(--muted); font-size: 14px; }
+dialog { border: 0; border-radius: 26px; padding: 0; width: min(520px, calc(100vw - 24px)); max-height: calc(100vh - 32px); background: var(--surface); color: var(--ink); box-shadow: 0 18px 50px rgba(0,0,0,0.3); }
+dialog::backdrop { background: rgba(20, 21, 43, 0.5); }
+.dlg { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.dlg-top { display: flex; gap: 14px; align-items: center; }
+.dlg-top .ava { width: 64px; height: 64px; font-size: 36px; }
+.dlg h2 { font-size: 28px; line-height: 1.05; }
+.dlg .hint { margin: 0; color: var(--muted); font-size: 15px; font-weight: 600; background: var(--bg); border-radius: 14px; padding: 10px 12px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
-.field > label, .field > .lbl { font-weight: 700; font-size: 14px; }
-.field input[type="text"], .field input[type="date"], .field textarea { border: 1.5px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--bg); width: 100%; }
+.field > label, .field > .lbl { font-weight: 800; font-size: 15px; }
+.field input[type="text"], .field input[type="date"], .field textarea { border: 2px solid var(--line); border-radius: 14px; padding: 9px 12px; background: var(--bg); width: 100%; }
 .field textarea { min-height: 70px; resize: vertical; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .row input[type="date"] { flex: 1 1 160px; width: auto; }
 .tries { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.tries li { display: inline-flex; align-items: center; gap: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 14px; font-variant-numeric: tabular-nums; }
-.tries li button { border: 0; background: none; color: var(--muted); width: 24px; height: 24px; border-radius: 50%; line-height: 1; }
+.tries li { display: inline-flex; align-items: center; gap: 4px; background: color-mix(in srgb, var(--c, var(--brand)) 12%, var(--surface)); border-radius: 999px; padding: 4px 4px 4px 12px; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tries li button { border: 0; background: none; color: var(--muted); width: 26px; height: 26px; border-radius: 50%; line-height: 1; }
 .tries li button:hover { background: var(--line); }
-.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.seg button { border: 1.5px solid var(--line); background: var(--bg); border-radius: 8px; padding: 8px 6px; font-weight: 600; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.seg button { border: 2px solid var(--line); background: var(--bg); border-radius: 16px; padding: 10px 6px; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.seg button span { font-size: 28px; line-height: 1.1; }
 .seg button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-deep); }
-.check { display: flex; gap: 10px; align-items: center; font-weight: 700; }
-.check input { width: 20px; height: 20px; accent-color: var(--warn); }
-.warnbox { background: var(--warn-soft); color: var(--ink); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.check { display: flex; gap: 10px; align-items: center; font-weight: 800; }
+.check input { width: 22px; height: 22px; accent-color: var(--warn); }
+.warnbox { background: var(--warn-soft); color: var(--ink); border-radius: 14px; padding: 10px 12px; font-size: 14px; }
 .warnbox b { color: var(--warn); }
 .dlg-foot { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; padding-top: 4px; }
 textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; min-height: 120px; }
 
-.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); border-radius: 10px; padding: 10px 12px 10px 16px; display: flex; gap: 14px; align-items: center; max-width: calc(100vw - 32px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 10; }
+.toast { position: fixed; left: 0; right: 0; margin-inline: auto; width: max-content; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); border-radius: 18px; padding: 12px 14px 12px 18px; display: flex; gap: 14px; align-items: center; max-width: calc(100vw - 32px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); z-index: 10; font-weight: 800; }
 .toast button { background: none; border: 0; color: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
 
 #print-sheet { display: none; }
 
 /* Password screen */
 .gate { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding-block: 24px; padding-inline: 16px; }
-.gate form { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--brand); border-radius: var(--radius); padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; }
-.gate h1 { font-size: 30px; }
-.gate p { margin: 0; color: var(--muted); }
-.gate input { border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--bg); width: 100%; font-size: 17px; }
-.gate .err { color: var(--warn); font-weight: 600; }
+.gate form { width: min(420px, 100%); background: var(--surface); border-radius: 26px; box-shadow: var(--shadow); padding: 26px 22px; display: flex; flex-direction: column; gap: 14px; }
+.gate h1 { font-size: 34px; }
+.gate p { margin: 0; color: var(--muted); font-weight: 600; }
+.gate input { border: 2px solid var(--line); border-radius: 14px; padding: 11px 14px; background: var(--bg); width: 100%; font-size: 17px; }
+.gate .err { color: var(--warn); font-weight: 800; }
 
+@media (max-width: 900px) {
+  .cats, .badges { display: flex; overflow-x: auto; scroll-snap-type: x proximity; margin-inline: -16px; padding: 4px 16px 10px; scrollbar-width: none; }
+  .cats::-webkit-scrollbar, .badges::-webkit-scrollbar { display: none; }
+  .cat-link { flex: 0 0 132px; scroll-snap-align: start; }
+  .badge { flex: 0 0 108px; scroll-snap-align: start; }
+}
 @media (max-width: 560px) {
-  .summary { grid-template-columns: 1fr 1fr; }
-  .summary .stat:first-child { grid-column: 1 / -1; }
+  .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .hero-text { align-items: center; }
+  .pills { justify-content: center; }
   .foods { grid-template-columns: 1fr; }
+  .cat-head .end { grid-column: 1 / -1; grid-row: auto; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .food, .cat-link, .chip, .kid { transition: background-color .15s, border-color .15s; }
+  .food, .cat-link, .chip, .kid, .badge { transition: background-color .15s, box-shadow .15s, transform .15s; }
+  .food.pop .ava { animation: pop .5s ease-out; }
+  @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.3) rotate(-8deg); } 100% { transform: scale(1); } }
+  .ring circle.arc { transition: stroke-dasharray .6s ease, stroke-dashoffset .6s ease; }
 }
 @media print {
   body { background: #fff; color: #000; font-size: 11px; }
   .wrap { display: none; }
   #print-sheet { display: block; padding: 0; }
-  #print-sheet h1 { font-size: 22px; color: #0E4C77; }
+  #print-sheet h1 { font-size: 22px; color: #3D2AA6; }
   #print-sheet h2 { font-size: 13px; margin: 12px 0 4px; }
   #print-sheet table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
   #print-sheet th, #print-sheet td { border: 1px solid #999; padding: 3px 5px; text-align: left; vertical-align: top; }
   #print-sheet th { background: #eee; }
   #print-sheet tr { page-break-inside: avoid; }
-  .toast, dialog { display: none !important; }
+  .toast, dialog, #confetti { display: none !important; }
 }
 </style>
 </head>
@@ -217,9 +271,10 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   <header class="top">
     <div class="eyebrow">Empire State Family Child Care Collaborative</div>
     <div class="title-row">
-      <h1>First Foods Tracker</h1>
+      <span class="logo-bowl" aria-hidden="true">🥣</span>
+      <h1 id="hero-title">First Foods Tracker</h1>
     </div>
-    <p class="lede">Log each new food a baby tries, how it went, and any reaction. Tap <b>+ Try</b> to log today, or tap a food for dates and notes.</p>
+    <p class="lede">Tap <b>+ Try</b> each time baby tastes a food. Tap any food for dates, how it went, and notes.</p>
     <div class="kids" id="kids" aria-label="Children"></div>
   </header>
 
@@ -237,7 +292,12 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     <button class="btn primary" id="start-own" type="button">Start a tracker</button>
   </div>
 
-  <div class="summary" id="summary"></div>
+  <div class="hero" id="summary"></div>
+
+  <section class="badges-wrap" aria-labelledby="badges-h">
+    <h2 id="badges-h">Badges</h2>
+    <div class="badges" id="badges"></div>
+  </section>
   <nav class="cats" id="cat-nav" aria-label="Jump to a food group"></nav>
 
   <div class="toolbar" role="group" aria-label="Show">
@@ -319,9 +379,12 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 
 <dialog id="food-dlg" aria-labelledby="food-name">
   <form class="dlg" method="dialog" id="food-form">
-    <div>
-      <div class="eyebrow" id="food-cat"></div>
-      <h2 id="food-name"></h2>
+    <div class="dlg-top">
+      <span class="ava" id="food-ava" aria-hidden="true"></span>
+      <div>
+        <div class="eyebrow" id="food-cat"></div>
+        <h2 id="food-name"></h2>
+      </div>
     </div>
     <p class="hint" id="food-hint" hidden></p>
     <div class="field">
@@ -336,9 +399,9 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     <div class="field">
       <span class="lbl" id="like-lbl">How did it go?</span>
       <div class="seg" role="group" aria-labelledby="like-lbl" id="food-like">
-        <button type="button" data-like="love">Loved it</button>
-        <button type="button" data-like="ok">Okay</button>
-        <button type="button" data-like="no">Not yet</button>
+        <button type="button" data-like="love"><span aria-hidden="true">😋</span>Loved it</button>
+        <button type="button" data-like="ok"><span aria-hidden="true">🙂</span>Okay</button>
+        <button type="button" data-like="no"><span aria-hidden="true">😖</span>Not yet</button>
       </div>
     </div>
     <div class="field">
@@ -399,6 +462,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 </dialog>
 
 <div class="toast" id="toast" role="status" hidden><span id="toast-msg"></span><button type="button" id="toast-undo">Undo</button></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
 
 <script>
 (function () {
@@ -406,16 +470,16 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 
   // Food groups. Each food: [name, hint?, flag?]
   var CATS = [
-    { id: "veg", name: "Vegetables", noun: "vegetable", color: "var(--veg)", blurb: "Soft-cooked, mashed or in soft strips.", foods: [
+    { id: "veg", name: "Vegetables", noun: "vegetable", icon: "🥦", color: "var(--veg)", blurb: "Soft-cooked, mashed or in soft strips.", foods: [
       ["Sweet potato"], ["Carrot"], ["Butternut squash"], ["Peas"], ["Green beans"], ["Broccoli"], ["Zucchini"],
       ["Spinach"], ["Cauliflower"], ["Beets"], ["Pumpkin"], ["Parsnip"], ["Asparagus"], ["Bell pepper"]] },
-    { id: "fruit", name: "Fruits", noun: "fruit", color: "var(--fruit)", blurb: "Ripe and soft. Quarter or smash round fruits.", foods: [
+    { id: "fruit", name: "Fruits", noun: "fruit", icon: "🍓", color: "var(--fruit)", blurb: "Ripe and soft. Quarter or smash round fruits.", foods: [
       ["Avocado"], ["Banana"], ["Apple", "Cooked or grated until soft."], ["Pear"], ["Peach"], ["Mango"],
       ["Blueberries", "Smash or cut into quarters."], ["Strawberries"], ["Prunes", "Helpful for constipation."], ["Plum"],
       ["Raspberries"], ["Watermelon"], ["Kiwi"], ["Cantaloupe"]] },
-    { id: "meat", name: "Meat & poultry", noun: "meat or poultry", color: "var(--meat)", blurb: "Iron-rich. Shredded, ground, or very finely minced and moist.", foods: [
+    { id: "meat", name: "Meat & poultry", noun: "meat or poultry", icon: "🍗", color: "var(--meat)", blurb: "Iron-rich. Shredded, ground, or very finely minced and moist.", foods: [
       ["Chicken"], ["Turkey"], ["Beef"], ["Pork"], ["Lamb"]] },
-    { id: "allergen", name: "Common allergens", noun: "allergen food", color: "var(--allergen)", allergen: true,
+    { id: "allergen", name: "Common allergens", noun: "allergen food", icon: "🥜", color: "var(--allergen)", allergen: true,
       blurb: "One at a time, early in the day. Aim for 3 exposures, then keep it in the diet.", foods: [
       ["Peanut", "Thin peanut butter with water, breast milk or formula, or stir into oatmeal. Never whole peanuts."],
       ["Egg", "Fully cooked: scrambled, or hard-boiled and mashed."],
@@ -428,13 +492,13 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       ["Almond", "Tree nut. Thinned almond butter."],
       ["Cashew", "Tree nut. Thinned cashew butter."],
       ["Walnut", "Tree nut. Finely ground into oatmeal or yogurt."]] },
-    { id: "dairy", name: "Dairy", noun: "dairy food", color: "var(--dairy)", blurb: "Plain, whole-milk, unsweetened versions.", foods: [
+    { id: "dairy", name: "Dairy", noun: "dairy food", icon: "🧀", color: "var(--dairy)", blurb: "Plain, whole-milk, unsweetened versions.", foods: [
       ["Plain yogurt"], ["Cottage cheese"], ["Mild cheddar", "Shredded or thin slices."], ["Ricotta"], ["Mozzarella"],
       ["Cream cheese"], ["Butter"], ["Kefir"], ["Whole milk (as a drink)", "Starts at 12 months.", "12 mo+"]] },
-    { id: "beans", name: "Beans & legumes", noun: "bean or legume", color: "var(--beans)", blurb: "Mashed, or smashed whole beans for finger food.", foods: [
+    { id: "beans", name: "Beans & legumes", noun: "bean or legume", icon: "🫘", color: "var(--beans)", blurb: "Mashed, or smashed whole beans for finger food.", foods: [
       ["Black beans"], ["Chickpeas"], ["Lentils"], ["Kidney beans"], ["Pinto beans"], ["White beans"], ["Split peas"],
       ["Edamame", "Contains soy. Mash or split well."], ["Hummus", "Contains sesame."]] },
-    { id: "grains", name: "Grains", noun: "grain", color: "var(--grains)", blurb: "Choose iron-fortified cereals and mix up the grains.", foods: [
+    { id: "grains", name: "Grains", noun: "grain", icon: "🍞", color: "var(--grains)", blurb: "Choose iron-fortified cereals and mix up the grains.", foods: [
       ["Oatmeal"], ["Multigrain infant cereal"], ["Barley"], ["Quinoa"], ["Millet"], ["Buckwheat"],
       ["Rice", "Rotate with other grains. Rice is higher in arsenic."], ["Corn / polenta"],
       ["Whole-wheat pasta", "Contains wheat."], ["Toast or bread", "Contains wheat. Lightly toasted strips."]] }
@@ -442,6 +506,50 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   var CAT_BY_ID = {};
   CATS.forEach(function (c) { CAT_BY_ID[c.id] = c; });
   var LIKES = { love: "Loved it", ok: "Okay", no: "Not yet" };
+  var FACES = { love: "😋", ok: "🙂", no: "😖" };
+  // Pictures for foods (lower-case names). Foods without one show their first letter.
+  var EMOJI = {
+    "sweet potato": "🍠", "carrot": "🥕", "butternut squash": "🎃", "peas": "🫛", "green beans": "🫛", "broccoli": "🥦",
+    "zucchini": "🥒", "spinach": "🥬", "cauliflower": "🥦", "pumpkin": "🎃", "bell pepper": "🫑", "kale": "🥬",
+    "avocado": "🥑", "banana": "🍌", "apple": "🍎", "pear": "🍐", "peach": "🍑", "mango": "🥭", "blueberries": "🫐",
+    "strawberries": "🍓", "watermelon": "🍉", "kiwi": "🥝", "cantaloupe": "🍈", "chicken": "🍗", "turkey": "🦃",
+    "beef": "🥩", "pork": "🐖", "lamb": "🐑", "peanut": "🥜", "egg": "🥚", "cow's milk": "🥛", "wheat": "🌾",
+    "soy": "🫘", "fish": "🐟", "shellfish": "🦐", "almond": "🌰", "cashew": "🌰", "walnut": "🌰", "plain yogurt": "🥣",
+    "cottage cheese": "🧀", "mild cheddar": "🧀", "ricotta": "🧀", "mozzarella": "🧀", "cream cheese": "🧀", "butter": "🧈",
+    "kefir": "🥛", "whole milk (as a drink)": "🥛", "black beans": "🫘", "chickpeas": "🫘", "lentils": "🫘",
+    "kidney beans": "🫘", "pinto beans": "🫘", "white beans": "🫘", "split peas": "🫛", "edamame": "🫛", "hummus": "🫘",
+    "oatmeal": "🥣", "multigrain infant cereal": "🥣", "barley": "🌾", "quinoa": "🌾", "millet": "🌾", "buckwheat": "🌾",
+    "rice": "🍚", "corn / polenta": "🌽", "whole-wheat pasta": "🍝", "toast or bread": "🍞",
+    "grapes": "🍇", "orange": "🍊", "oranges": "🍊", "clementine": "🍊", "lemon": "🍋", "cherries": "🍒", "pineapple": "🍍",
+    "coconut": "🥥", "tomato": "🍅", "tomatoes": "🍅", "potato": "🥔", "potatoes": "🥔", "cucumber": "🥒", "eggplant": "🍆",
+    "garlic": "🧄", "onion": "🧅", "mushroom": "🍄", "mushrooms": "🍄", "olive": "🫒", "olives": "🫒", "ginger": "🫚",
+    "lettuce": "🥬", "cabbage": "🥬", "bagel": "🥯", "pancake": "🥞", "pancakes": "🥞", "waffle": "🧇", "waffles": "🧇",
+    "cheese": "🧀", "shrimp": "🦐", "crab": "🦀", "lobster": "🦞", "salmon": "🐟", "tuna": "🐟", "cod": "🐟",
+    "pasta": "🍝", "noodles": "🍜", "bread": "🍞", "corn": "🌽", "yogurt": "🥣", "milk": "🥛", "bacon": "🥓", "ham": "🍖",
+    "sausage": "🌭", "tofu": "🫘", "beans": "🫘", "peppers": "🫑", "melon": "🍈", "honeydew": "🍈", "plantain": "🍌"
+  };
+  function iconFor(name) { return EMOJI[String(name).toLowerCase().trim()] || ""; }
+  // Drawn pictures for foods that have no emoji.
+  var DRAWN = {
+    "beets": '<svg viewBox="0 0 48 48"><path d="M20 14c-3-6-8-9-12-8 1 5 5 8 11 9M28 14c2-7 7-10 12-9-1 5-5 9-11 9M24 13V5" stroke="#3FA34D" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M24 13c-10 0-15 7-15 14 0 8 7 12 15 17 8-5 15-9 15-17 0-7-5-14-15-14z" fill="#A3195B"/><path d="M17 22c2-3 5-4 8-4" stroke="#D9488A" stroke-width="3" fill="none" stroke-linecap="round"/></svg>',
+    "parsnip": '<svg viewBox="0 0 48 48"><path d="M22 12c-2-5-6-8-10-7 1 4 5 7 10 8M26 12c2-5 6-8 10-7-1 4-5 7-10 8" stroke="#3FA34D" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M15 15h18l-8 30h-2z" fill="#F1E3B8"/><path d="M18 22h6M19 29h5M21 36h3" stroke="#C9B37A" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    "asparagus": '<svg viewBox="0 0 48 48"><g stroke-linecap="round"><path d="M16 44L20 10M24 44V8M32 44L28 11" stroke="#5DAE3F" stroke-width="5"/><path d="M20 10l-3-4M20 10l3-4M24 8l-3-4M24 8l3-4M28 11l-3-4M28 11l3-4M19 20l-3-2M25 22l3-2M29 26l3-2" stroke="#3D7D2A" stroke-width="2.5"/></g><rect x="13" y="32" width="22" height="5" rx="2.5" fill="#E85D75"/></svg>',
+    "prunes": '<svg viewBox="0 0 48 48"><ellipse cx="17" cy="27" rx="10" ry="12" fill="#3B2140"/><ellipse cx="31" cy="25" rx="10" ry="12" fill="#4E2A55"/><path d="M27 18c3 2 5 6 4 10M13 21c2 2 3 5 3 9M34 20c-1 4-1 8 1 11" stroke="#6E4277" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>',
+    "plum": '<svg viewBox="0 0 48 48"><path d="M24 12c2-4 5-6 8-6" stroke="#6B4A2B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M27 10c5-4 11-3 13 0-4 4-9 4-13 0z" fill="#3FA34D"/><circle cx="24" cy="28" r="15" fill="#7B2E8E"/><path d="M24 14c-4 6-4 22 0 29" stroke="#5E1F6F" stroke-width="2.4" fill="none"/><ellipse cx="17" cy="23" rx="3" ry="5" fill="#A45BB5"/></svg>',
+    "raspberries": '<svg viewBox="0 0 48 48"><path d="M24 12l-6-5M24 12l6-5M24 12V5" stroke="#3FA34D" stroke-width="3.5" stroke-linecap="round"/><g fill="#E0245E"><circle cx="18" cy="18" r="5"/><circle cx="24" cy="17" r="5"/><circle cx="30" cy="18" r="5"/><circle cx="15" cy="25" r="5"/><circle cx="22" cy="24" r="5"/><circle cx="29" cy="24" r="5"/><circle cx="34" cy="26" r="4.5"/><circle cx="18" cy="31" r="5"/><circle cx="25" cy="31" r="5"/><circle cx="31" cy="32" r="4.5"/><circle cx="21" cy="37" r="4.5"/><circle cx="27" cy="38" r="4.5"/></g><g fill="#F7799F"><circle cx="17" cy="17" r="1.6"/><circle cx="21" cy="23" r="1.6"/><circle cx="24" cy="30" r="1.6"/><circle cx="29" cy="23" r="1.6"/></g></svg>',
+    "sesame": '<svg viewBox="0 0 48 48"><g fill="#EBD9A8" stroke="#C4A764" stroke-width="1.4"><path d="M14 12c3 0 5 3 5 6s-2 5-5 5-5-2-5-5 2-6 5-6z"/><path d="M31 9c3 1 4 4 4 7s-3 4-5 4-4-2-4-5 2-6 5-6z"/><path d="M24 22c3 0 5 3 5 6s-2 5-5 5-5-2-5-5 2-6 5-6z"/><path d="M13 30c3 0 5 3 5 6s-2 5-5 5-5-2-5-5 2-6 5-6z"/><path d="M35 28c3 1 4 4 4 7s-3 4-5 4-4-2-4-5 2-6 5-6z"/></g></svg>'
+  };
+  function drawn(name) {
+    var s = DRAWN[String(name).toLowerCase().trim()];
+    return s ? el("img", { class: "pic", alt: "", src: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s.replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ')) }) : null;
+  }
+  function picFor(f) {
+    var cat = CAT_BY_ID[f.cat];
+    return drawn(f.name) || iconFor(f.name) || (cat ? cat.icon : "") ;
+  }
+  function avatar(f, like) {
+    return el("span", { class: "ava", "aria-hidden": "true" }, [picFor(f), like ? el("span", { class: "face", text: FACES[like] }) : null]);
+  }
   var KEY = "esfccc-first-foods-v1";
   // Access check. Leave LOCK empty for none.
   var LOCK = "";
@@ -552,11 +660,14 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       var age = ageText(k.birth);
       box.appendChild(el("button", { type: "button", class: "kid", "aria-pressed": String(k.id === state.active),
         onclick: function () { state.active = k.id; save(); render(); } },
-        [k.name, age ? el("small", { text: age }) : null]));
+        [el("span", { class: "av", text: k.name.charAt(0).toUpperCase() }), k.name, age ? el("small", { text: age }) : null]));
     });
     box.appendChild(el("button", { type: "button", class: "kid add", text: "+ Add child", onclick: function () { openKid(null); } }));
     box.appendChild(el("button", { type: "button", class: "kid-edit", text: "Edit " + child().name, onclick: function () { openKid(child()); } }));
     $("example-banner").hidden = !state.children.some(function (k) { return k.example; });
+    var nm = child().name, h = $("hero-title"); h.textContent = "";
+    h.appendChild(el("span", { class: "who", text: nm + (/s$/i.test(nm) ? "\u2019" : "\u2019s") }));
+    h.appendChild(document.createTextNode(" first foods"));
   }
 
   function counts(c, cat) {
@@ -565,25 +676,88 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     return { total: list.length, tried: tried };
   }
 
+  var GOAL = 100, MILESTONES = [1, 10, 25, 50, 75, 100];
+  function progress(c) {
+    var p = { tried: 0, total: 0, byCat: {}, loved: 0, reacts: 0, week: 0, maxTries: 0 }, weekStart = daysAgo(6);
+    CATS.forEach(function (cat) { var n = counts(c, cat); p.byCat[cat.id] = n; p.tried += n.tried; p.total += n.total; });
+    CATS.forEach(function (cat) {
+      foodsIn(c, cat).forEach(function (f) {
+        var e = entry(c, f.id);
+        if (e.like === "love") p.loved++;
+        if (e.reaction) p.reacts++;
+        p.maxTries = Math.max(p.maxTries, e.dates.length);
+        e.dates.forEach(function (d) { if (d >= weekStart) p.week++; });
+      });
+    });
+    var al = foodsIn(c, CAT_BY_ID.allergen);
+    p.alTotal = al.length;
+    p.alThree = al.filter(function (f) { return entry(c, f.id).dates.length >= 3; }).length;
+    return p;
+  }
+  function badgeList(c) {
+    var p = progress(c), groups = CATS.filter(function (cat) { return p.byCat[cat.id].total > 0; });
+    var veg = p.byCat.veg, list = [
+      { em: "🥄", name: "First bite", have: p.tried, need: 1 },
+      { em: "🌱", name: "10 foods", have: p.tried, need: 10 },
+      { em: "⭐", name: "25 foods", have: p.tried, need: 25 },
+      { em: "🏅", name: "50 foods", have: p.tried, need: 50 },
+      { em: "🚀", name: "75 foods", have: p.tried, need: 75 },
+      { em: "🏆", name: "100 foods", have: p.tried, need: 100 },
+      { em: "🌈", name: "Rainbow plate", have: groups.filter(function (cat) { return p.byCat[cat.id].tried > 0; }).length, need: groups.length },
+      { em: "🥦", name: "Veggie fan", have: veg.tried, need: Math.min(10, veg.total) },
+      { em: "💪", name: "Keeps trying", have: p.maxTries, need: 5 }
+    ];
+    if (p.alTotal) list.push({ em: "🛡️", name: "Allergen champ", have: p.alThree, need: p.alTotal });
+    return list.filter(function (b) { return b.need > 0; });
+  }
+  function earnedNames(c) { return badgeList(c).filter(function (b) { return b.have >= b.need; }).map(function (b) { return b.name; }); }
+
   function renderSummary() {
-    var c = child(), total = 0, tried = 0, reacts = 0, al = counts(c, CAT_BY_ID.allergen);
-    CATS.forEach(function (cat) { var n = counts(c, cat); total += n.total; tried += n.tried; });
-    Object.keys(c.log).forEach(function (id) { if (c.log[id].reaction) reacts++; });
-    var s = $("summary"); s.textContent = "";
-    function stat(label, big, of, cls) {
-      return el("div", { class: "stat" + (cls ? " " + cls : "") }, [
-        el("span", { class: "eyebrow", text: label }),
-        el("b", null, [String(big), of != null ? el("span", { text: " of " + of }) : null])]);
+    var c = child(), p = progress(c), s = $("summary"); s.textContent = "";
+    var NS = "http://www.w3.org/2000/svg", R = 50, C = 2 * Math.PI * R, scale = Math.max(GOAL, p.tried), acc = 0;
+    var svg = document.createElementNS(NS, "svg"); svg.setAttribute("viewBox", "0 0 120 120");
+    function circ(stroke, extra) {
+      var k = document.createElementNS(NS, "circle");
+      k.setAttribute("cx", 60); k.setAttribute("cy", 60); k.setAttribute("r", R); k.setAttribute("fill", "none");
+      k.setAttribute("stroke-width", 14); k.setAttribute("stroke", stroke);
+      for (var a in extra) k.setAttribute(a, extra[a]);
+      svg.appendChild(k); return k;
     }
-    s.appendChild(stat("Foods tried", tried, total));
-    s.appendChild(stat("Allergens introduced", al.tried, al.total));
-    s.appendChild(stat("Reactions noted", reacts, null, reacts ? "alert" : ""));
+    circ("var(--bg)");
+    CATS.forEach(function (cat) {
+      var len = p.byCat[cat.id].tried / scale * C; if (!len) return;
+      var k = circ(cat.color, { class: "arc", "stroke-dasharray": len + " " + C, "stroke-dashoffset": -acc, "stroke-linecap": "butt" });
+      k.style.stroke = cat.color; acc += len;
+    });
+    var ring = el("div", { class: "ring", role: "img", "aria-label": p.tried + " of " + GOAL + " foods tried" }, [svg,
+      el("div", { class: "mid", "aria-hidden": "true" }, [el("span", { class: "big", text: String(p.tried) }), el("span", { class: "of", text: "of " + GOAL + " foods" })])]);
+    var head = p.tried === 0 ? "Ready for a first bite?" : p.tried < 10 ? "Off to a yummy start!" : p.tried < 50 ? "Look at those taste buds go!" :
+      p.tried < GOAL ? "On the way to 100!" : "100 foods! Amazing!";
+    var next = MILESTONES.filter(function (m) { return m > p.tried; })[0];
+    var nextTxt = next ? (next - p.tried) + (next - p.tried === 1 ? " more food" : " more foods") + " to the " + (next === 1 ? "First bite" : next + " foods") + " badge." :
+      "Every milestone reached. Keep the variety coming!";
+    var pills = [
+      el("span", { class: "pill" }, ["🥜 " + p.byCat.allergen.tried + " of " + p.byCat.allergen.total + " allergens"]),
+      el("span", { class: "pill" }, ["📅 " + p.week + (p.week === 1 ? " try" : " tries") + " this week"]),
+      el("span", { class: "pill" }, ["😋 " + p.loved + " loved"])];
+    if (p.reacts) pills.push(el("span", { class: "pill alert" }, ["⚠️ " + p.reacts + (p.reacts === 1 ? " reaction" : " reactions")]));
+    s.appendChild(ring);
+    s.appendChild(el("div", { class: "hero-text" }, [el("h2", { text: head }), el("p", { class: "next", text: nextTxt }), el("div", { class: "pills" }, pills)]));
+
+    var bx = $("badges"); bx.textContent = "";
+    badgeList(c).forEach(function (b) {
+      var got = b.have >= b.need;
+      bx.appendChild(el("div", { class: "badge" + (got ? "" : " locked") }, [
+        el("span", { class: "em", "aria-hidden": "true", text: b.em }), el("b", { text: b.name }),
+        el("small", { text: got ? "Earned!" : Math.min(b.have, b.need) + " / " + b.need })]));
+    });
 
     var nav = $("cat-nav"); nav.textContent = "";
     CATS.forEach(function (cat) {
-      var n = counts(c, cat), pct = n.total ? Math.round(n.tried / n.total * 100) : 0;
+      var n = p.byCat[cat.id], pct = n.total ? Math.round(n.tried / n.total * 100) : 0;
       nav.appendChild(el("button", { type: "button", class: "cat-link", style: "--c:" + cat.color,
         onclick: function () { $("sec-" + cat.id).scrollIntoView({ behavior: "smooth", block: "start" }); } }, [
+        el("span", { class: "em", "aria-hidden": "true", text: cat.icon }),
         el("span", { class: "nm", text: cat.name }),
         el("span", { class: "ct", text: n.tried + " of " + n.total + " tried" }),
         el("span", { class: "bar", "aria-hidden": "true" }, [el("i", { style: "width:" + pct + "%" })])]));
@@ -613,10 +787,12 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     if (e.like) bits.push(el("span", { class: "like", text: LIKES[e.like] }));
     if (e.reaction) bits.push(el("span", { class: "rx", text: "Reaction" }));
     var cls = "food" + (n ? " tried" : "") + (e.reaction ? " react" : "");
-    return el("li", { class: cls }, [
+    return el("li", { class: cls, "data-id": f.id }, [
       el("button", { type: "button", class: "food-main", "aria-label": f.name + ", details", onclick: function () { openFood(f.id); } }, [
-        el("span", { class: "nm" }, [f.name, f.flag ? el("span", { class: "flag", text: f.flag }) : null]),
-        el("span", { class: "meta" }, bits)]),
+        avatar(f, e.like),
+        el("span", { class: "txt" }, [
+          el("span", { class: "nm" }, [f.name, f.flag ? el("span", { class: "flag", text: f.flag }) : null]),
+          el("span", { class: "meta" }, bits)])]),
       editing
         ? el("button", { type: "button", class: "try-btn rm", "aria-label": "Remove " + f.name + " from the list", text: "Remove",
             onclick: function () { removeFood(f); } })
@@ -673,6 +849,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       } }, [input, el("button", { type: "submit", text: "+ Add" })]);
       box.appendChild(el("section", { class: "cat", id: "sec-" + cat.id, style: "--c:" + cat.color, "aria-labelledby": "h-" + cat.id }, [
         el("div", { class: "cat-head" }, [
+          el("span", { class: "em", "aria-hidden": "true", text: cat.icon }),
           el("h2", { id: "h-" + cat.id, text: cat.name }),
           el("p", { text: cat.blurb }),
           el("div", { class: "end" }, [
@@ -720,12 +897,41 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   $("toast-undo").addEventListener("click", function () { if (undoFn) undoFn(); $("toast").hidden = true; undoFn = null; });
 
   function quickTry(f) {
-    var c = child(), before = JSON.parse(JSON.stringify(entry(c, f.id)));
+    var c = child(), before = JSON.parse(JSON.stringify(entry(c, f.id))), hadBadges = earnedNames(c);
     var e = entry(c, f.id), d = today();
     e.dates = e.dates.concat([d]).sort();
     setEntry(c, f.id, e); save(); render();
-    var n = e.dates.length;
-    showToast(f.name + ": try " + n + " logged for " + fmt(d), function () { setEntry(c, f.id, before); save(); render(); });
+    var n = e.dates.length, undo = function () { setEntry(c, f.id, before); save(); render(); };
+    var fresh = earnedNames(c).filter(function (b) { return hadBadges.indexOf(b) < 0; });
+    var tile = document.querySelector('.food[data-id="' + f.id + '"]'); if (tile) tile.classList.add("pop");
+    if (fresh.length) { confetti(true); showToast("New badge: " + fresh.join(", ") + "! \ud83c\udf89", undo); }
+    else if (n === 1) { confetti(false); showToast("First taste of " + f.name + "! \ud83c\udf89", undo); }
+    else showToast(f.name + ": try " + n + " logged for " + fmt(d), undo);
+  }
+
+  // ---------- Confetti ----------
+  var confettiRun = 0;
+  function confetti(big) {
+    try { if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {}
+    var cv = $("confetti"), ctx = cv.getContext && cv.getContext("2d"); if (!ctx) return;
+    var dpr = window.devicePixelRatio || 1, W = cv.width = window.innerWidth * dpr, H = cv.height = window.innerHeight * dpr;
+    var cs = getComputedStyle(document.documentElement), colors = ["--pop", "--sun", "--veg", "--dairy", "--brand", "--fruit"].map(function (v) { return cs.getPropertyValue(v).trim(); });
+    var parts = [], count = big ? 170 : 70, run = ++confettiRun, frame = 0, life = big ? 110 : 80;
+    for (var i = 0; i < count; i++) parts.push({ x: W / 2 + (Math.random() - 0.5) * W * 0.25, y: H * 0.72, vx: (Math.random() - 0.5) * 16 * dpr,
+      vy: -(9 + Math.random() * (big ? 13 : 9)) * dpr, s: (5 + Math.random() * 5) * dpr, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4,
+      c: colors[i % colors.length], round: Math.random() < 0.35 });
+    (function tick() {
+      if (run !== confettiRun) return;
+      ctx.clearRect(0, 0, W, H); frame++;
+      ctx.globalAlpha = Math.max(0, Math.min(1, (life - frame) / 25));
+      parts.forEach(function (q) {
+        q.vy += 0.38 * dpr; q.vx *= 0.99; q.x += q.vx; q.y += q.vy; q.r += q.vr;
+        ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(q.r); ctx.fillStyle = q.c;
+        if (q.round) { ctx.beginPath(); ctx.arc(0, 0, q.s / 2, 0, 6.283); ctx.fill(); } else ctx.fillRect(-q.s / 2, -q.s / 4, q.s, q.s / 2);
+        ctx.restore();
+      });
+      if (frame < life) requestAnimationFrame(tick); else ctx.clearRect(0, 0, W, H);
+    })();
   }
 
   // ---------- Food dialog ----------
@@ -738,6 +944,9 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     $("food-cat").textContent = cat.name;
     $("food-cat").style.color = cat.color;
     $("food-name").textContent = f.name;
+    var pic = picFor(f);
+    $("food-ava").textContent = "";
+    $("food-ava").appendChild(typeof pic === "string" ? document.createTextNode(pic) : pic);
     $("food-hint").textContent = f.hint; $("food-hint").hidden = !f.hint;
     $("food-date").value = today(); $("food-date").max = today();
     $("food-remove").hidden = false;
