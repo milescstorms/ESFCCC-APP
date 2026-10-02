@@ -194,8 +194,10 @@ dialog::backdrop { background: rgba(20, 21, 43, 0.5); }
 .row input[type="date"] { flex: 1 1 160px; width: auto; }
 .tries { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .tries li { display: inline-flex; align-items: center; gap: 4px; background: color-mix(in srgb, var(--c, var(--brand)) 12%, var(--surface)); border-radius: 999px; padding: 4px 4px 4px 12px; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.tries li button { border: 0; background: none; color: var(--muted); width: 26px; height: 26px; border-radius: 50%; line-height: 1; }
-.tries li button:hover { background: var(--line); }
+.tries { flex-direction: column; }
+.tries li { justify-content: space-between; border-radius: 14px; padding: 6px 6px 6px 14px; font-size: 15px; }
+.tries li button { border: 0; background: var(--warn-soft); color: var(--warn); border-radius: 999px; padding: 5px 12px; font-weight: 800; font-size: 13px; }
+.rm-group { border: 2px solid var(--warn); color: var(--warn); background: var(--surface); border-radius: 999px; padding: 3px 12px; font-weight: 800; font-size: 14px; }
 .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .seg button { border: 2px solid var(--line); background: var(--bg); border-radius: 16px; padding: 10px 6px; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .seg button span { font-size: 28px; line-height: 1.1; }
@@ -309,7 +311,10 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     <button class="edit-toggle" id="edit-toggle" type="button" aria-pressed="false">Remove foods</button>
   </div>
 
-  <p class="edit-note" id="edit-note" hidden>Tap <b>Remove</b> on any food you don't want on the list. Removed foods are listed at the end of each group so you can bring them back. Tap <b>Done removing</b> when you're finished.</p>
+  <div class="edit-note" id="edit-note" hidden>
+    <p style="margin:0">Tap <b>Remove</b> on any food, or <b>Remove group</b> to take away a whole food group. Removed ones are listed so you can bring them back. Tap <b>Done removing</b> when you're finished.</p>
+    <div class="removed" id="removed-groups" style="margin-top:8px" hidden></div>
+  </div>
 
   <div id="sections" style="display:flex;flex-direction:column;gap:28px"></div>
 
@@ -461,7 +466,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   </div>
 </dialog>
 
-<div class="toast" id="toast" role="status" hidden><span id="toast-msg"></span><button type="button" id="toast-undo">Undo</button></div>
+<div class="toast" id="toast" role="status" hidden><span id="toast-msg"></span></div>
 <canvas id="confetti" aria-hidden="true"></canvas>
 
 <script>
@@ -624,6 +629,9 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   }
   var state = load();
   if (!Array.isArray(state.hidden)) state.hidden = [];
+  if (!Array.isArray(state.hiddenCats)) state.hiddenCats = [];
+  function shown(cat) { return state.hiddenCats.indexOf(cat.id) < 0; }
+  function cats() { return CATS.filter(shown); }
   var editing = false;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
   function child() {
@@ -679,8 +687,8 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   var GOAL = 100, MILESTONES = [1, 10, 25, 50, 75, 100];
   function progress(c) {
     var p = { tried: 0, total: 0, byCat: {}, loved: 0, reacts: 0, week: 0, maxTries: 0 }, weekStart = daysAgo(6);
-    CATS.forEach(function (cat) { var n = counts(c, cat); p.byCat[cat.id] = n; p.tried += n.tried; p.total += n.total; });
-    CATS.forEach(function (cat) {
+    CATS.forEach(function (cat) { var n = counts(c, cat); p.byCat[cat.id] = n; if (shown(cat)) { p.tried += n.tried; p.total += n.total; } });
+    cats().forEach(function (cat) {
       foodsIn(c, cat).forEach(function (f) {
         var e = entry(c, f.id);
         if (e.like === "love") p.loved++;
@@ -689,13 +697,13 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
         e.dates.forEach(function (d) { if (d >= weekStart) p.week++; });
       });
     });
-    var al = foodsIn(c, CAT_BY_ID.allergen);
+    var al = shown(CAT_BY_ID.allergen) ? foodsIn(c, CAT_BY_ID.allergen) : [];
     p.alTotal = al.length;
     p.alThree = al.filter(function (f) { return entry(c, f.id).dates.length >= 3; }).length;
     return p;
   }
   function badgeList(c) {
-    var p = progress(c), groups = CATS.filter(function (cat) { return p.byCat[cat.id].total > 0; });
+    var p = progress(c), groups = cats().filter(function (cat) { return p.byCat[cat.id].total > 0; });
     var veg = p.byCat.veg, list = [
       { em: "🥄", name: "First bite", have: p.tried, need: 1 },
       { em: "🌱", name: "10 foods", have: p.tried, need: 10 },
@@ -704,7 +712,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       { em: "🚀", name: "75 foods", have: p.tried, need: 75 },
       { em: "🏆", name: "100 foods", have: p.tried, need: 100 },
       { em: "🌈", name: "Rainbow plate", have: groups.filter(function (cat) { return p.byCat[cat.id].tried > 0; }).length, need: groups.length },
-      { em: "🥦", name: "Veggie fan", have: veg.tried, need: Math.min(10, veg.total) },
+      { em: "🥦", name: "Veggie fan", have: veg.tried, need: shown(CAT_BY_ID.veg) ? Math.min(10, veg.total) : 0 },
       { em: "💪", name: "Keeps trying", have: p.maxTries, need: 5 }
     ];
     if (p.alTotal) list.push({ em: "🛡️", name: "Allergen champ", have: p.alThree, need: p.alTotal });
@@ -724,7 +732,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
       svg.appendChild(k); return k;
     }
     circ("var(--bg)");
-    CATS.forEach(function (cat) {
+    cats().forEach(function (cat) {
       var len = p.byCat[cat.id].tried / scale * C; if (!len) return;
       var k = circ(cat.color, { class: "arc", "stroke-dasharray": len + " " + C, "stroke-dashoffset": -acc, "stroke-linecap": "butt" });
       k.style.stroke = cat.color; acc += len;
@@ -737,9 +745,9 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     var nextTxt = next ? (next - p.tried) + (next - p.tried === 1 ? " more food" : " more foods") + " to the " + (next === 1 ? "First bite" : next + " foods") + " badge." :
       "Every milestone reached. Keep the variety coming!";
     var pills = [
-      el("span", { class: "pill" }, ["🥜 " + p.byCat.allergen.tried + " of " + p.byCat.allergen.total + " allergens"]),
+      shown(CAT_BY_ID.allergen) ? el("span", { class: "pill" }, ["🥜 " + p.byCat.allergen.tried + " of " + p.byCat.allergen.total + " allergens"]) : null,
       el("span", { class: "pill" }, ["📅 " + p.week + (p.week === 1 ? " try" : " tries") + " this week"]),
-      el("span", { class: "pill" }, ["😋 " + p.loved + " loved"])];
+      el("span", { class: "pill" }, ["😋 " + p.loved + " loved"])].filter(Boolean);
     if (p.reacts) pills.push(el("span", { class: "pill alert" }, ["⚠️ " + p.reacts + (p.reacts === 1 ? " reaction" : " reactions")]));
     s.appendChild(ring);
     s.appendChild(el("div", { class: "hero-text" }, [el("h2", { text: head }), el("p", { class: "next", text: nextTxt }), el("div", { class: "pills" }, pills)]));
@@ -753,7 +761,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     });
 
     var nav = $("cat-nav"); nav.textContent = "";
-    CATS.forEach(function (cat) {
+    cats().forEach(function (cat) {
       var n = p.byCat[cat.id], pct = n.total ? Math.round(n.tried / n.total * 100) : 0;
       nav.appendChild(el("button", { type: "button", class: "cat-link", style: "--c:" + cat.color,
         onclick: function () { $("sec-" + cat.id).scrollIntoView({ behavior: "smooth", block: "start" }); } }, [
@@ -801,20 +809,23 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     ]);
   }
 
-  // Built-in foods are hidden (and can come back); foods someone added are deleted. Both can be undone.
+  // Built-in foods are hidden (they can be brought back in Remove foods); foods someone added are deleted.
   function removeFood(f) {
-    var c = child(), undo;
+    var c = child();
     if (f.custom) {
-      var item = c.custom.filter(function (x) { return x.id === f.id; })[0], log = c.log[f.id];
       c.custom = c.custom.filter(function (x) { return x.id !== f.id; });
       delete c.log[f.id];
-      undo = function () { c.custom.push(item); if (log) c.log[f.id] = log; save(); render(); };
-    } else {
-      state.hidden.push(f.id);
-      undo = function () { restoreFood(f.id); };
-    }
+    } else state.hidden.push(f.id);
     save(); render();
-    showToast("Removed " + f.name, undo);
+    showToast("Removed " + f.name);
+  }
+  function removeGroup(cat) {
+    state.hiddenCats.push(cat.id); save(); render();
+    showToast("Removed " + cat.name);
+  }
+  function restoreGroup(cat) {
+    state.hiddenCats = state.hiddenCats.filter(function (x) { return x !== cat.id; }); save(); render();
+    showToast("Brought back " + cat.name);
   }
   function restoreFood(id) {
     state.hidden = state.hidden.filter(function (x) { return x !== id; });
@@ -827,7 +838,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
 
   function renderSections() {
     var c = child(), box = $("sections"); box.textContent = "";
-    CATS.forEach(function (cat) {
+    cats().forEach(function (cat) {
       var n = counts(c, cat);
       var list = el("ul", { class: "foods" });
       var shown = 0;
@@ -841,11 +852,11 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
         ev.preventDefault();
         var name = input.value.trim().replace(/\s+/g, " "); if (!name) return;
         var dup = foodsIn(c, cat).filter(function (f) { return f.name.toLowerCase() === name.toLowerCase(); })[0];
-        if (dup) { input.value = ""; showToast(dup.name + " is already in " + cat.name, null); openFood(dup.id); return; }
+        if (dup) { input.value = ""; showToast(dup.name + " is already in " + cat.name); openFood(dup.id); return; }
         c.custom.push({ id: cat.id + "-c-" + uid(), cat: cat.id, name: name });
         save(); render();
         var again = $("add-" + cat.id); if (again) again.focus({ preventScroll: true });
-        showToast("Added " + name + " to " + cat.name + (passes(entry(c, "")) ? "" : ". Tap All foods to see it."), null);
+        showToast("Added " + name + " to " + cat.name + (passes(entry(c, "")) ? "" : ". Tap All foods to see it."));
       } }, [input, el("button", { type: "submit", text: "+ Add" })]);
       box.appendChild(el("section", { class: "cat", id: "sec-" + cat.id, style: "--c:" + cat.color, "aria-labelledby": "h-" + cat.id }, [
         el("div", { class: "cat-head" }, [
@@ -854,13 +865,16 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
           el("p", { text: cat.blurb }),
           el("div", { class: "end" }, [
             el("span", { class: "ct", text: n.tried + " / " + n.total }),
-            el("button", { type: "button", class: "add-head", "aria-label": "Add a food to " + cat.name, text: "+ Add food",
-              onclick: function () { input.scrollIntoView({ behavior: "smooth", block: "center" }); input.focus({ preventScroll: true }); } })])]),
+            editing
+              ? el("button", { type: "button", class: "rm-group", "aria-label": "Remove the " + cat.name + " group", text: "Remove group",
+                  onclick: function () { removeGroup(cat); } })
+              : el("button", { type: "button", class: "add-head", "aria-label": "Add a food to " + cat.name, text: "+ Add food",
+                  onclick: function () { input.scrollIntoView({ behavior: "smooth", block: "center" }); input.focus({ preventScroll: true }); } })])]),
         shown ? list : el("p", { class: "empty", text: "Nothing here for this filter." }),
         editing && hiddenIn(cat).length ? el("div", { class: "removed" }, [el("span", { text: "Removed:" })].concat(
           hiddenIn(cat).map(function (h) {
             return el("button", { type: "button", "aria-label": "Bring back " + h.name, text: "\u21ba " + h.name,
-              onclick: function () { restoreFood(h.id); showToast("Brought back " + h.name, null); } });
+              onclick: function () { restoreFood(h.id); showToast("Brought back " + h.name); } });
           }))) : null,
         editing ? null : form
       ]));
@@ -878,6 +892,16 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     $("edit-toggle").setAttribute("aria-pressed", String(editing));
     $("edit-toggle").textContent = editing ? "Done removing" : "Remove foods";
     $("edit-note").hidden = !editing;
+    var rg = $("removed-groups"); rg.textContent = "";
+    var gone = CATS.filter(function (cat) { return !shown(cat); });
+    rg.hidden = !gone.length;
+    if (gone.length) {
+      rg.appendChild(el("span", { text: "Removed groups:" }));
+      gone.forEach(function (cat) {
+        rg.appendChild(el("button", { type: "button", "aria-label": "Bring back the " + cat.name + " group", text: "\u21ba " + cat.icon + " " + cat.name,
+          onclick: function () { restoreGroup(cat); } }));
+      });
+    }
   }
   $("edit-toggle").addEventListener("click", function () { editing = !editing; render(); });
 
@@ -886,27 +910,25 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
   });
 
   // ---------- Toast ----------
-  var toastTimer = null, undoFn = null;
-  function showToast(msg, undo) {
+  var toastTimer = null;
+  function showToast(msg) {
     $("toast-msg").textContent = msg;
-    undoFn = undo; $("toast-undo").hidden = !undo;
     $("toast").hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { $("toast").hidden = true; undoFn = null; }, 5000);
+    toastTimer = setTimeout(function () { $("toast").hidden = true; }, 4000);
   }
-  $("toast-undo").addEventListener("click", function () { if (undoFn) undoFn(); $("toast").hidden = true; undoFn = null; });
 
   function quickTry(f) {
-    var c = child(), before = JSON.parse(JSON.stringify(entry(c, f.id))), hadBadges = earnedNames(c);
+    var c = child(), hadBadges = earnedNames(c);
     var e = entry(c, f.id), d = today();
     e.dates = e.dates.concat([d]).sort();
     setEntry(c, f.id, e); save(); render();
-    var n = e.dates.length, undo = function () { setEntry(c, f.id, before); save(); render(); };
+    var n = e.dates.length;
     var fresh = earnedNames(c).filter(function (b) { return hadBadges.indexOf(b) < 0; });
     var tile = document.querySelector('.food[data-id="' + f.id + '"]'); if (tile) tile.classList.add("pop");
-    if (fresh.length) { confetti(true); showToast("New badge: " + fresh.join(", ") + "! \ud83c\udf89", undo); }
-    else if (n === 1) { confetti(false); showToast("First taste of " + f.name + "! \ud83c\udf89", undo); }
-    else showToast(f.name + ": try " + n + " logged for " + fmt(d), undo);
+    if (fresh.length) { confetti(true); showToast(f.name + " logged. New badge: " + fresh.join(", ") + "! \ud83c\udf89"); }
+    else if (n === 1) { confetti(false); showToast("First taste of " + f.name + "! \ud83c\udf89"); }
+    else showToast(f.name + ": try " + n + " logged for " + fmt(d));
   }
 
   // ---------- Confetti ----------
@@ -958,7 +980,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     var c = child(), e = entry(c, cur.id), ul = $("food-tries");
     ul.textContent = "";
     e.dates.forEach(function (d, i) {
-      ul.appendChild(el("li", null, [fmtLong(d), el("button", { type: "button", "aria-label": "Remove try on " + fmtLong(d), text: "×",
+      ul.appendChild(el("li", null, [fmtLong(d), el("button", { type: "button", "aria-label": "Delete the try on " + fmtLong(d), text: "Delete",
         onclick: function () { var x = entry(c, cur.id); x.dates.splice(i, 1); setEntry(c, cur.id, x); save(); fillFood(); render(); } })]));
     });
     $("food-no-tries").hidden = e.dates.length > 0;
@@ -985,11 +1007,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     var c = child(), e = entry(c, cur.id); e.note = $("food-note").value; setEntry(c, cur.id, e); save();
   });
   $("food-dlg").addEventListener("close", function () { render(); });
-  var removeArmed = null;
   $("food-remove").addEventListener("click", function () {
-    var btn = $("food-remove");
-    if (removeArmed !== cur.id) { removeArmed = cur.id; btn.textContent = "Tap again to remove"; setTimeout(function () { removeArmed = null; btn.textContent = "Remove from list"; }, 3000); return; }
-    removeArmed = null;
     var f = cur; $("food-dlg").close(); removeFood(f);
   });
 
@@ -1037,7 +1055,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
     $("backup-dlg").showModal();
   });
-  function backupText() { return JSON.stringify({ app: "esfccc-first-foods", v: 1, saved: today(), children: state.children, hidden: state.hidden }); }
+  function backupText() { return JSON.stringify({ app: "esfccc-first-foods", v: 1, saved: today(), children: state.children, hidden: state.hidden, hiddenCats: state.hiddenCats }); }
   $("backup-file").addEventListener("click", function () {
     var blob = new Blob([backupText()], { type: "application/json" });
     var a = document.createElement("a");
@@ -1071,6 +1089,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     state.children = data.children.map(function (k) { return { id: k.id || uid(), name: String(k.name || "Child"), birth: k.birth || "", log: k.log || {}, custom: k.custom || [] }; });
     state.active = state.children[0].id;
     state.hidden = Array.isArray(data.hidden) ? data.hidden : [];
+    state.hiddenCats = Array.isArray(data.hiddenCats) ? data.hiddenCats : [];
     save(); render();
     $("backup-msg").textContent = "Restored " + state.children.length + (state.children.length === 1 ? " child." : " children.");
     restoreArmed = false; $("backup-restore").textContent = "Replace data on this device";
@@ -1084,7 +1103,7 @@ textarea.code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size
     var age = ageText(c.birth);
     box.appendChild(el("h1", { text: "First Foods Log: " + c.name }));
     box.appendChild(el("p", { text: (c.birth ? "Born " + fmtLong(c.birth) + (age ? " (" + age + ")" : "") + ". " : "") + "Printed " + fmtLong(today()) + ". Empire State Family Child Care Collaborative." }));
-    CATS.forEach(function (cat) {
+    cats().forEach(function (cat) {
       box.appendChild(el("h2", { text: cat.name }));
       var tb = el("tbody");
       foodsIn(c, cat).forEach(function (f) {
