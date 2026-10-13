@@ -1,6 +1,7 @@
 """Draw a "click to play" cover image for a tutorial video.
 
     python3 make_cover.py "PROVIDERS · VIDEO 03" "Register your program" cover.png
+    python3 make_cover.py video-covers.csv      (every cover in the list)
 
 The cover is the Council seal, a small label, the video title and a white
 "Click to play" button on a Council-blue background. Sizes are worked out
@@ -133,7 +134,23 @@ def render_cover(eyebrow, title, width=1920, height=1080):
     return img.convert("RGB")
 
 
+def render_list(csv_path):
+    # One cover per row of video-covers.csv, saved as <folder>/<file> - <title>.png
+    import csv
+    with open(csv_path, newline="", encoding="utf-8-sig") as f:
+        rows = list(csv.DictReader(f))
+    for row in rows:
+        out = HERE / row["folder"] / f"{row['file']} - {row['title']}.png"
+        out.parent.mkdir(exist_ok=True)
+        render_cover(row["label"], row["title"]).save(out, optimize=True)
+        print(out.relative_to(HERE))
+    print(f"{len(rows)} covers drawn")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
+    if len(sys.argv) == 2 and sys.argv[1].endswith(".csv"):
+        render_list(sys.argv[1])
+    elif len(sys.argv) == 4:
+        render_cover(sys.argv[1], sys.argv[2]).save(sys.argv[3], optimize=True)
+    else:
         sys.exit(__doc__)
-    render_cover(sys.argv[1], sys.argv[2]).save(sys.argv[3], optimize=True)
