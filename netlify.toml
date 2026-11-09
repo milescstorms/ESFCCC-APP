@@ -124,6 +124,12 @@
   force = true
 
 [[redirects]]
+  from = "/provider-sites/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
   from = "/"
   to = "/ESFCCC Member App.dc.html"
   status = 200

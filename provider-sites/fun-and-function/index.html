@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/webp" href="logo.webp">
+<title>Fun and Function Daycare</title>
+<meta name="description" content="Licensed home daycare in Highland Mills, NY for ages 6 weeks to 12 years. Play-based learning plus the everyday skills kids need for school.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: crayon box on paper. Sticker-logo hero, warm "Fun" vs cool "Function" halves, one crayon color per age group, dotted-ring dividers taken from the logo. */
+:root{
+  --paper:#FFFCF6; --paper-2:#FFF5E3; --card:#FFFFFF;
+  --ink:#1E2852; --ink-soft:#4E5779; --line:#EADFCB;
+  --red:#DD3F2C; --orange:#EE8420; --yellow:#F4BC1C; --green:#3A9A3E; --blue:#2A74C8;
+  --red-tint:#FCE5E0; --orange-tint:#FDEBD7; --yellow-tint:#FFF2C9; --green-tint:#E2F2DF; --blue-tint:#E0EDFA;
+  --red-ink:#B5301F; --orange-ink:#A35205; --yellow-ink:#866100; --green-ink:#24752A; --blue-ink:#1F5CA8;
+  --on-yellow:#1E2852;
+  --cta-bg:#2A6CC0; --cta-fg:#FFFFFF; --cta-hover:#235FAD; --cta-shadow:#17478A;
+  --footer-bg:#1E2852; --footer-fg:#F4EFE3; --footer-soft:#B8BED6;
+  --shadow:0 1px 0 rgba(30,40,82,.05), 0 12px 28px -14px rgba(30,40,82,.28);
+  --logo-shadow:drop-shadow(0 14px 22px rgba(30,40,82,.16));
+  --font-display:"Fredoka","Nunito",ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;
+  --font-body:"Nunito",ui-rounded,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-hand:"Patrick Hand","Chalkboard SE","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111933; --paper-2:#172142; --card:#1C2649;
+    --ink:#F2EEE4; --ink-soft:#B7BCD2; --line:#2D3963;
+    --red:#FF6A55; --orange:#FF9F45; --yellow:#FFCF45; --green:#5CC260; --blue:#5BA3F2;
+    --red-tint:#3A2136; --orange-tint:#3A2A2A; --yellow-tint:#363223; --green-tint:#1D3934; --blue-tint:#1B3160;
+    --red-ink:#FF9C8C; --orange-ink:#FFBA7A; --yellow-ink:#FFDB75; --green-ink:#91DB91; --blue-ink:#9CC7F7;
+    --on-yellow:#1E2852;
+    --cta-bg:#5BA3F2; --cta-fg:#0D1430; --cta-hover:#7AB6F6; --cta-shadow:#2F67AA;
+    --footer-bg:#0A1026; --footer-fg:#F2EEE4; --footer-soft:#A0A7C4;
+    --shadow:0 1px 0 rgba(0,0,0,.25), 0 14px 30px -14px rgba(0,0,0,.6);
+    --logo-shadow:drop-shadow(0 14px 26px rgba(0,0,0,.45));
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111933; --paper-2:#172142; --card:#1C2649;
+  --ink:#F2EEE4; --ink-soft:#B7BCD2; --line:#2D3963;
+  --red:#FF6A55; --orange:#FF9F45; --yellow:#FFCF45; --green:#5CC260; --blue:#5BA3F2;
+  --red-tint:#3A2136; --orange-tint:#3A2A2A; --yellow-tint:#363223; --green-tint:#1D3934; --blue-tint:#1B3160;
+  --red-ink:#FF9C8C; --orange-ink:#FFBA7A; --yellow-ink:#FFDB75; --green-ink:#91DB91; --blue-ink:#9CC7F7;
+  --on-yellow:#1E2852;
+  --cta-bg:#5BA3F2; --cta-fg:#0D1430; --cta-hover:#7AB6F6; --cta-shadow:#2F67AA;
+  --footer-bg:#0A1026; --footer-fg:#F2EEE4; --footer-soft:#A0A7C4;
+  --shadow:0 1px 0 rgba(0,0,0,.25), 0 14px 30px -14px rgba(0,0,0,.6);
+  --logo-shadow:drop-shadow(0 14px 26px rgba(0,0,0,.45));
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+img{max-width:100%;display:block;height:auto}
+a{color:var(--blue-ink);text-underline-offset:3px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(clamp(16px,4vw,32px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,32px),env(safe-area-inset-right,0px))}
+section{padding-block:clamp(56px,8vw,104px)}
+.band{background:var(--paper-2)}
+.sec-head{display:grid;gap:14px;max-width:46rem;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head h2{font-size:clamp(2rem,1.2rem + 2.6vw,2.9rem);font-weight:600}
+.lead{font-size:1.15rem;color:var(--ink-soft);max-width:60ch}
+
+.c-red{--c:var(--red);--c-tint:var(--red-tint);--c-ink:var(--red-ink)}
+.c-orange{--c:var(--orange);--c-tint:var(--orange-tint);--c-ink:var(--orange-ink)}
+.c-yellow{--c:var(--yellow);--c-tint:var(--yellow-tint);--c-ink:var(--yellow-ink)}
+.c-green{--c:var(--green);--c-tint:var(--green-tint);--c-ink:var(--green-ink)}
+.c-blue{--c:var(--blue);--c-tint:var(--blue-tint);--c-ink:var(--blue-ink)}
+
+.skip{position:absolute;left:-9999px;top:0}
+.skip:focus{left:16px;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:60;background:var(--card);color:var(--ink);padding:10px 16px;border-radius:12px;box-shadow:var(--shadow)}
+
+/* Buttons: chunky like toy blocks */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-display);font-weight:600;font-size:1.1rem;line-height:1;padding:.95rem 1.5rem;border-radius:999px;border:2px solid var(--cta-bg);background:var(--cta-bg);color:var(--cta-fg);text-decoration:none;cursor:pointer;box-shadow:0 4px 0 var(--cta-shadow);transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
+.btn:hover{background:var(--cta-hover);border-color:var(--cta-hover);transform:translateY(-1px);box-shadow:0 5px 0 var(--cta-shadow)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--cta-shadow)}
+.btn-ghost{background:var(--card);color:var(--ink);border-color:var(--ink);box-shadow:0 4px 0 var(--ink)}
+.btn-ghost:hover{background:var(--paper-2);border-color:var(--ink);box-shadow:0 5px 0 var(--ink)}
+.btn-ghost:active{box-shadow:0 1px 0 var(--ink)}
+.btn-sm{font-size:1rem;padding:.65rem 1.1rem;box-shadow:0 3px 0 var(--cta-shadow)}
+
+/* Header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 90%,transparent);-webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease}
+.site-head.scrolled{border-bottom-color:var(--line)}
+.head-row{display:flex;align-items:center;gap:14px;min-height:70px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;min-width:0}
+.brand img{width:46px;height:46px;border-radius:50%}
+.brand b{display:block;font-family:var(--font-display);font-weight:600;font-size:1.2rem;line-height:1.1}
+.brand small{display:block;font-size:.8rem;color:var(--ink-soft);font-weight:700;line-height:1.3}
+.nav-links{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.nav-links a{display:block;padding:8px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:700;font-size:.98rem}
+.nav-links a:hover{background:var(--paper-2)}
+.menu-btn{display:none;align-items:center;gap:8px;font:inherit;font-weight:800;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:999px;padding:.5rem .9rem;cursor:pointer}
+.menu-btn svg{width:18px;height:18px}
+@media (max-width:940px){
+  .menu-btn{display:inline-flex}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:2px;padding:10px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));background:var(--paper);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+  .site-head.open .nav-links{display:flex}
+  .nav-links a{padding:12px 14px;font-size:1.05rem}
+}
+@media (max-width:520px){
+  .head-row .btn-sm{display:none}
+  .brand small{display:none}
+}
+
+/* Hero */
+.hero{padding-block:clamp(28px,5vw,64px) clamp(44px,6vw,84px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,5vw,64px);align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 12px;border-radius:999px;background:var(--green-tint);color:var(--green-ink);font-weight:800;font-size:.95rem;margin-bottom:20px}
+.pulse{width:10px;height:10px;border-radius:50%;background:var(--green);flex:none;animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 60%,transparent)}100%{box-shadow:0 0 0 10px color-mix(in srgb,var(--green) 0%,transparent)}}
+.hero h1{font-size:clamp(2.6rem,1.3rem + 4.6vw,4.7rem);font-weight:600;line-height:1.02;letter-spacing:-.01em}
+.scribble{position:relative;display:inline-block;isolation:isolate;white-space:nowrap}
+.scribble svg{position:absolute;left:-3%;bottom:-.06em;width:106%;height:.34em;z-index:-1;overflow:visible;color:var(--yellow)}
+.scribble path{stroke-dasharray:100;stroke-dashoffset:0;animation:draw .9s .35s ease-out both}
+@keyframes draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.hero .lead{margin-top:22px;font-size:clamp(1.1rem,1rem + .4vw,1.3rem)}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.facts{list-style:none;padding:0;margin:30px 0 0;display:flex;flex-wrap:wrap;gap:10px 24px;font-weight:800}
+.facts li{display:flex;align-items:center;gap:9px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none}
+
+.hero-logo{position:relative;margin:0;justify-self:center;width:min(100%,470px);aspect-ratio:1;padding:7%}
+.hero-logo img{width:100%;height:100%;border-radius:50%;filter:var(--logo-shadow)}
+.ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 120s linear infinite}
+.ring .r1{stroke:var(--red)} .ring .r2{stroke:var(--yellow)} .ring .r3{stroke:var(--green)} .ring .r4{stroke:var(--blue)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.doodle{position:absolute;color:var(--c)}
+.doodle.s1{top:1%;left:3%;width:34px;transform:rotate(-12deg)}
+.doodle.s2{top:6%;right:2%;width:22px;transform:rotate(14deg)}
+.doodle.s3{bottom:12%;left:0;width:20px;transform:rotate(8deg)}
+.addr-tag{position:absolute;right:-2%;bottom:3%;font-family:var(--font-hand);font-size:1.15rem;line-height:1.2;background:var(--card);color:var(--ink);padding:8px 14px;border-radius:12px;box-shadow:var(--shadow);transform:rotate(-4deg)}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-logo{order:-1;width:min(80%,330px)}
+  .addr-tag{right:-6%;font-size:1.05rem}
+}
+
+.dots{height:12px;width:min(100%,360px);margin-inline:auto;background:
+  radial-gradient(circle at 6px 6px,var(--red) 0 4px,transparent 4.6px) 0 0/64px 12px repeat-x,
+  radial-gradient(circle at 6px 6px,var(--yellow) 0 4px,transparent 4.6px) 16px 0/64px 12px repeat-x,
+  radial-gradient(circle at 6px 6px,var(--green) 0 4px,transparent 4.6px) 32px 0/64px 12px repeat-x,
+  radial-gradient(circle at 6px 6px,var(--blue) 0 4px,transparent 4.6px) 48px 0/64px 12px repeat-x}
+
+/* Fun + Function */
+#approach{padding-top:clamp(40px,6vw,72px)}
+.ff{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch}
+.ff-panel{border-radius:32px;padding:clamp(24px,3.4vw,44px);display:grid;gap:22px;align-content:start}
+.ff-panel.fun{background:var(--orange-tint)}
+.ff-panel.function{background:var(--blue-tint)}
+.ff-panel h3{font-size:clamp(1.9rem,1.3rem + 1.6vw,2.5rem);font-weight:600}
+.ff-panel.fun h3{color:var(--orange-ink)}
+.ff-panel.function h3{color:var(--blue-ink)}
+.ff-sub{font-family:var(--font-hand);font-size:1.3rem;color:var(--ink-soft);margin-top:4px}
+.ff-list{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.ff-list li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:14px;align-items:start}
+.ff-list li::before{content:"";width:14px;height:14px;margin-top:.4em;border-radius:50%;background:var(--red)}
+.ff-list li:nth-child(5n+2)::before{background:var(--yellow)}
+.ff-list li:nth-child(5n+3)::before{background:var(--green)}
+.ff-list li:nth-child(5n+4)::before{background:var(--blue)}
+.ff-list li:nth-child(5n+5)::before{background:var(--orange)}
+.ff-list b{display:block;font-weight:800;font-size:1.08rem}
+.ff-list span{color:var(--ink-soft)}
+.ff-plus{align-self:center;z-index:1;width:76px;height:76px;margin-inline:-26px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:var(--on-yellow);font-family:var(--font-display);font-weight:700;font-size:2.6rem;line-height:1;box-shadow:0 0 0 7px var(--paper);transform:rotate(-8deg)}
+.ff-sum{margin-top:clamp(28px,4vw,40px);text-align:center;font-family:var(--font-display);font-weight:500;font-size:clamp(1.25rem,1rem + 1vw,1.6rem);text-wrap:balance}
+.ff-sum em{font-style:normal;color:var(--orange-ink)}
+.ff-sum strong{font-weight:600;color:var(--blue-ink)}
+@media (max-width:860px){
+  .ff{grid-template-columns:minmax(0,1fr)}
+  .ff-plus{justify-self:center;margin-inline:0;margin-block:-24px}
+}
+
+/* Our day */
+.day-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,5vw,72px);align-items:start}
+.day-intro{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);display:grid;gap:20px}
+.day-intro h2{font-size:clamp(2rem,1.2rem + 2.6vw,2.9rem);font-weight:600}
+.now-card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px 20px;display:grid;gap:4px;box-shadow:var(--shadow)}
+.now-label{font-family:var(--font-hand);font-size:1.25rem;color:var(--green-ink);display:flex;align-items:center;gap:10px}
+.now-card .pulse{display:none}
+.now-card.live .pulse{display:block}
+.now-title{font-family:var(--font-display);font-weight:600;font-size:1.55rem;line-height:1.2}
+.now-detail{color:var(--ink-soft)}
+.legend{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;color:var(--ink-soft);font-weight:700;font-size:.95rem}
+.note{color:var(--ink-soft);font-size:.98rem}
+.tag{display:inline-block;font-family:var(--font-body);font-size:.78rem;font-weight:800;letter-spacing:.02em;line-height:1.5;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.tag.fun{background:var(--orange-tint);color:var(--orange-ink)}
+.tag.function{background:var(--blue-tint);color:var(--blue-ink)}
+.tag.both{background:var(--green-tint);color:var(--green-ink)}
+.day-list{--time-w:4.8rem;--gap:30px;list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.day-list li{position:relative;display:grid;grid-template-columns:var(--time-w) minmax(0,1fr);gap:var(--gap);padding:14px 16px;border-radius:20px;transition:background-color .2s ease}
+.day-list li.fun{--c:var(--orange)} .day-list li.function{--c:var(--blue)} .day-list li.both{--c:var(--green)}
+.day-list li::after{content:"";position:absolute;left:calc(16px + var(--time-w) + var(--gap) / 2);top:0;bottom:-4px;border-left:3px dotted var(--line);transform:translateX(-50%)}
+.day-list li:first-child::after{top:22px}
+.day-list li:last-child::after{bottom:calc(100% - 22px)}
+.day-list li::before{content:"";position:absolute;z-index:1;left:calc(16px + var(--time-w) + var(--gap) / 2);top:22px;width:15px;height:15px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--paper-2);transform:translate(-50%,-25%)}
+.day-list time{font-family:var(--font-display);font-weight:600;font-size:1.3rem;line-height:1.3;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.day-list time small{font-family:var(--font-body);font-size:.72rem;font-weight:800;color:var(--ink-soft);margin-left:3px;text-transform:uppercase;letter-spacing:.04em}
+.day-list h3{font-size:1.18rem;font-weight:600;line-height:1.35;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.day-list p{color:var(--ink-soft);margin-top:3px}
+.day-list li.is-now{background:var(--card);box-shadow:var(--shadow)}
+.day-list li.is-now::before{box-shadow:0 0 0 4px var(--card),0 0 0 8px color-mix(in srgb,var(--c) 35%,transparent)}
+.day-list li.is-now time::after{content:"now";display:block;font-family:var(--font-hand);font-weight:400;font-size:1.15rem;color:var(--green-ink)}
+@media (max-width:860px){
+  .day-grid{grid-template-columns:minmax(0,1fr)}
+  .day-intro{position:static}
+}
+@media (max-width:520px){
+  .day-list{--time-w:4.4rem;--gap:24px}
+  .day-list li{padding:12px 8px}
+  .day-list li::after,.day-list li::before{left:calc(8px + var(--time-w) + var(--gap) / 2)}
+  .day-list time{font-size:1.05rem}
+  .day-list time small{font-size:.64rem;margin-left:2px}
+}
+
+/* Ages */
+.ages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.age{background:var(--card);border:2px solid var(--line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column}
+.age-top{background:var(--c-tint);padding:22px 22px 18px;border-bottom:5px solid var(--c);display:grid;gap:4px}
+.age-top h3{font-size:1.75rem;font-weight:600}
+.age-range{font-weight:800;color:var(--c-ink)}
+.age > p{padding:18px 22px 24px;color:var(--ink-soft)}
+@media (max-width:980px){.ages{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.ages{grid-template-columns:minmax(0,1fr)}}
+
+/* Photo spots */
+.polaroids{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,3vw,34px);padding-top:14px}
+.polaroid{position:relative;margin:0;background:var(--card);padding:12px 12px 0;border-radius:6px;box-shadow:var(--shadow);transform:rotate(-2deg);transition:transform .2s ease}
+.polaroid:nth-child(2){transform:rotate(1.6deg)}
+.polaroid:nth-child(3){transform:rotate(-1deg)}
+.polaroid:nth-child(4){transform:rotate(2.2deg)}
+.polaroid:hover{transform:rotate(0) translateY(-4px)}
+.polaroid::before{content:"";position:absolute;top:-11px;left:50%;width:76px;height:24px;transform:translateX(-50%) rotate(-3deg);background:color-mix(in srgb,var(--yellow) 55%,transparent);border-radius:2px}
+.ph{aspect-ratio:4/5;max-width:100%;border-radius:3px;display:grid;place-content:center;justify-items:center;gap:8px;color:var(--c-ink);font-weight:800;font-size:.9rem;background:repeating-linear-gradient(135deg,var(--c-tint) 0 14px,color-mix(in srgb,var(--c) 20%,var(--c-tint)) 14px 17px)}
+.ph svg{width:34px;height:34px}
+.polaroid figcaption{font-family:var(--font-hand);font-size:1.35rem;text-align:center;padding:10px 4px 12px}
+@media (max-width:860px){.polaroids{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Details */
+.details{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,3vw,40px) clamp(22px,3vw,40px)}
+.details li{display:grid;grid-template-columns:54px minmax(0,1fr);gap:16px;align-items:start}
+.ico{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:var(--c-tint);color:var(--c-ink)}
+.ico svg{width:27px;height:27px}
+.details h3{font-size:1.22rem;font-weight:600;margin:4px 0 6px}
+.details p{color:var(--ink-soft)}
+@media (max-width:940px){.details{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.details{grid-template-columns:minmax(0,1fr)}}
+
+/* Enroll */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.steps li{position:relative;display:grid;gap:10px;align-content:start}
+.steps li:not(:last-child)::after{content:"";position:absolute;top:27px;left:70px;right:-14px;border-top:3px dashed var(--line)}
+.num{position:relative;z-index:1;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:1.6rem;background:var(--c-tint);color:var(--c-ink);border:3px solid var(--c)}
+.steps h3{font-size:1.22rem;font-weight:600;margin-top:4px}
+.steps p{color:var(--ink-soft)}
+.tuition{margin-top:clamp(32px,4vw,52px);display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;background:var(--card);border:2px dashed var(--yellow);border-radius:22px;padding:20px 22px;max-width:54rem}
+.tuition svg{width:30px;height:30px;color:var(--yellow-ink);margin-top:2px}
+.tuition b{font-weight:800}
+@media (max-width:940px){
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:34px}
+  .steps li::after{display:none}
+}
+@media (max-width:520px){
+  .steps{grid-template-columns:minmax(0,1fr);row-gap:26px}
+  .steps li{grid-template-columns:58px minmax(0,1fr);column-gap:16px}
+  .steps li .num{grid-row:span 2}
+  .steps h3{margin-top:12px}
+}
+
+/* Visit */
+.visit-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(30px,5vw,64px);align-items:start}
+.form-card{background:var(--card);border:2px solid var(--line);border-radius:30px;padding:clamp(22px,3.6vw,42px);box-shadow:var(--shadow)}
+.form-card h2,.visit-info h2{font-size:clamp(1.9rem,1.2rem + 1.8vw,2.5rem);font-weight:600}
+.form-card .lead{margin-top:10px;font-size:1.05rem}
+#tour-form{display:grid;gap:18px;margin-top:26px}
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.field{display:grid;gap:7px;min-width:0;border:0;padding:0;margin:0}
+.field label,.field legend{font-weight:800;font-size:.98rem}
+.field legend{padding:0;margin-bottom:8px}
+.opt{font-weight:600;color:var(--ink-soft);font-size:.85rem;margin-left:4px}
+.field input,.field select,.field textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:.72rem .9rem;width:100%;min-width:0}
+.field textarea{resize:vertical;min-height:96px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid color-mix(in srgb,var(--blue) 40%,transparent);outline-offset:0;border-color:var(--blue)}
+.pills{position:relative;display:flex;flex-wrap:wrap;gap:10px}
+.pills input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.pills label{padding:.55rem 1.05rem;border-radius:999px;border:2px solid var(--line);background:var(--paper);cursor:pointer;font-weight:700;font-size:.98rem}
+.pills input:checked + label{background:var(--blue-tint);border-color:var(--blue);color:var(--blue-ink)}
+.pills input:focus-visible + label{outline:3px solid var(--blue);outline-offset:2px}
+.form-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.form-foot p{color:var(--ink-soft);font-size:.92rem}
+.sent{margin-top:26px;padding:22px;border-radius:22px;background:var(--green-tint);display:grid;gap:8px;justify-items:start}
+.sent h3{font-size:1.5rem;font-weight:600;color:var(--green-ink)}
+.sent .btn{margin-top:8px}
+.visit-info dl{display:grid;gap:22px;margin:26px 0 0}
+.visit-info dt{font-family:var(--font-hand);font-size:1.25rem;color:var(--blue-ink);line-height:1.2}
+.visit-info dd{margin:2px 0 0;font-weight:700;font-size:1.1rem;overflow-wrap:anywhere}
+.visit-info dd a{font-weight:800}
+.serving{margin-top:26px;padding-top:22px;border-top:3px dotted var(--line);color:var(--ink-soft)}
+@media (max-width:860px){.visit-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.field-row{grid-template-columns:minmax(0,1fr)}}
+
+/* Footer */
+.site-foot{background:var(--footer-bg);color:var(--footer-fg);padding-block:30px 34px}
+.site-foot .dots{width:100%}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:28px;padding-block:40px 30px}
+.foot-brand{display:flex;gap:14px;align-items:center}
+.foot-brand img{width:76px;height:76px;border-radius:50%;flex:none}
+.foot-name{font-family:var(--font-display);font-weight:600;font-size:1.35rem;line-height:1.2}
+.site-foot h3{font-family:var(--font-hand);font-weight:400;font-size:1.3rem;color:var(--yellow);margin-bottom:6px}
+.site-foot p{color:var(--footer-soft);overflow-wrap:anywhere}
+.site-foot .foot-name{color:var(--footer-fg)}
+.site-foot a{color:var(--footer-fg)}
+.foot-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--footer-fg) 18%,transparent);font-size:.92rem}
+.foot-base p{color:var(--footer-soft)}
+@media (max-width:900px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot-brand{grid-column:1 / -1}}
+@media (max-width:480px){.foot-grid{grid-template-columns:minmax(0,1fr)}}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ChildCare","name":"Fun and Function Daycare",
+ "address":{"@type":"PostalAddress","streetAddress":"6 Thayer Rd","addressLocality":"Highland Mills","addressRegion":"NY","postalCode":"10930","addressCountry":"US"}}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head" id="top-bar">
+  <div class="wrap head-row">
+    <a class="brand" href="#top" aria-label="Fun and Function Daycare, back to top">
+      <img src="logo.webp" alt="" width="46" height="46">
+      <span><b>Fun and Function</b><small>Daycare · Highland Mills, NY</small></span>
+    </a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#approach">Our approach</a></li>
+        <li><a href="#our-day">Our day</a></li>
+        <li><a href="#ages">Ages</a></li>
+        <li><a href="#enroll">Enroll</a></li>
+        <li><a href="#visit">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-sm" href="#visit">Book a tour</a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="pill"><span class="pulse" aria-hidden="true"></span>Now enrolling toddlers and preschoolers</p>
+        <h1>Play with a <span class="scribble">purpose<svg viewBox="0 0 200 24" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M3 16 C 38 6, 70 20, 104 11 S 168 8, 197 13" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/></svg></span>, close to home.</h1>
+        <p class="lead">Fun and Function Daycare is a licensed home daycare in Highland Mills, New York. Kids spend the day playing, creating and exploring, and they build the everyday skills that get them ready for school.</p>
+        <div class="cta-row">
+          <a class="btn" href="#visit">Book a tour</a>
+          <a class="btn btn-ghost" href="#our-day">See our day</a>
+        </div>
+        <ul class="facts">
+          <li class="c-red"><span class="dot" aria-hidden="true"></span>Ages 6 weeks–12 years</li>
+          <li class="c-yellow"><span class="dot" aria-hidden="true"></span>Mon–Fri, 7:00 am–5:30 pm</li>
+          <li class="c-blue"><span class="dot" aria-hidden="true"></span>Licensed by NYS OCFS</li>
+        </ul>
+      </div>
+      <figure class="hero-logo">
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+          <g fill="none" stroke-width="2.3" stroke-linecap="round">
+            <circle class="r1" cx="50" cy="50" r="48" stroke-dasharray="0 25.1327" stroke-dashoffset="0"/>
+            <circle class="r2" cx="50" cy="50" r="48" stroke-dasharray="0 25.1327" stroke-dashoffset="-6.2832"/>
+            <circle class="r3" cx="50" cy="50" r="48" stroke-dasharray="0 25.1327" stroke-dashoffset="-12.5664"/>
+            <circle class="r4" cx="50" cy="50" r="48" stroke-dasharray="0 25.1327" stroke-dashoffset="-18.8496"/>
+          </g>
+        </svg>
+        <img src="logo.webp" alt="Fun and Function Daycare logo: crayons, a smiling star and sun, and a little blue house" width="880" height="880">
+        <svg class="doodle s1 c-yellow" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg class="doodle s2 c-blue" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg class="doodle s3 c-red" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <figcaption class="addr-tag">6 Thayer Rd · Highland Mills</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="dots" aria-hidden="true"></div>
+
+  <section id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Every day is part fun, part function.</h2>
+        <p class="lead">Children learn best when they're having a good time. So we fill the day with play, and we build everyday skills right into it.</p>
+      </div>
+      <div class="ff">
+        <div class="ff-panel fun">
+          <div>
+            <h3>The Fun</h3>
+            <p class="ff-sub">what the kids notice</p>
+          </div>
+          <ul class="ff-list">
+            <li><div><b>Art and crayons</b><span>Painting, drawing, play dough and plenty of glue.</span></div></li>
+            <li><div><b>Outside every day</b><span>Backyard play, nature walks and puddle jumping, weather permitting.</span></div></li>
+            <li><div><b>Music and movement</b><span>Songs, dancing, shakers and drums.</span></div></li>
+            <li><div><b>Pretend and build</b><span>Play kitchen, dress-up, blocks and trains.</span></div></li>
+            <li><div><b>Stories</b><span>Picture books every day and a cozy reading corner.</span></div></li>
+          </ul>
+        </div>
+        <div class="ff-plus" aria-hidden="true">+</div>
+        <div class="ff-panel function">
+          <div>
+            <h3>The Function</h3>
+            <p class="ff-sub">what they're learning</p>
+          </div>
+          <ul class="ff-list">
+            <li><div><b>Taking care of myself</b><span>Washing hands, putting on shoes and coats, using the potty.</span></div></li>
+            <li><div><b>Strong little hands</b><span>Holding a crayon, cutting with scissors, buttons and zippers.</span></div></li>
+            <li><div><b>Getting along</b><span>Sharing, taking turns, and using words for big feelings.</span></div></li>
+            <li><div><b>Ready for school</b><span>Letters, numbers, shapes, colors and following a routine.</span></div></li>
+            <li><div><b>Helping out</b><span>Setting the table, watering plants, cleaning up after play.</span></div></li>
+          </ul>
+        </div>
+      </div>
+      <p class="ff-sum"><em>Fun</em> + <strong>Function</strong> = a happy kid who is ready for kindergarten.</p>
+    </div>
+  </section>
+
+  <section class="band" id="our-day">
+    <div class="wrap day-grid">
+      <div class="day-intro">
+        <h2>A day at Fun and Function</h2>
+        <p class="lead">Kids do best with a rhythm they can count on. Every part of the day is a little fun, a little function, and often both.</p>
+        <div class="now-card" id="now-card" aria-live="polite">
+          <p class="now-label"><span class="pulse" aria-hidden="true"></span><span id="now-label">A typical weekday</span></p>
+          <p class="now-title" id="now-title">7:00 am to 5:30 pm</p>
+          <p class="now-detail" id="now-detail">Monday through Friday. Times are a guide, not a stopwatch.</p>
+        </div>
+        <ul class="legend" aria-label="Legend">
+          <li><span class="tag fun">Fun</span></li>
+          <li><span class="tag function">Function</span></li>
+          <li><span class="tag both">Fun + Function</span></li>
+        </ul>
+        <p class="note">Infants keep their own feeding and nap schedule from home.</p>
+      </div>
+      <ol class="day-list" id="day-list">
+        <li class="fun" data-start="420"><time>7:00<small>am</small></time><div><h3><span class="name">Arrival and free play</span> <span class="tag fun">Fun</span></h3><p>Hellos at the door, then puzzles, blocks and books while friends arrive.</p></div></li>
+        <li class="function" data-start="480"><time>8:00<small>am</small></time><div><h3><span class="name">Breakfast</span> <span class="tag function">Function</span></h3><p>Wash hands, find our seats, and pour and serve with a little help.</p></div></li>
+        <li class="both" data-start="525"><time>8:45<small>am</small></time><div><h3><span class="name">Circle time</span> <span class="tag both">Fun + Function</span></h3><p>Good-morning song, the calendar, the weather and today's plan.</p></div></li>
+        <li class="fun" data-start="555"><time>9:15<small>am</small></time><div><h3><span class="name">Learning centers</span> <span class="tag fun">Fun</span></h3><p>Art, blocks, the sensory table, the play kitchen and small-group lessons.</p></div></li>
+        <li class="function" data-start="615"><time>10:15<small>am</small></time><div><h3><span class="name">Clean-up and snack</span> <span class="tag function">Function</span></h3><p>Everyone helps put the toys back where they live.</p></div></li>
+        <li class="both" data-start="630"><time>10:30<small>am</small></time><div><h3><span class="name">Outdoor play</span> <span class="tag both">Fun + Function</span></h3><p>Running, climbing and the sandbox. Coats and shoes on by ourselves.</p></div></li>
+        <li class="function" data-start="705"><time>11:45<small>am</small></time><div><h3><span class="name">Lunch</span> <span class="tag function">Function</span></h3><p>Family-style meal. Trying new foods and practicing table manners.</p></div></li>
+        <li class="function" data-start="750"><time>12:30<small>pm</small></time><div><h3><span class="name">Nap and quiet time</span> <span class="tag function">Function</span></h3><p>Each child sets up their own cot and blanket. Quiet books for kids who don't nap.</p></div></li>
+        <li class="both" data-start="885"><time>2:45<small>pm</small></time><div><h3><span class="name">Snack and story</span> <span class="tag both">Fun + Function</span></h3><p>A healthy snack, then a read-aloud on the rug.</p></div></li>
+        <li class="fun" data-start="915"><time>3:15<small>pm</small></time><div><h3><span class="name">Projects and music</span> <span class="tag fun">Fun</span></h3><p>Art projects and dancing. School-age friends arrive for snack and homework time.</p></div></li>
+        <li class="fun" data-start="975"><time>4:15<small>pm</small></time><div><h3><span class="name">Outside or free play</span> <span class="tag fun">Fun</span></h3><p>Back outside when the weather is nice, or games and building inside.</p></div></li>
+        <li class="function" data-start="1020"><time>5:00<small>pm</small></time><div><h3><span class="name">Pickup</span> <span class="tag function">Function</span></h3><p>Gather our things and say goodbye. Photos and notes from the day are in the parent app.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="ages">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Care for every age</h2>
+        <p class="lead">Babies through school-age kids, together in one home. Older kids help, little ones watch and learn, and brothers and sisters can stay together.</p>
+      </div>
+      <div class="ages">
+        <article class="age c-red">
+          <div class="age-top"><h3>Infants</h3><p class="age-range">6 weeks – 18 months</p></div>
+          <p>We follow your baby's feeding and nap schedule from home. Lots of floor time, songs and cuddles, with a daily note on bottles, diapers and naps.</p>
+        </article>
+        <article class="age c-yellow">
+          <div class="age-top"><h3>Toddlers</h3><p class="age-range">18 months – 3 years</p></div>
+          <p>Busy bodies and first words. Simple routines, potty learning when they're ready, climbing, scribbling and stories.</p>
+        </article>
+        <article class="age c-green">
+          <div class="age-top"><h3>Preschool</h3><p class="age-range">3 – 5 years</p></div>
+          <p>Letters, numbers and projects, plus the skills kindergarten teachers look for: listening, taking turns and zipping a coat.</p>
+        </article>
+        <article class="age c-blue">
+          <div class="age-top"><h3>School-age</h3><p class="age-range">5 – 12 years</p></div>
+          <p>Before and after school, school breaks and summer. Snack, homework time and plenty of room to play.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="inside">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Take a look inside</h2>
+        <p class="lead">A real home with spaces set up just for kids.</p>
+      </div>
+      <div class="polaroids">
+        <figure class="polaroid c-yellow"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Add photo</div><figcaption>The play room</figcaption></figure>
+        <figure class="polaroid c-blue"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Add photo</div><figcaption>Art corner</figcaption></figure>
+        <figure class="polaroid c-green"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Add photo</div><figcaption>The backyard</figcaption></figure>
+        <figure class="polaroid c-red"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Add photo</div><figcaption>Nap and quiet space</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>What parents ask about</h2>
+      </div>
+      <ul class="details">
+        <li class="c-green"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><div><h3>Licensed and inspected</h3><p>Licensed by the New York State Office of Children and Family Services (OCFS) and inspected on a regular schedule.</p></div></li>
+        <li class="c-blue"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M9 6V4h6v2M12 10v6M9 13h6"/></svg></span><div><h3>Trained for safety</h3><p>CPR and First Aid certified. Monthly fire drills, plus smoke and carbon monoxide detectors throughout the home.</p></div></li>
+        <li class="c-red"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7.5c-2-1.5-6.5-1.2-6.5 4 0 4.2 3.2 9.2 6.5 8.2 3.3 1 6.5-4 6.5-8.2 0-5.2-4.5-5.5-6.5-4z"/><path d="M12 7.5c0-2 1-3.6 3-4.3"/></svg></span><div><h3>Meals included</h3><p>Breakfast, lunch and snacks made here, following USDA child nutrition guidelines.</p></div></li>
+        <li class="c-orange"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M9 12.5l2 2 4-4.5"/></svg></span><div><h3>Updates all day</h3><p>Photos, meals, naps and notes sent to your phone through our parent app.</p></div></li>
+        <li class="c-yellow"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.3c-.5-.8-1.5-1.3-2.6-1.3-1.5 0-2.6.8-2.6 2s1 1.6 2.6 2 2.6.9 2.6 2.1-1.1 2-2.6 2c-1.2 0-2.2-.5-2.7-1.3M12 6.5V8M12 16v1.5"/></svg></span><div><h3>Help paying for care</h3><p>We accept child care assistance through Orange County DSS. Ask us how to apply.</p></div></li>
+        <li class="c-blue"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 11.5L12 4.5l8.5 7"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg></span><div><h3>A real home</h3><p>A small group, a calm routine, and the same caring face every day.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="enroll">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Starting is simple</h2>
+        <p class="lead">Four steps from the first hello to the first day.</p>
+      </div>
+      <ol class="steps">
+        <li class="c-red"><span class="num">1</span><h3>Book a tour</h3><p>Pick a time that works for you, and bring your little one along.</p></li>
+        <li class="c-yellow"><span class="num">2</span><h3>Visit and ask questions</h3><p>See the space, meet the kids, and talk through your schedule.</p></li>
+        <li class="c-green"><span class="num">3</span><h3>Fill out the forms</h3><p>Enrollment packet, medical form and immunization records, as New York State requires.</p></li>
+        <li class="c-blue"><span class="num">4</span><h3>Start with short days</h3><p>A gentle first week helps your child settle in and feel at home.</p></li>
+      </ol>
+      <div class="tuition">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/></svg>
+        <p><b>About tuition.</b> Tuition depends on your child's age and schedule. Full-time and part-time spots are available, and we'll go over rates at your tour.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="wrap visit-grid">
+      <div class="form-card">
+        <h2>Request a tour</h2>
+        <p class="lead">Tell us a little about your family. We'll reach out within one business day to set up a visit.</p>
+        <form id="tour-form" name="tour" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="tour">
+          <p hidden><label for="bot-field">Leave this empty</label><input id="bot-field" name="bot-field"></p>
+          <div class="field-row">
+            <div class="field"><label for="parent-name">Your name</label><input id="parent-name" name="parent-name" autocomplete="name" required></div>
+            <div class="field"><label for="parent-phone">Phone</label><input id="parent-phone" name="parent-phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+          </div>
+          <div class="field"><label for="parent-email">Email <span class="opt">Optional</span></label><input id="parent-email" name="parent-email" type="email" autocomplete="email"></div>
+          <div class="field-row">
+            <div class="field">
+              <label for="child-age">Child's age</label>
+              <select id="child-age" name="child-age" required>
+                <option value="">Choose one</option>
+                <option>Under 18 months</option>
+                <option>18 months – 3 years</option>
+                <option>3 – 5 years</option>
+                <option>5 – 12 years</option>
+                <option>More than one child</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="start-when">When do you need care?</label>
+              <select id="start-when" name="start-when">
+                <option>As soon as possible</option>
+                <option>In 1–3 months</option>
+                <option>In 3–6 months</option>
+                <option>More than 6 months away</option>
+              </select>
+            </div>
+          </div>
+          <fieldset class="field">
+            <legend>Schedule</legend>
+            <div class="pills">
+              <input type="radio" id="sched-full" name="schedule" value="Full-time" checked><label for="sched-full">Full-time</label>
+              <input type="radio" id="sched-part" name="schedule" value="Part-time"><label for="sched-part">Part-time</label>
+              <input type="radio" id="sched-school" name="schedule" value="Before and after school"><label for="sched-school">Before and after school</label>
+            </div>
+          </fieldset>
+          <div class="field"><label for="tour-notes">Anything we should know? <span class="opt">Optional</span></label><textarea id="tour-notes" name="tour-notes" rows="3"></textarea></div>
+          <div class="form-foot">
+            <button class="btn" type="submit">Send tour request</button>
+            <p>We never share your information.</p>
+          </div>
+        </form>
+        <div class="sent" id="tour-sent" tabindex="-1" hidden>
+          <h3 id="sent-title">Thanks!</h3>
+          <p id="sent-text"></p>
+          <button class="btn btn-ghost btn-sm" type="button" id="sent-back">Back to the form</button>
+        </div>
+      </div>
+      <aside class="visit-info" aria-label="Contact details">
+        <h2>Come see us</h2>
+        <dl>
+          <div><dt>Address</dt><dd>6 Thayer Rd<br>Highland Mills, NY 10930<br><a href="https://www.google.com/maps/search/?api=1&amp;query=6%20Thayer%20Rd%2C%20Highland%20Mills%2C%20NY%2010930" target="_blank" rel="noopener">Get directions</a></dd></div>
+          <div><dt>Hours</dt><dd>Monday – Friday<br>7:00 am – 5:30 pm</dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+18455550142">(845) 555-0142</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:hello@funandfunctiondaycare.com">hello@funandfunctiondaycare.com</a></dd></div>
+        </dl>
+        <p class="serving">Serving families in Highland Mills, Central Valley, Monroe, Woodbury and Harriman.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="dots" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="logo.webp" alt="" width="76" height="76">
+        <div><p class="foot-name">Fun and Function Daycare</p><p>Play with a purpose.</p></div>
+      </div>
+      <div><h3>Visit</h3><p>6 Thayer Rd<br>Highland Mills, NY 10930</p></div>
+      <div><h3>Hours</h3><p>Monday – Friday<br>7:00 am – 5:30 pm</p></div>
+      <div><h3>Contact</h3><p>(845) 555-0142<br>hello@funandfunctiondaycare.com</p></div>
+    </div>
+    <div class="foot-base">
+      <p>Licensed by the New York State Office of Children and Family Services.</p>
+      <p>© <span id="yr">2026</span> Fun and Function Daycare</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var head = document.getElementById('top-bar');
+  var menuBtn = document.getElementById('menu-btn');
+  function onScroll() { head.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  function closeMenu() { head.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+  menuBtn.addEventListener('click', function () {
+    var open = head.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('#nav-links a').forEach(function (a) { a.addEventListener('click', closeMenu); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+  document.getElementById('yr').textContent = String(new Date().getFullYear());
+
+  /* "Right now" card: highlights the current part of the day, in Highland Mills time */
+  var OPEN = 7 * 60, CLOSE = 17 * 60 + 30;
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#day-list li[data-start]'));
+  var card = document.getElementById('now-card');
+  var nowLabel = document.getElementById('now-label');
+  var nowTitle = document.getElementById('now-title');
+  var nowDetail = document.getElementById('now-detail');
+  function fmt(m) {
+    var h = Math.floor(m / 60), mm = m % 60;
+    return ((h + 11) % 12 + 1) + ':' + String(mm).padStart(2, '0') + (h < 12 ? ' am' : ' pm');
+  }
+  function nameOf(row) { return row.querySelector('.name').textContent.trim(); }
+  function nyNow() {
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      var get = function (t) { var p = parts.find(function (x) { return x.type === t; }); return p ? p.value : ''; };
+      return { day: get('weekday'), mins: (parseInt(get('hour'), 10) % 24) * 60 + parseInt(get('minute'), 10) };
+    } catch (err) {
+      var d = new Date();
+      return { day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()], mins: d.getHours() * 60 + d.getMinutes() };
+    }
+  }
+  function update() {
+    var now = nyNow();
+    var weekday = ['Sat', 'Sun'].indexOf(now.day) === -1;
+    rows.forEach(function (r) { r.classList.remove('is-now'); });
+    card.classList.remove('live');
+    if (weekday && now.mins >= OPEN && now.mins < CLOSE) {
+      var i = 0;
+      for (var k = 0; k < rows.length; k++) { if (now.mins >= +rows[k].dataset.start) i = k; }
+      var row = rows[i], next = rows[i + 1];
+      row.classList.add('is-now');
+      card.classList.add('live');
+      nowLabel.textContent = 'Right now at Fun and Function';
+      nowTitle.textContent = nameOf(row);
+      nowDetail.textContent = next ? 'Until ' + fmt(+next.dataset.start) + '. Next up: ' + nameOf(next).toLowerCase() + '.' : 'Pickup runs until ' + fmt(CLOSE) + '.';
+    } else {
+      nowLabel.textContent = "We're closed right now";
+      var when = 'Monday';
+      if (weekday && now.mins < OPEN) when = 'today';
+      else if (['Mon', 'Tue', 'Wed', 'Thu'].indexOf(now.day) !== -1) when = 'tomorrow';
+      nowTitle.textContent = 'Doors open ' + when + ' at 7:00 am';
+      nowDetail.textContent = 'Monday through Friday, 7:00 am to 5:30 pm. The schedule below shows a typical day.';
+    }
+  }
+  update();
+  setInterval(update, 60000);
+
+  /* Tour request form */
+  var form = document.getElementById('tour-form');
+  var sent = document.getElementById('tour-sent');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var first = String(data.get('parent-name') || '').trim().split(/\s+/)[0] || 'for reaching out';
+    var canPost = /^https?:$/.test(location.protocol) && !/claude/i.test(location.hostname);
+    var done = function (delivered) {
+      document.getElementById('sent-title').textContent = 'Thanks, ' + first + '!';
+      document.getElementById('sent-text').textContent = delivered
+        ? "Your tour request is on its way. We'll call or email you within one business day."
+        : 'This is a preview of the website, so your request was not sent. On the live site, tour requests go straight to the daycare.';
+      form.hidden = true;
+      sent.hidden = false;
+      sent.focus();
+    };
+    if (!canPost) { done(false); return; }
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
+      .then(function (res) { done(res.ok); })
+      .catch(function () { done(false); });
+  });
+  document.getElementById('sent-back').addEventListener('click', function () {
+    sent.hidden = true;
+    form.hidden = false;
+    document.getElementById('parent-name').focus();
+  });
+})();
+</script>
+</body>
+</html>

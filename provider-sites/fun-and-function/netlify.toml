@@ -1,0 +1,4 @@
+# Settings for publishing this folder as its own Netlify site.
+# In Netlify, set the base directory to provider-sites/fun-and-function.
+[build]
+  publish = "."
