@@ -814,9 +814,9 @@ p{margin:0}
   tick();
   setInterval(tick, 60000);
 
-  /* Google map: loads on the live site; the preview keeps the drawn placeholder */
+  /* Google map: loads on the live site or a downloaded copy; Claude's preview keeps the drawn placeholder */
   var mapFrame = document.getElementById('map-frame');
-  if (/^https?:$/.test(location.protocol) && !/claude/i.test(location.hostname)) {
+  if (!/claude/i.test(location.hostname)) {
     var ifr = document.createElement('iframe');
     ifr.src = mapFrame.dataset.src;
     ifr.title = 'Map showing Fun and Function Daycare at 6 Thayer Rd, Highland Mills, NY';

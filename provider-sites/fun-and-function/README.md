@@ -17,8 +17,8 @@ These details are samples and need the provider's real information:
 
 ## Map
 
-The "How to find us" card shows a live Google Map of 6 Thayer Rd once the site is on its own web
-address. In Claude's preview it shows a drawn placeholder instead, because the preview blocks maps
+The "How to find us" card shows a live Google Map of 6 Thayer Rd on the published site, and also
+when you download `index.html` and `logo.webp` into one folder and open `index.html` in a browser. In Claude's preview it shows a drawn placeholder instead, because the preview blocks maps
 from other sites. To use Google's official embed instead, open the address in Google Maps, choose
 Share → Embed a map, and paste the `src` link into the `data-src` of `#map-frame` in `index.html`.
 
