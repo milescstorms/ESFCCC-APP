@@ -15,11 +15,11 @@
   --ink:#1C2554; --ink-soft:#2F3868; --h-shadow:rgba(255,255,255,.8);
   --paper:#FFFFFF; --paper-ink:#1C2554; --paper-soft:#4A5079;
   --rule:#A9C5E8; --red-rule:#E98A80; --red-pen:#D63B2A;
-  --wall-1:#FFD45C; --wall-2:#A6E3C4; --wall-3:#FFB3A3; --wall-4:#9DD2F4; --wall-5:#CDB8F2; --wall-6:#86D6CF; --wall-7:#FFBF7F;
-  --pat:rgba(255,255,255,.4); --pat-dots:rgba(255,255,255,.55);
+  --wall-1:#FBF0D2; --wall-2:#E2F0E5; --wall-3:#F8E4DD; --wall-4:#E1EDF7; --wall-5:#ECE6F5; --wall-6:#DDEFEC; --wall-7:#FBE8D6;
+  --pat:rgba(255,255,255,.75); --pat-dots:rgba(255,255,255,.8); --dim:100%;
   --head-bg:#FFFFFF;
-  --red:#C83A26; --orange:#EF8A26; --yellow:#F6C531; --green:#27803B; --blue:#2D6CC8; --purple:#7A4FB5; --pink:#E46A9A; --teal:#177F7D;
-  --fabric:#2350B0; --wood:#E3BE83; --wood-dark:#B88A4E; --cubby-in:#FBF0D9; --cork:#C99A62; --fridge:#F2F4F7; --sticky:#FFEB7A; --tape:rgba(240,228,192,.95);
+  --red:#C94A36; --orange:#E58A3A; --yellow:#EDBE45; --green:#3F8A50; --blue:#3F70BF; --purple:#7E5DB3; --pink:#D9809F; --teal:#2F8481;
+  --fabric:#3C5A9E; --wood:#E3BE83; --wood-dark:#B88A4E; --cubby-in:#FBF0D9; --cork:#C99A62; --fridge:#F2F4F7; --sticky:#FCEFA6; --tape:rgba(240,228,192,.95);
   --edge:#1C2554;
   --foot-bg:#1C2554; --foot-fg:#F6F1E6; --foot-soft:#BAC0DA;
   --lift:0 1px 1px rgba(28,37,84,.12), 0 16px 26px -14px rgba(28,37,84,.5);
@@ -31,10 +31,10 @@
   :root:not([data-theme="light"]){
     --ink:#F6F1E6; --ink-soft:#E2DDEE; --h-shadow:rgba(0,0,0,.35);
     --paper:#ECE6D8;
-    --wall-1:#25296B; --wall-2:#0F4D3E; --wall-3:#5C1F36; --wall-4:#123F6B; --wall-5:#3B2675; --wall-6:#0D4C4B; --wall-7:#5E2F10;
-    --pat:rgba(255,255,255,.06); --pat-dots:rgba(255,212,92,.2);
+    --wall-1:#232947; --wall-2:#1E3530; --wall-3:#3A2630; --wall-4:#1D2F45; --wall-5:#2C2745; --wall-6:#1C3636; --wall-7:#3A2C22;
+    --pat:rgba(255,255,255,.05); --pat-dots:rgba(255,255,255,.06); --dim:84%;
     --head-bg:#161C44;
-    --fabric:#1F438F; --wood:#B48D57; --wood-dark:#86643A; --cubby-in:#E6D8BA; --cork:#A47A48; --fridge:#CBD2DB; --sticky:#E8D56E; --tape:rgba(222,210,174,.95);
+    --fabric:#2C467F; --wood:#B48D57; --wood-dark:#86643A; --cubby-in:#E6D8BA; --cork:#A47A48; --fridge:#CBD2DB; --sticky:#E8D56E; --tape:rgba(222,210,174,.95);
     --edge:#0A0E24;
     --foot-bg:#0A0E24; --foot-fg:#F6F1E6; --foot-soft:#A6ADC9;
     --lift:0 1px 1px rgba(0,0,0,.4), 0 18px 30px -14px rgba(0,0,0,.75);
@@ -44,10 +44,10 @@
 :root[data-theme="dark"]{
   --ink:#F6F1E6; --ink-soft:#E2DDEE; --h-shadow:rgba(0,0,0,.35);
   --paper:#ECE6D8;
-  --wall-1:#25296B; --wall-2:#0F4D3E; --wall-3:#5C1F36; --wall-4:#123F6B; --wall-5:#3B2675; --wall-6:#0D4C4B; --wall-7:#5E2F10;
-  --pat:rgba(255,255,255,.06); --pat-dots:rgba(255,212,92,.2);
+  --wall-1:#232947; --wall-2:#1E3530; --wall-3:#3A2630; --wall-4:#1D2F45; --wall-5:#2C2745; --wall-6:#1C3636; --wall-7:#3A2C22;
+  --pat:rgba(255,255,255,.05); --pat-dots:rgba(255,255,255,.06); --dim:84%;
   --head-bg:#161C44;
-  --fabric:#1F438F; --wood:#B48D57; --wood-dark:#86643A; --cubby-in:#E6D8BA; --cork:#A47A48; --fridge:#CBD2DB; --sticky:#E8D56E; --tape:rgba(222,210,174,.95);
+  --fabric:#2C467F; --wood:#B48D57; --wood-dark:#86643A; --cubby-in:#E6D8BA; --cork:#A47A48; --fridge:#CBD2DB; --sticky:#E8D56E; --tape:rgba(222,210,174,.95);
   --edge:#0A0E24;
   --foot-bg:#0A0E24; --foot-fg:#F6F1E6; --foot-soft:#A6ADC9;
   --lift:0 1px 1px rgba(0,0,0,.4), 0 18px 30px -14px rgba(0,0,0,.75);
@@ -166,10 +166,10 @@ p{margin:0}
 .fcard-inner{display:grid;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.25,1.15)}
 .fcard.flipped .fcard-inner{transform:rotateY(180deg)}
 .face{grid-area:1/1;display:flex;flex-direction:column;gap:10px;min-height:236px;padding:22px 20px 18px;border-radius:8px;box-shadow:var(--lift);-webkit-backface-visibility:hidden;backface-visibility:hidden}
-.front{background-color:var(--cp);color:var(--cp-fg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.front h3{font-family:var(--font-display);font-weight:900;font-size:1.95rem;line-height:1;letter-spacing:.01em}
+.front{background-color:color-mix(in srgb,var(--cp-bg) var(--dim),#1C2554);color:var(--paper-ink);border-top:8px solid var(--cp);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.front h3{font-family:var(--font-display);font-weight:900;font-size:1.95rem;line-height:1;letter-spacing:.01em;color:var(--cp-ink)}
 .front p{font-weight:700;font-size:1.08rem}
-.flip-hint{margin-top:auto;font-family:var(--font-hand);font-weight:600;font-size:1.15rem;display:flex;align-items:center;gap:6px;opacity:.9}
+.flip-hint{margin-top:auto;color:var(--cp-ink);font-family:var(--font-hand);font-weight:600;font-size:1.15rem;display:flex;align-items:center;gap:6px;opacity:.9}
 .flip-hint svg{width:18px;height:18px}
 .back{background:var(--paper);color:var(--paper-ink);transform:rotateY(180deg);background-image:radial-gradient(circle,var(--rule) 1.2px,transparent 1.6px);background-size:18px 18px}
 .back .learn{font-family:var(--font-hand);font-weight:600;font-size:1.2rem;color:var(--red-pen);line-height:1.2}
@@ -177,8 +177,8 @@ p{margin:0}
 .skills{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px}
 .skills span{font-size:.8rem;font-weight:700;padding:2px 10px;border:2px solid var(--cp);border-radius:999px;background:var(--paper)}
 .flip-hit{position:absolute;inset:0;z-index:2;border:0;background:transparent;cursor:pointer;border-radius:8px}
-.cp-red{--cp:var(--red);--cp-fg:#fff} .cp-orange{--cp:var(--orange);--cp-fg:#1C2554} .cp-yellow{--cp:var(--yellow);--cp-fg:#1C2554} .cp-green{--cp:var(--green);--cp-fg:#fff}
-.cp-blue{--cp:var(--blue);--cp-fg:#fff} .cp-purple{--cp:var(--purple);--cp-fg:#fff} .cp-pink{--cp:var(--pink);--cp-fg:#1C2554} .cp-teal{--cp:var(--teal);--cp-fg:#fff}
+.cp-red{--cp:var(--red);--cp-bg:#F8DDD6;--cp-ink:#A93A28} .cp-orange{--cp:var(--orange);--cp-bg:#FBE4CF;--cp-ink:#9A5310} .cp-yellow{--cp:var(--yellow);--cp-bg:#FAEEC6;--cp-ink:#7F5F00} .cp-green{--cp:var(--green);--cp-bg:#DAEBDE;--cp-ink:#2F6E3E}
+.cp-blue{--cp:var(--blue);--cp-bg:#DCE6F5;--cp-ink:#2D5BA3} .cp-purple{--cp:var(--purple);--cp-bg:#E8E0F3;--cp-ink:#63469A} .cp-pink{--cp:var(--pink);--cp-bg:#F6DEE7;--cp-ink:#A34470} .cp-teal{--cp:var(--teal);--cp-bg:#D7ECEA;--cp-ink:#23706D}
 @media (max-width:1000px){.fcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:540px){.fcards{grid-template-columns:minmax(0,1fr)}.face{min-height:0}}
 
@@ -406,7 +406,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="wall wall-2 pat-stripes trim-zigzag" id="approach">
+  <section class="wall wall-2 trim-zigzag" id="approach">
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">flip a card!</span>
@@ -523,7 +523,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="wall wall-5 pat-chevron trim-scallop" id="inside">
+  <section class="wall wall-5 trim-scallop" id="inside">
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">say cheese!</span>
@@ -580,7 +580,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="wall wall-6 pat-bigdots trim-zigzag" id="questions">
+  <section class="wall wall-6 trim-zigzag" id="questions">
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">from the parent board</span>
@@ -599,7 +599,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="wall wall-7 pat-awning trim-scallop" id="visit">
+  <section class="wall wall-7 trim-scallop" id="visit">
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">come play!</span>
