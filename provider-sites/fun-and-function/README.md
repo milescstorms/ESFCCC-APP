@@ -9,7 +9,6 @@ These details are samples and need the provider's real information:
 
 - Phone `(845) 555-0142` and email `hello@funandfunctiondaycare.com` (contact section and footer)
 - Ages served (6 weeks to 12 years) and hours (Mon–Fri, 7:00 am–5:30 pm)
-- "Now enrolling toddlers and preschoolers" banner at the top
 - The daily schedule times (picture-schedule chart; the clothespin follows the real time in Highland Mills)
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
 - The four "Add photo" frames on the fridge: replace with real photos of the play room, art corner, backyard and nap space
