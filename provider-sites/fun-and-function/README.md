@@ -15,6 +15,13 @@ These details are samples and need the provider's real information:
 - The "Is it fun, or is it function?" flip cards: swap in the provider's own favorite activities if they like
 - The logo: swap `logo.webp` for the final logo (same file name, square image)
 
+## Map
+
+The "How to find us" card shows a live Google Map of 6 Thayer Rd once the site is on its own web
+address. In Claude's preview it shows a drawn placeholder instead, because the preview blocks maps
+from other sites. To use Google's official embed instead, open the address in Google Maps, choose
+Share → Embed a map, and paste the `src` link into the `data-src` of `#map-frame` in `index.html`.
+
 ## Publishing
 
 Create a new Netlify site from this repository and set the base directory to

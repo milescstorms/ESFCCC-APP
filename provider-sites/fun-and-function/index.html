@@ -308,7 +308,19 @@ p{margin:0}
 .sticky dd a{color:var(--paper-ink)}
 .sticky dd.mail{font-size:.95rem}
 .sticky .serving{margin-top:18px;padding-top:14px;border-top:2px dashed rgba(28,37,84,.35);font-size:.95rem;color:var(--paper-soft)}
-@media (max-width:900px){.slip-grid{grid-template-columns:minmax(0,1fr)}.sticky{max-width:420px;margin-inline:auto;transform:rotate(1.5deg)}}
+.side-col{display:grid;gap:40px;align-content:start;min-width:0}
+.map-card{position:relative;margin:0;background:var(--paper);color:var(--paper-ink);padding:12px 12px 0;box-shadow:var(--lift);transform:rotate(-1.5deg)}
+.map-card .tape{position:absolute;top:-14px;left:50%;width:110px;height:28px;transform:translateX(-50%) rotate(3deg);z-index:2}
+.map-frame{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden;border-radius:2px;background-color:#E5EDF1;background-image:radial-gradient(circle at 22% 26%,#CFE6C9 0 34px,transparent 35px),linear-gradient(90deg,transparent 46%,#fff 46% 52%,transparent 52%),linear-gradient(transparent 58%,#fff 58% 64%,transparent 64%),linear-gradient(#fff 2px,transparent 2px),linear-gradient(90deg,#fff 2px,transparent 2px);background-size:100% 100%,100% 100%,100% 100%,38px 38px,38px 38px}
+.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map-fallback{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:8px;padding:12px;text-align:center}
+.map-pin{width:40px;height:52px;filter:drop-shadow(0 4px 3px rgba(0,0,0,.3))}
+.map-addr{font-family:var(--font-hand);font-weight:700;font-size:1.15rem;line-height:1.2;background:#fff;padding:4px 14px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.map-note{position:absolute;left:0;right:0;bottom:8px;font-size:.8rem;font-weight:700;color:var(--paper-soft)}
+.map-card figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 12px;padding:10px 4px 12px}
+.map-card figcaption span{font-family:var(--font-hand);font-weight:700;font-size:1.25rem}
+.map-card figcaption a{font-weight:700;color:var(--paper-ink)}
+@media (max-width:900px){.slip-grid{grid-template-columns:minmax(0,1fr)}.sticky{max-width:420px;margin-inline:auto;transform:rotate(1.5deg)}.map-card{max-width:420px;width:100%;margin-inline:auto}}
 @media (max-width:560px){.blank-row{grid-template-columns:minmax(0,1fr)}.sent{grid-template-columns:minmax(0,1fr)}.sent svg{width:96px;height:96px}}
 
 /* Footer */
@@ -661,6 +673,7 @@ p{margin:0}
             </div>
           </div>
         </div>
+        <div class="side-col">
         <aside class="sticky" aria-label="Contact details">
           <span class="tape" aria-hidden="true"></span>
           <h2>Stop by!</h2>
@@ -672,6 +685,18 @@ p{margin:0}
           </dl>
           <p class="serving">Serving families in Highland Mills, Central Valley, Monroe, Woodbury and Harriman.</p>
         </aside>
+        <figure class="map-card">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="map-frame" id="map-frame" data-src="https://maps.google.com/maps?q=6%20Thayer%20Rd%2C%20Highland%20Mills%2C%20NY%2010930&amp;z=15&amp;output=embed">
+            <div class="map-fallback">
+              <svg class="map-pin" viewBox="0 0 40 52" aria-hidden="true"><path d="M20 50s16-17.5 16-30A16 16 0 0 0 4 20c0 12.5 16 30 16 30z" fill="#D63B2A" stroke="#9E2618" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="#fff"/></svg>
+              <p class="map-addr">6 Thayer Rd, Highland Mills</p>
+              <p class="map-note">The Google map loads here on the live website.</p>
+            </div>
+          </div>
+          <figcaption><span>How to find us</span><a href="https://www.google.com/maps/search/?api=1&amp;query=6%20Thayer%20Rd%2C%20Highland%20Mills%2C%20NY%2010930" target="_blank" rel="noopener">Open in Google Maps</a></figcaption>
+        </figure>
+        </div>
       </div>
     </div>
   </section>
@@ -788,6 +813,18 @@ p{margin:0}
   }
   tick();
   setInterval(tick, 60000);
+
+  /* Google map: loads on the live site; the preview keeps the drawn placeholder */
+  var mapFrame = document.getElementById('map-frame');
+  if (/^https?:$/.test(location.protocol) && !/claude/i.test(location.hostname)) {
+    var ifr = document.createElement('iframe');
+    ifr.src = mapFrame.dataset.src;
+    ifr.title = 'Map showing Fun and Function Daycare at 6 Thayer Rd, Highland Mills, NY';
+    ifr.loading = 'lazy';
+    ifr.referrerPolicy = 'no-referrer-when-downgrade';
+    ifr.allowFullscreen = true;
+    mapFrame.appendChild(ifr);
+  }
 
   /* Tour request slip */
   var form = document.getElementById('tour-form');
