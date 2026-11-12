@@ -236,6 +236,8 @@ p{margin:0}
 .fridge-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(30px,4vw,48px) clamp(20px,3vw,40px);align-items:start}
 .item{position:relative;margin:0;background:var(--paper);color:var(--paper-ink);padding:10px 10px 0;box-shadow:0 8px 14px -8px rgba(0,0,0,.45);transform:rotate(var(--r))}
 .item.art{padding:8px}
+.item > img{display:block;width:100%;height:auto}
+.item.tall{width:80%;justify-self:center}
 .item svg.drawing{display:block;width:100%;height:auto}
 .ph{aspect-ratio:4/3;max-width:100%;display:grid;place-content:center;justify-items:center;gap:6px;color:#1F5CA8;font-weight:700;font-size:.9rem;background:repeating-linear-gradient(135deg,#E3EEFB 0 14px,#D2E2F6 14px 17px)}
 .ph svg{width:34px;height:34px}
@@ -541,7 +543,7 @@ p{margin:0}
       </div>
       <div class="fridge">
         <div class="fridge-items">
-          <figure class="item"><span class="magnet" aria-hidden="true">F</span><div class="ph"><svg aria-hidden="true"><use href="#cam"/></svg>Add photo</div><figcaption>the play room</figcaption></figure>
+          <figure class="item"><span class="magnet" aria-hidden="true">F</span><img src="photo-reading-corner.webp" alt="The reading corner: a bright alphabet and crayon rug, colorful seats under the windows, and a shelf of picture books" width="1200" height="800" loading="lazy"><figcaption>the reading corner</figcaption></figure>
           <figure class="item art"><span class="magnet" aria-hidden="true">U</span>
             <svg class="drawing" viewBox="0 0 220 170" role="img" aria-label="A child's crayon drawing of a house with a sun and two people">
               <rect width="220" height="170" fill="#fff"/>
@@ -563,9 +565,9 @@ p{margin:0}
               </g>
             </svg>
           </figure>
-          <figure class="item"><span class="magnet" aria-hidden="true">N</span><div class="ph"><svg aria-hidden="true"><use href="#cam"/></svg>Add photo</div><figcaption>the art corner</figcaption></figure>
-          <figure class="item"><span class="magnet" aria-hidden="true">A</span><div class="ph"><svg aria-hidden="true"><use href="#cam"/></svg>Add photo</div><figcaption>the backyard</figcaption></figure>
-          <figure class="item"><span class="magnet" aria-hidden="true">B</span><div class="ph"><svg aria-hidden="true"><use href="#cam"/></svg>Add photo</div><figcaption>nap and quiet space</figcaption></figure>
+          <figure class="item"><span class="magnet" aria-hidden="true">N</span><img src="photo-art-table.webp" alt="The art table: a kids’ table with coloring books and a big bin of crayons and chalk" width="1200" height="800" loading="lazy"><figcaption>the art table</figcaption></figure>
+          <figure class="item tall"><span class="magnet" aria-hidden="true">A</span><img src="photo-play-room.webp" alt="The play room: round kids’ tables, a wall of big building blocks, a dollhouse and toy shelves" width="214" height="320" loading="lazy"><figcaption>the play room</figcaption></figure>
+          <figure class="item"><span class="magnet" aria-hidden="true">B</span><div class="ph"><svg aria-hidden="true"><use href="#cam"/></svg>Add photo</div><figcaption>the backyard</figcaption></figure>
           <figure class="item art"><span class="magnet" aria-hidden="true">C</span>
             <svg class="drawing" viewBox="0 0 220 170" role="img" aria-label="A child's crayon drawing of a rainbow between two clouds">
               <rect width="220" height="170" fill="#fff"/>

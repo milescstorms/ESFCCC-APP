@@ -1,7 +1,7 @@
 # Fun and Function Daycare website (draft)
 
 One-page website for Fun and Function Daycare, 6 Thayer Rd, Highland Mills, NY 10930.
-It is plain HTML with no build step: `index.html`, `logo.webp` and the icon files.
+It is plain HTML with no build step: `index.html`, `logo.webp`, the `photo-*.webp` files and the icon files.
 
 ## Confirm with the provider before launch
 
@@ -11,7 +11,9 @@ These details are samples and need the provider's real information:
 - Ages served (6 weeks to 12 years) and hours (Mon–Fri, 7:00 am–5:30 pm)
 - The daily schedule times (picture-schedule chart; the clothespin follows the real time in Highland Mills)
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
-- The four "Add photo" frames on the fridge: replace with real photos of the play room, art corner, backyard and nap space
+- Photos on the fridge: the reading corner, art table and play room are in (`photo-*.webp`). The
+  backyard frame still says "Add photo". The play room photo is small (214×320), so a larger copy
+  would look sharper
 - The "Is it fun, or is it function?" flip cards: swap in the provider's own favorite activities if they like
 - The logo: swap `logo.webp` for the final logo (same file name, square image). The browser-tab and
   phone home-screen icons (`favicon.ico`, `favicon-32.png`, `icon-192.png`, `apple-touch-icon.png`)
