@@ -7,8 +7,7 @@ It is plain HTML with no build step: `index.html`, `logo.webp`, the `photo-*.web
 
 These details are samples and need the provider's real information:
 
-- Phone `(845) 555-0142` is still a placeholder (contact section and footer). The email is the
-  provider's real one: funandfunctionfdc@gmail.com
+- Contact details are the provider's real ones: (646) 589-3055 and funandfunctionfdc@gmail.com
 - Ages served (6 weeks to 12 years)
 - Hours: Mon–Fri, 6:00 am–5:00 pm, read from the provider's printed schedule. The first time on the
   sheet was blurry (6:00 vs 8:00), so confirm the opening time
