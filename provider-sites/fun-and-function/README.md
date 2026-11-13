@@ -38,8 +38,8 @@ Netlify site does not serve this folder.
 
 ### Tour requests by email
 
-The tour slip uses Netlify Forms. Requests are saved in the site's Forms page, and are emailed only
-after you set that up:
+On Netlify, the tour slip uses Netlify Forms. Requests are saved in the site's Forms page, and are
+emailed only after you set that up:
 
 1. In the site's Forms settings, turn on form detection, then deploy the folder again.
 2. Go to Site configuration → Notifications → Emails and webhooks → Form submission notifications.
@@ -47,4 +47,7 @@ after you set that up:
    funandfunctionfdc@gmail.com.
 4. Send a test request. If it lands in Gmail's spam folder, mark it "Not spam".
 
-The form only works on Netlify. On another host it needs a different form service.
+If the site isn't on Netlify, or Netlify doesn't accept the request (for example, form detection is
+off), the slip opens the parent's email app with a message to funandfunctionfdc@gmail.com, already
+filled in with their answers. They press Send. So a request is never lost, but on Netlify finish
+the steps above so requests arrive without the parent having to send an email.

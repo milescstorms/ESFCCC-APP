@@ -833,27 +833,50 @@ p{margin:0}
     mapFrame.appendChild(ifr);
   }
 
-  /* Tour request slip */
+  /* Tour request slip: Netlify Forms on the live site; otherwise a pre-filled email to the daycare */
+  var DAYCARE_EMAIL = 'funandfunctionfdc@gmail.com';
   var form = document.getElementById('tour-form');
   var sent = document.getElementById('tour-sent');
+  function mailtoFor(data) {
+    var lines = [
+      "Parent's name: " + (data.get('parent-name') || ''),
+      'Phone: ' + (data.get('parent-phone') || ''),
+      'Email: ' + (data.get('parent-email') || ''),
+      "Child's age: " + (data.get('child-age') || ''),
+      'Schedule: ' + (data.get('schedule') || ''),
+      'We need care: ' + (data.get('start-when') || ''),
+      'Anything you should know: ' + (data.get('tour-notes') || '')
+    ];
+    var subject = 'Tour request from ' + (String(data.get('parent-name') || '').trim() || 'a family');
+    return 'mailto:' + DAYCARE_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('Hi! I would like to book a tour.\n\n' + lines.join('\n'));
+  }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var data = new FormData(form);
     var first = String(data.get('parent-name') || '').trim().split(/\s+/)[0];
-    var canPost = /^https?:$/.test(location.protocol) && !/claude/i.test(location.hostname);
-    function done(delivered) {
+    var inPreview = /claude/i.test(location.hostname);
+    var canPost = /^https?:$/.test(location.protocol) && !inPreview;
+    var messages = {
+      sent: "Your tour request is on its way. We'll call or email you within one business day.",
+      email: 'Your email app should open with your tour request filled in. Press Send and it goes straight to us. If nothing opened, email ' + DAYCARE_EMAIL + ' or call (646) 589-3055.',
+      preview: 'This is a preview of the website, so nothing was sent. On the live site, tour requests go to ' + DAYCARE_EMAIL + '.'
+    };
+    function done(kind) {
       document.getElementById('sent-title').textContent = first ? 'Thanks, ' + first + '!' : 'Thanks!';
-      document.getElementById('sent-text').textContent = delivered
-        ? "Your tour request is on its way. We'll call or email you within one business day."
-        : 'This is a preview of the website, so your request was not sent. On the live site, tour requests go straight to the daycare.';
+      document.getElementById('sent-text').textContent = messages[kind];
       form.hidden = true;
       sent.hidden = false;
       sent.focus();
     }
-    if (!canPost) { done(false); return; }
+    function byEmail() {
+      done('email');
+      window.location.href = mailtoFor(data);
+    }
+    if (inPreview) { done('preview'); return; }
+    if (!canPost) { byEmail(); return; }
     fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
-      .then(function (res) { done(res.ok); })
-      .catch(function () { done(false); });
+      .then(function (res) { if (res.ok) done('sent'); else byEmail(); })
+      .catch(byEmail);
   });
   document.getElementById('sent-back').addEventListener('click', function () {
     sent.hidden = true;
