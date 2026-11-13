@@ -9,8 +9,7 @@ These details are samples and need the provider's real information:
 
 - Contact details are the provider's real ones: (646) 589-3055 and funandfunctionfdc@gmail.com
 - Ages served (6 weeks to 12 years)
-- Hours: Mon–Fri, 6:00 am–5:00 pm, read from the provider's printed schedule. The first time on the
-  sheet was blurry (6:00 vs 8:00), so confirm the opening time
+- Hours: Mon–Fri, 8:00 am–5:00 pm (confirmed)
 - The daily schedule now comes from the provider's printed schedule (14 parts of the day, shortened
   for the picture-schedule cards). The clothespin follows the real time in Highland Mills
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
