@@ -1,7 +1,7 @@
 # Fun and Function Daycare website (draft)
 
 One-page website for Fun and Function Daycare, 6 Thayer Rd, Highland Mills, NY 10930.
-It is plain HTML with no build step: `index.html`, `logo.webp`, the `photo-*.webp` files and the icon files.
+It is plain HTML with no build step: `index.html`, `logo.webp`, the `photo-*.webp` files, `og-image.jpg` and the icon files.
 
 ## Confirm with the provider before launch
 
@@ -22,6 +22,14 @@ These details are samples and need the provider's real information:
 - The logo: swap `logo.webp` for the final logo (same file name, square image). The browser-tab and
   phone home-screen icons (`favicon.ico`, `favicon-32.png`, `icon-192.png`, `apple-touch-icon.png`)
   are made from the same logo, so remake them too if the logo changes
+
+## Link previews
+
+When the link is texted or shared, apps show `og-image.jpg` (logo, name and tagline) with the title
+and description from the page's `og:` tags. The browser tab and phone home-screen icon come from
+the favicon files. `og:image` is a relative path; once the site's web address is final, change it
+to the full address (for example `https://<site-name>.netlify.app/og-image.jpg`) so Facebook and
+LinkedIn previews work too.
 
 ## Map
 
