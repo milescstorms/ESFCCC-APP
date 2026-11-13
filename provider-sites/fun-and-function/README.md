@@ -8,8 +8,11 @@ It is plain HTML with no build step: `index.html`, `logo.webp`, the `photo-*.web
 These details are samples and need the provider's real information:
 
 - Phone `(845) 555-0142` and email `hello@funandfunctiondaycare.com` (contact section and footer)
-- Ages served (6 weeks to 12 years) and hours (Mon–Fri, 7:00 am–5:30 pm)
-- The daily schedule times (picture-schedule chart; the clothespin follows the real time in Highland Mills)
+- Ages served (6 weeks to 12 years)
+- Hours: Mon–Fri, 6:00 am–5:00 pm, read from the provider's printed schedule. The first time on the
+  sheet was blurry (6:00 vs 8:00), so confirm the opening time
+- The daily schedule now comes from the provider's printed schedule (14 parts of the day, shortened
+  for the picture-schedule cards). The clothespin follows the real time in Highland Mills
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
 - Photos on the fridge: the reading corner, art table and play room are in (`photo-*.webp`). The
   backyard frame still says "Add photo". The play room photo is small (214×320), so a larger copy
