@@ -32,6 +32,19 @@ Share → Embed a map, and paste the `src` link into the `data-src` of `#map-fra
 
 ## Publishing
 
-Create a new Netlify site from this repository and set the base directory to
-`provider-sites/fun-and-function`. The tour request form uses Netlify Forms, so requests show up
-in that site's Forms tab once it's live. The member app's Netlify site does not serve this folder.
+Either drag the site folder onto app.netlify.com/drop, or create a new Netlify site from this
+repository with the base directory set to `provider-sites/fun-and-function`. The member app's
+Netlify site does not serve this folder.
+
+### Tour requests by email
+
+The tour slip uses Netlify Forms. Requests are saved in the site's Forms page, and are emailed only
+after you set that up:
+
+1. In the site's Forms settings, turn on form detection, then deploy the folder again.
+2. Go to Site configuration → Notifications → Emails and webhooks → Form submission notifications.
+3. Add notification → Email notification, choose the `tour` form, and enter
+   funandfunctionfdc@gmail.com.
+4. Send a test request. If it lands in Gmail's spam folder, mark it "Not spam".
+
+The form only works on Netlify. On another host it needs a different form service.
