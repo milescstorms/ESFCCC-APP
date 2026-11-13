@@ -10,6 +10,8 @@ These details are samples and need the provider's real information:
 - Contact details are the provider's real ones: (646) 589-3055 and funandfunctionfdc@gmail.com
 - Ages served (6 weeks to 12 years)
 - Hours: Mon–Fri, 8:00 am–5:00 pm (confirmed)
+- License: the "Are you licensed?" card and the footer link to the provider's NYS OCFS listing
+  (program 957405). Check that the program type, ages and capacity there match the site
 - The daily schedule now comes from the provider's printed schedule (14 parts of the day, shortened
   for the picture-schedule cards). The clothespin follows the real time in Highland Mills
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
