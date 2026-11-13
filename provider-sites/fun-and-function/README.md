@@ -14,9 +14,9 @@ These details are samples and need the provider's real information:
 - The daily schedule now comes from the provider's printed schedule (14 parts of the day, shortened
   for the picture-schedule cards). The clothespin follows the real time in Highland Mills
 - CPR/First Aid, monthly fire drills, meals (USDA/CACFP), parent app, and Orange County DSS subsidy
-- Photos on the fridge: the reading corner, art table and play room are in (`photo-*.webp`). The
-  backyard frame still says "Add photo". The play room photo is small (214×320), so a larger copy
-  would look sharper
+- Photos on the fridge: the reading corner, art table, play room and backyard are all in
+  (`photo-*.webp`). The play room and backyard photos are small (214×320), so larger copies would
+  look sharper
 - The "Is it fun, or is it function?" flip cards: swap in the provider's own favorite activities if they like
 - The logo: swap `logo.webp` for the final logo (same file name, square image). The browser-tab and
   phone home-screen icons (`favicon.ico`, `favicon-32.png`, `icon-192.png`, `apple-touch-icon.png`)
